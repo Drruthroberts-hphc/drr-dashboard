@@ -27,6 +27,10 @@ GHL_BASE_URL = 'https://services.leadconnectorhq.com'
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY', '')
 YOUTUBE_CHANNEL_ID = os.getenv('YOUTUBE_CHANNEL_ID', '')
 
+META_PAGE_ACCESS_TOKEN = os.getenv('META_PAGE_ACCESS_TOKEN', '')
+FB_PAGE_ID = os.getenv('FB_PAGE_ID', '')
+IG_ACCOUNT_ID = os.getenv('IG_ACCOUNT_ID', '')
+
 GOOGLE_SHEET_ID = os.getenv('GOOGLE_SHEET_ID', '14apn1B2poeYVxf-XFgtkoVgdyqp3UlAR2hMuJYDF_CQ')
 GOOGLE_SHEETS_CREDENTIALS = os.getenv('GOOGLE_SHEETS_CREDENTIALS', 'credentials.json')
 
