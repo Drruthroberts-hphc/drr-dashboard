@@ -41,7 +41,7 @@ def _default_week_ending():
     return today - timedelta(days=days_since_sunday)
 
 
-def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False):
+def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_email=False):
     """
     Execute the full weekly data pipeline.
 
@@ -49,6 +49,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False):
         week_ending_date: date object for the week ending (Sunday).
         dry_run: If True, collect data but don't write to sheets or send emails.
         overwrite: If True, overwrite existing sheet rows for this week.
+        skip_email: If True, skip email sends (useful for backfill).
 
     Returns:
         dict with all collected data and results.
@@ -141,7 +142,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False):
         logger.info("--- DRY RUN: Skipping Google Sheets write ---")
 
     # ── Phase 6: Send emails ──────────────────────────────────────────────
-    if not dry_run:
+    if not dry_run and not skip_email:
         logger.info("--- Sending emails ---")
 
         # Send alert email if any thresholds breached
@@ -158,6 +159,8 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False):
             logger.info(f"Weekly summary email: {'sent' if sent else 'failed'}")
         except Exception as e:
             logger.error(f"Weekly summary email FAILED: {e}")
+    elif skip_email:
+        logger.info("--- Skipping email sends (backfill mode) ---")
     else:
         logger.info("--- DRY RUN: Skipping email sends ---")
 
