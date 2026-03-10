@@ -1,0 +1,25 @@
+# Secrets & tokens
+.env
+credentials.json
+gmail_credentials.json
+gmail_token.json
+
+# Cache files (contain API data / tokens)
+ghl_cache.json
+ghl_cache_sales.json
+ghl_cache_students.json
+
+# Snapshots (weekly JSON data - stay local)
+snapshots/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Alerts temp
+alerts/

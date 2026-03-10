@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dr. Ruth Roberts - Weekly Dashboard | 2026-03-08</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f7fa; color: #333; line-height: 1.5;
+        }
+        .header {
+            background: linear-gradient(135deg, #1b5e20 0%, #2e7d32 100%);
+            color: white; padding: 20px 30px; text-align: center;
+        }
+        .header h1 { font-size: 24px; margin-bottom: 4px; }
+        .header .subtitle { opacity: 0.85; font-size: 14px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .alert-banner {
+            background: #fff3e0; border-left: 4px solid #e65100;
+            padding: 15px 20px; margin-bottom: 20px; border-radius: 4px;
+        }
+        .alert-banner h3 { color: #e65100; margin-bottom: 8px; }
+        .alert-banner ul { margin-left: 20px; color: #bf360c; }
+        .tier {
+            background: white; border-radius: 8px; margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .tier-header {
+            padding: 16px 20px; cursor: pointer; display: flex;
+            justify-content: space-between; align-items: center;
+            border-bottom: 1px solid #eee; user-select: none;
+        }
+        .tier-header:hover { background: #fafafa; }
+        .tier-header h2 { font-size: 16px; color: #1b5e20; }
+        .tier-toggle { font-size: 12px; color: #888; transition: transform 0.2s; }
+        .tier-body { padding: 20px; }
+        .tier-body.collapsed { display: none; }
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px; margin-bottom: 16px;
+        }
+        .metric-card {
+            background: #fafbfc; border: 1px solid #e8ecef;
+            border-radius: 6px; padding: 14px; text-align: center;
+        }
+        .card-label { font-size: 11px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+        .card-value { font-size: 22px; font-weight: 700; color: #1b5e20; }
+        .card-wow { margin-top: 4px; }
+        .card-subtitle { margin-top: 4px; font-size: 11px; color: #999; }
+        .badge {
+            display: inline-block; padding: 2px 8px; border-radius: 10px;
+            font-size: 11px; font-weight: 600;
+        }
+        .badge-green { background: #e8f5e9; color: #2e7d32; }
+        .badge-red { background: #ffebee; color: #c62828; }
+        .badge-neutral { background: #f5f5f5; color: #666; }
+        .chart-container { margin: 16px 0; }
+        .data-table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+        .data-table th { background: #f5f5f5; padding: 8px 12px; text-align: left; font-size: 12px; border-bottom: 2px solid #ddd; }
+        .data-table td { padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 13px; }
+        .text-right { text-align: right; }
+        .phase-badge {
+            background: #e3f2fd; color: #1565c0; padding: 2px 8px;
+            border-radius: 10px; font-size: 10px; font-weight: 600; vertical-align: middle;
+        }
+        h3 { font-size: 14px; color: #444; margin: 16px 0 8px; }
+        .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
+        @media (max-width: 768px) {
+            .card-grid { grid-template-columns: repeat(2, 1fr); }
+            .card-value { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Dr. Ruth Roberts - Weekly Dashboard</h1>
+        <div class="subtitle">Week ending: 2026-03-08 | Generated: 2026-03-10 04:04 UTC</div>
+    </div>
+
+    <div class="container">
+        
+    <div class="tier" id="tier1">
+        <div class="tier-header" onclick="toggleTier('tier1-body')">
+            <h2>&#9656; Tier 1: Executive Overview</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier1-body">
+            
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Total Revenue</div>
+        <div class="card-value">$10,062.37</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">E-Commerce</div>
+        <div class="card-value">$9,708.84</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Coaching</div>
+        <div class="card-value">$248.00</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Courses</div>
+        <div class="card-value">$105.53</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Email Revenue</div>
+        <div class="card-value">$9,880.77</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">MRR</div>
+        <div class="card-value">$2,518.83</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Net Profit/Loss</div>
+        <div class="card-value">$10,058.67</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Active Students</div>
+        <div class="card-value">80</div>
+        
+        
+    </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="revenueChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier2">
+        <div class="tier-header" onclick="toggleTier('tier2-body')">
+            <h2>&#9656; Tier 2: Sales Pipeline (GHL)</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier2-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">New Leads</div>
+        <div class="card-value">3</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Booked Calls</div>
+        <div class="card-value">0</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Showed</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Closed Deals</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Close Rate (Overall)</div>
+        <div class="card-value">0.0%</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Close Rate (Rana)</div>
+        <div class="card-value">0.0%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Pipeline Value</div>
+        <div class="card-value">$0.00</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Revenue per Call</div>
+        <div class="card-value">$0.00</div>
+        
+        
+    </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="funnelChart" height="250"></canvas>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier3">
+        <div class="tier-header" onclick="toggleTier('tier3-body')">
+            <h2>&#9656; Tier 3: Email Marketing (Klaviyo)</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier3-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Email Revenue</div>
+        <div class="card-value">$9,880.77</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Open Rate</div>
+        <div class="card-value">63.0%</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Click Rate</div>
+        <div class="card-value">0.3%</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Click-to-Open</div>
+        <div class="card-value">0.4%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">List Size</div>
+        <div class="card-value">15,774</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Delivery Rate</div>
+        <div class="card-value">99.7%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Spam Rate</div>
+        <div class="card-value">0.004%</div>
+        
+        <div class="card-subtitle">Target: < 0.1%</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Welcome Flow Rev</div>
+        <div class="card-value">$0.00</div>
+        
+        
+    </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier4">
+        <div class="tier-header" onclick="toggleTier('tier4-body')">
+            <h2>&#9656; Tier 4: E-Commerce Detail (Shopify)</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier4-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Gross Revenue</div>
+        <div class="card-value">$9,853.75</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Net Revenue</div>
+        <div class="card-value">$9,221.00</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Orders</div>
+        <div class="card-value">96</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">AOV</div>
+        <div class="card-value">$102.64</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">New Customers</div>
+        <div class="card-value">171</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Returning Customers</div>
+        <div class="card-value">2</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Conversion Rate</div>
+        <div class="card-value">0.0%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Return Rate</div>
+        <div class="card-value">104.0%</div>
+        
+        <div class="card-subtitle">Target: < 5%</div>
+    </div>
+            </div>
+            
+            <h3>Top 5 Products</h3>
+            <table class="data-table">
+                <thead><tr><th>Product</th><th class="text-right">Revenue</th><th class="text-right">Qty</th></tr></thead>
+                <tbody><tr><td></td><td class="text-right">$2,044.80</td><td class="text-right">0</td></tr><tr><td></td><td class="text-right">$779.90</td><td class="text-right">0</td></tr><tr><td></td><td class="text-right">$729.24</td><td class="text-right">0</td></tr><tr><td></td><td class="text-right">$652.21</td><td class="text-right">0</td></tr><tr><td></td><td class="text-right">$540.00</td><td class="text-right">0</td></tr></tbody>
+            </table>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier5">
+        <div class="tier-header" onclick="toggleTier('tier5-body')">
+            <h2>&#9656; Tier 5: Payments &amp; Health (Stripe)</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier5-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Gross Volume</div>
+        <div class="card-value">$100.00</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Net Revenue</div>
+        <div class="card-value">$96.30</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Payment Success</div>
+        <div class="card-value">100.0%</div>
+        
+        <div class="card-subtitle">Target: > 95%</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Dispute Rate</div>
+        <div class="card-value">0.000%</div>
+        
+        <div class="card-subtitle">Target: < 0.5%</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Refund Rate</div>
+        <div class="card-value">0.0%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Refund Amount</div>
+        <div class="card-value">$0.00</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">MRR</div>
+        <div class="card-value">$2,518.83</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Processing Fees</div>
+        <div class="card-value">$3.70</div>
+        
+        
+    </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier6">
+        <div class="tier-header" onclick="toggleTier('tier6-body')">
+            <h2>&#9656; Tier 6: Coaching Program</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier6-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Active Students</div>
+        <div class="card-value">80</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Enrollment Growth</div>
+        <div class="card-value">0.0%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Student Churn</div>
+        <div class="card-value">0.0%</div>
+        
+        <div class="card-subtitle">Target: < 15%</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Rev per Student</div>
+        <div class="card-value">$2,881.68</div>
+        
+        
+    </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier7">
+        <div class="tier-header" onclick="toggleTier('tier7-body')">
+            <h2>&#9656; Tier 7: Social Media</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier7-body">
+            <h3>YouTube</h3>
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Subscribers</div>
+        <div class="card-value">7,060</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Views (This Week)</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Watch Hours</div>
+        <div class="card-value">0.0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">New Videos</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Comments</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+            </div>
+            <h3>Facebook &amp; Instagram <span class="phase-badge">Phase 2</span></h3>
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">FB Followers</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">FB Reach</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">IG Followers</div>
+        <div class="card-value">0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">IG Engagement</div>
+        <div class="card-value">0.0%</div>
+        
+        
+    </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="footer">
+        DRR Dashboard v1.0 | Data refreshed weekly Monday 6:00 AM Central
+    </div>
+
+    <script>
+    const chartData = {"revenue": {"ecommerce": 9708.84, "coaching": 248.0, "courses": 105.53}, "funnel": {"leads": 3, "booked": 0, "showed": 0, "closed": 0}};
+
+    function toggleTier(id) {
+        const el = document.getElementById(id);
+        if (el) el.classList.toggle('collapsed');
+    }
+
+    // Revenue Pie Chart
+    const revCtx = document.getElementById('revenueChart');
+    if (revCtx) {
+        new Chart(revCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['E-Commerce', 'Coaching', 'Courses'],
+                datasets: [{
+                    data: [chartData.revenue.ecommerce, chartData.revenue.coaching, chartData.revenue.courses],
+                    backgroundColor: ['#2e7d32', '#1565c0', '#e65100'],
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right' },
+                    title: { display: true, text: 'Revenue by Silo' }
+                }
+            }
+        });
+    }
+
+    // Funnel Bar Chart
+    const funnelCtx = document.getElementById('funnelChart');
+    if (funnelCtx) {
+        new Chart(funnelCtx, {
+            type: 'bar',
+            data: {
+                labels: ['New Leads', 'Booked', 'Showed', 'Closed'],
+                datasets: [{
+                    label: 'Count',
+                    data: [chartData.funnel.leads, chartData.funnel.booked, chartData.funnel.showed, chartData.funnel.closed],
+                    backgroundColor: ['#c8e6c9', '#81c784', '#4caf50', '#2e7d32'],
+                    borderRadius: 4,
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { display: false },
+                    title: { display: true, text: 'Sales Funnel' }
+                },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+    </script>
+</body>
+</html>
