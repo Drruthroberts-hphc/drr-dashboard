@@ -236,8 +236,9 @@ def collect_weekly_data(week_ending_date=None):
     """
     Collect all GHL metrics for a given week.
 
-    Falls back to cached data (from MCP tools) if the GHL API returns errors
-    (e.g., Invalid JWT due to broken location API keys).
+    PRIMARY SOURCE: ghl_cache.json (populated via GHL MCP tools before each
+    pipeline run).  The GHL REST API token is a known issue (JWT expires
+    frequently), so we rely on MCP-queried data written to the cache instead.
 
     Returns:
         dict with all GHL weekly metrics
@@ -247,147 +248,27 @@ def collect_weekly_data(week_ending_date=None):
         days_since_sunday = (today.weekday() + 1) % 7
         week_ending_date = today - timedelta(days=days_since_sunday)
 
-    week_start = week_ending_date - timedelta(days=6)
+    logger.info(f"Collecting GHL data for week ending {week_ending_date}")
+    logger.info("Using MCP-populated cache as primary data source (GHL API token is unreliable)")
 
-    logger.info(f"Collecting GHL data for week {week_start} to {week_ending_date}")
+    # ── Load from MCP-populated cache ────────────────────────────────────
+    cached = _load_from_cache(week_ending_date)
+    if cached:
+        logger.info(f"GHL cache loaded: {cached.get('new_leads', 0)} leads, "
+                    f"{cached.get('booked_appointments', 0)} booked, "
+                    f"{cached.get('active_students', 0)} active students")
+        return cached
 
-    # ── Sales Pipeline Data ──────────────────────────────────────────────
-    logger.info("Fetching sales pipeline opportunities...")
-    sales_opps = _ghl_search_opportunities(SALES_PIPELINE_ID)
-
-    # If API failed (returns empty due to auth error), try cache fallback
-    if not sales_opps:
-        logger.warning("GHL API returned no data (likely auth error). Trying cache fallback...")
-        cached = _load_from_cache(week_ending_date)
-        if cached:
-            logger.info(f"Using cached GHL data: {cached.get('new_leads', 0)} leads, "
-                        f"{cached.get('active_students', 0)} active students")
-            return cached
-        logger.error("No GHL cache available either. Returning zeros.")
-        return {
-            'week_ending_date': str(week_ending_date),
-            'new_leads': 0, 'booked_appointments': 0, 'showed_appointments': 0,
-            'closed_deals': 0, 'close_rate_overall': 0.0, 'close_rate_rana': 0.0,
-            'pipeline_value': 0.0, 'revenue_per_call': 0.0, 'active_students': 0,
-            'enrollment_growth_rate': 0.0, 'student_churn_rate': 0.0, 'revenue_per_student': 0.0,
-        }
-
-    logger.info(f"Total sales pipeline opportunities: {len(sales_opps)}")
-
-    # Filter to this week's new entries (for new leads count)
-    weekly_opps = _filter_by_date_range(sales_opps, week_start, week_ending_date)
-
-    # Count new leads created this week
-    weekly_stage_counts = defaultdict(int)
-    for opp in weekly_opps:
-        stage_id = opp.get('pipelineStageId', '')
-        weekly_stage_counts[stage_id] += 1
-
-    new_leads = sum(weekly_stage_counts.get(s, 0) for s in LEAD_STAGES)
-
-    # Count opportunities that ENTERED each stage during this week
-    # Uses lastStageChangeAt to detect when someone moved into a stage
-    booked_opps_in_stage = [o for o in sales_opps if o.get('pipelineStageId') in BOOKED_STAGES]
-    showed_opps_in_stage = [o for o in sales_opps if o.get('pipelineStageId') in SHOWED_STAGES]
-    closed_opps_in_stage = [o for o in sales_opps if o.get('pipelineStageId') in CLOSED_STAGES]
-
-    all_weekly_booked = _filter_by_stage_change_date(booked_opps_in_stage, week_start, week_ending_date)
-    all_weekly_showed = _filter_by_stage_change_date(showed_opps_in_stage, week_start, week_ending_date)
-    all_weekly_closed = _filter_by_stage_change_date(closed_opps_in_stage, week_start, week_ending_date)
-
-    booked_appointments = len(all_weekly_booked)
-    showed_appointments = len(all_weekly_showed)
-    closed_deals = len(all_weekly_closed)
-
-    logger.info(f"Pipeline weekly: {booked_appointments} booked, "
-                f"{showed_appointments} showed, {closed_deals} closed "
-                f"(filtered by stage change date {week_start} to {week_ending_date})")
-    logger.info(f"Pipeline totals in stage: {len(booked_opps_in_stage)} booked, "
-                f"{len(showed_opps_in_stage)} showed, {len(closed_opps_in_stage)} closed")
-
-    # Close rate
-    close_rate_overall = (closed_deals / booked_appointments) if booked_appointments > 0 else 0.0
-
-    # Rana's close rate
-    rana_closed = sum(1 for o in all_weekly_closed if _is_rana_opportunity(o))
-    rana_booked = sum(1 for o in all_weekly_booked if _is_rana_opportunity(o))
-    close_rate_rana = (rana_closed / rana_booked) if rana_booked > 0 else 0.0
-
-    # Pipeline value (sum of monetary values for open opportunities)
-    pipeline_value = sum(
-        float(opp.get('monetaryValue', 0) or 0)
-        for opp in sales_opps
-        if opp.get('status', '').lower() == 'open'
-    )
-
-    # Revenue per call
-    total_closed_value = sum(
-        float(opp.get('monetaryValue', 0) or 0)
-        for opp in all_weekly_closed
-    )
-    revenue_per_call = (total_closed_value / showed_appointments) if showed_appointments > 0 else 0.0
-
-    # ── Student Success Pipeline ─────────────────────────────────────────
-    logger.info("Fetching student success pipeline...")
-    student_opps = _ghl_search_opportunities(STUDENT_PIPELINE_ID)
-    logger.info(f"Total student pipeline opportunities: {len(student_opps)}")
-
-    # Active students (in active stages)
-    active_students = sum(
-        1 for opp in student_opps
-        if opp.get('pipelineStageId') in ACTIVE_STUDENT_STAGES
-    )
-
-    # Graduated students
-    graduated = sum(
-        1 for opp in student_opps
-        if opp.get('pipelineStageId') in GRADUATED_STAGES
-    )
-
-    # Churned students (this week)
-    churned_this_week = sum(
-        1 for opp in _filter_by_date_range(student_opps, week_start, week_ending_date)
-        if opp.get('pipelineStageId') in CHURNED_STAGES
-    )
-
-    # Enrollment growth (new students this week)
-    new_students_this_week = len(_filter_by_date_range(
-        [o for o in student_opps if o.get('pipelineStageId') in ACTIVE_STUDENT_STAGES],
-        week_start, week_ending_date
-    ))
-
-    enrollment_growth_rate = (new_students_this_week / active_students) if active_students > 0 else 0.0
-    student_churn_rate = (churned_this_week / active_students) if active_students > 0 else 0.0
-
-    # Revenue per student (total student pipeline value / active students)
-    student_revenue = sum(
-        float(opp.get('monetaryValue', 0) or 0)
-        for opp in student_opps
-        if opp.get('pipelineStageId') in ACTIVE_STUDENT_STAGES
-    )
-    revenue_per_student = (student_revenue / active_students) if active_students > 0 else 0.0
-
-    # ── Assemble results ─────────────────────────────────────────────────
-    result = {
+    # ── No cache available — return zeros with warning ───────────────────
+    logger.error("No ghl_cache.json found! Please refresh the cache via MCP tools "
+                 "before running the pipeline.  Returning zeros for GHL metrics.")
+    return {
         'week_ending_date': str(week_ending_date),
-        'new_leads': new_leads,
-        'booked_appointments': booked_appointments,
-        'showed_appointments': showed_appointments,
-        'closed_deals': closed_deals,
-        'close_rate_overall': round(close_rate_overall, 4),
-        'close_rate_rana': round(close_rate_rana, 4),
-        'pipeline_value': round(pipeline_value, 2),
-        'revenue_per_call': round(revenue_per_call, 2),
-        'active_students': active_students,
-        'enrollment_growth_rate': round(enrollment_growth_rate, 4),
-        'student_churn_rate': round(student_churn_rate, 4),
-        'revenue_per_student': round(revenue_per_student, 2),
+        'new_leads': 0, 'booked_appointments': 0, 'showed_appointments': 0,
+        'closed_deals': 0, 'close_rate_overall': 0.0, 'close_rate_rana': 0.0,
+        'pipeline_value': 0.0, 'revenue_per_call': 0.0, 'active_students': 0,
+        'enrollment_growth_rate': 0.0, 'student_churn_rate': 0.0, 'revenue_per_student': 0.0,
     }
-
-    logger.info(f"GHL collection complete: {new_leads} leads, {booked_appointments} booked, "
-                f"{closed_deals} closed, {active_students} active students")
-
-    return result
 
 
 if __name__ == '__main__':
