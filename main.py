@@ -32,6 +32,28 @@ from dashboard_generator import generate_dashboard, save_dashboard
 logger = logging.getLogger(__name__)
 
 
+def _load_snapshot_history():
+    """Load all weekly snapshots sorted by date for trend charts."""
+    snapshot_dir = os.path.join(os.path.dirname(__file__), 'snapshots')
+    if not os.path.isdir(snapshot_dir):
+        return []
+
+    snapshots = []
+    for fname in sorted(os.listdir(snapshot_dir)):
+        if fname.startswith('snapshot_') and fname.endswith('.json'):
+            fpath = os.path.join(snapshot_dir, fname)
+            try:
+                with open(fpath, 'r') as f:
+                    snap = json.load(f)
+                snapshots.append(snap)
+            except Exception as e:
+                logger.warning(f"Could not load snapshot {fname}: {e}")
+
+    # Sort by week_ending_date
+    snapshots.sort(key=lambda s: s.get('week_ending_date', ''))
+    return snapshots
+
+
 def _default_week_ending():
     """Return most recent Sunday as date object."""
     today = datetime.utcnow().date()
@@ -188,12 +210,17 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
                 except Exception:
                     pass
 
+        # Load all historical snapshots for trend charts
+        history = _load_snapshot_history()
+        logger.info(f"Loaded {len(history)} historical snapshots for trend charts")
+
         html = generate_dashboard(
             all_data=all_data,
             cross_data=cross_data,
             alerts=alerts,
             previous_data=previous_data,
             week_ending_date=str(week_ending_date),
+            history=history,
         )
         save_dashboard(html)
         logger.info("Dashboard saved to dashboard/index.html")

@@ -82,7 +82,125 @@ def _metric_card(label, value, wow_html="", subtitle=""):
     </div>"""
 
 
-def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_ending_date=None):
+def _build_trend_data(history):
+    """
+    Extract time-series arrays from snapshot history for Chart.js.
+
+    Returns a dict ready for JSON serialization with labels and datasets.
+    """
+    if not history:
+        return {}
+
+    labels = []  # week-ending dates as "M/D" strings
+
+    # Revenue
+    total_revenue = []
+    ecommerce_revenue = []
+    coaching_revenue = []
+    course_revenue = []
+
+    # Email
+    email_revenue = []
+    open_rate = []
+    click_rate = []
+    list_size = []
+
+    # Shopify
+    order_count = []
+    aov = []
+    new_customers = []
+
+    # Stripe
+    mrr = []
+    gross_volume = []
+
+    # Social
+    yt_subscribers = []
+    fb_followers = []
+    ig_followers = []
+    ig_engagement = []
+
+    # Pipeline
+    new_leads = []
+    booked = []
+    active_students = []
+
+    for snap in history:
+        # Label: "1/4", "1/11", etc.
+        wed = snap.get('week_ending_date', '')
+        try:
+            from datetime import datetime as _dt
+            d = _dt.strptime(wed, '%Y-%m-%d')
+            labels.append(f"{d.month}/{d.day}")
+        except Exception:
+            labels.append(wed[-5:] if len(wed) >= 5 else wed)
+
+        ad = snap.get('all_data', {})
+        cp = snap.get('cross_platform', ad.get('cross_platform', {}))
+        sh = ad.get('shopify', {})
+        kl = ad.get('klaviyo', {})
+        st = ad.get('stripe', {})
+        gh = ad.get('ghl', {})
+        so = ad.get('social', {})
+
+        # Revenue
+        total_revenue.append(float(cp.get('total_revenue', 0)))
+        ecommerce_revenue.append(float(cp.get('ecommerce_revenue', 0)))
+        coaching_revenue.append(float(cp.get('coaching_revenue', 0)))
+        course_revenue.append(float(cp.get('course_revenue', 0)))
+
+        # Email
+        email_revenue.append(float(kl.get('email_attributed_revenue', 0)))
+        open_rate.append(round(float(kl.get('open_rate', 0)) * 100, 1))
+        click_rate.append(round(float(kl.get('click_rate', 0)) * 100, 2))
+        list_size.append(int(kl.get('list_size', 0)))
+
+        # Shopify
+        order_count.append(int(sh.get('order_count', 0)))
+        aov.append(float(sh.get('aov', 0)))
+        new_customers.append(int(sh.get('new_customers', 0)))
+
+        # Stripe
+        mrr.append(float(st.get('mrr', 0)))
+        gross_volume.append(float(st.get('gross_payment_volume', 0)))
+
+        # Social
+        yt_subscribers.append(int(so.get('yt_subscribers', 0)))
+        fb_followers.append(int(so.get('fb_followers', 0)))
+        ig_followers.append(int(so.get('ig_followers', 0)))
+        ig_engagement.append(round(float(so.get('ig_engagement_rate', 0)) * 100, 2))
+
+        # Pipeline
+        new_leads.append(int(gh.get('new_leads', 0)))
+        booked.append(int(gh.get('booked_appointments', 0)))
+        active_students.append(int(gh.get('active_students', 0)))
+
+    return {
+        'labels': labels,
+        'total_revenue': total_revenue,
+        'ecommerce_revenue': ecommerce_revenue,
+        'coaching_revenue': coaching_revenue,
+        'course_revenue': course_revenue,
+        'email_revenue': email_revenue,
+        'open_rate': open_rate,
+        'click_rate': click_rate,
+        'list_size': list_size,
+        'order_count': order_count,
+        'aov': aov,
+        'new_customers': new_customers,
+        'mrr': mrr,
+        'gross_volume': gross_volume,
+        'yt_subscribers': yt_subscribers,
+        'fb_followers': fb_followers,
+        'ig_followers': ig_followers,
+        'ig_engagement': ig_engagement,
+        'new_leads': new_leads,
+        'booked': booked,
+        'active_students': active_students,
+    }
+
+
+def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_ending_date=None, history=None):
     """
     Generate the full single-file HTML dashboard.
 
@@ -92,6 +210,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         alerts: list of triggered alerts
         previous_data: dict with previous week's data (same structure as all_data)
         week_ending_date: string date for the week
+        history: list of snapshot dicts for trend charts
 
     Returns:
         str: Complete HTML document
@@ -315,12 +434,63 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                 {_metric_card("New Videos", _fmt_int(social.get('yt_new_videos', 0)))}
                 {_metric_card("Comments", _fmt_int(social.get('yt_comments', 0)))}
             </div>
-            <h3>Facebook &amp; Instagram <span class="phase-badge">Phase 2</span></h3>
+            <h3>Facebook &amp; Instagram</h3>
             <div class="card-grid">
                 {_metric_card("FB Followers", _fmt_int(social.get('fb_followers', 0)))}
                 {_metric_card("FB Reach", _fmt_int(social.get('fb_reach', 0)))}
                 {_metric_card("IG Followers", _fmt_int(social.get('ig_followers', 0)))}
                 {_metric_card("IG Engagement", _fmt_pct(social.get('ig_engagement_rate', 0)))}
+            </div>
+        </div>
+    </div>"""
+
+    # ── Tier 8: Trends ───────────────────────────────────────────────────
+    trend_data = _build_trend_data(history or [])
+    has_trends = bool(trend_data.get('labels'))
+
+    tier8 = ""
+    if has_trends:
+        tier8 = """
+    <div class="tier" id="tier8">
+        <div class="tier-header" onclick="toggleTier('tier8-body')">
+            <h2>&#9656; Trends &amp; Year-over-Year</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier8-body">
+            <h3>Revenue Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendRevenue" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendRevBySilo" height="280"></canvas></div>
+            </div>
+
+            <h3>Email Marketing Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendEmailRev" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendEmailRates" height="280"></canvas></div>
+            </div>
+
+            <h3>E-Commerce Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendOrders" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendAOV" height="280"></canvas></div>
+            </div>
+
+            <h3>Payments &amp; Subscriptions</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendMRR" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendStripeVol" height="280"></canvas></div>
+            </div>
+
+            <h3>Social Media Growth</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendSocial" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendYT" height="280"></canvas></div>
+            </div>
+
+            <h3>Sales Pipeline &amp; Coaching</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendPipeline" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendStudents" height="280"></canvas></div>
             </div>
         </div>
     </div>"""
@@ -338,6 +508,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             "showed": int(ghl.get('showed_appointments', 0)),
             "closed": int(ghl.get('closed_deals', 0)),
         },
+        "trends": trend_data,
     }
 
     html = f"""<!DOCTYPE html>
@@ -411,9 +582,18 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         }}
         h3 {{ font-size: 14px; color: #444; margin: 16px 0 8px; }}
         .footer {{ text-align: center; padding: 20px; color: #999; font-size: 12px; }}
+        .chart-row {{
+            display: flex; gap: 16px; margin-bottom: 20px;
+        }}
+        .chart-half {{
+            flex: 1; min-width: 0;
+            background: #fafbfc; border: 1px solid #e8ecef; border-radius: 6px;
+            padding: 12px;
+        }}
         @media (max-width: 768px) {{
             .card-grid {{ grid-template-columns: repeat(2, 1fr); }}
             .card-value {{ font-size: 18px; }}
+            .chart-row {{ flex-direction: column; }}
         }}
     </style>
 </head>
@@ -431,6 +611,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         {tier5}
         {tier6}
         {tier7}
+        {tier8}
     </div>
 
     <div class="footer">
@@ -493,6 +674,239 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
     }}
+
+    // ── Trend Line Charts ──────────────────────────────────────────────
+    const T = chartData.trends || {{}};
+    if (T.labels && T.labels.length > 1) {{
+
+        const lineDefaults = {{
+            type: 'line',
+            options: {{
+                responsive: true,
+                interaction: {{ mode: 'index', intersect: false }},
+                plugins: {{ legend: {{ position: 'bottom', labels: {{ boxWidth: 12, padding: 8, font: {{ size: 11 }} }} }} }},
+                scales: {{
+                    x: {{ grid: {{ display: false }} }},
+                    y: {{ beginAtZero: true }}
+                }},
+                elements: {{ point: {{ radius: 3, hoverRadius: 5 }}, line: {{ tension: 0.3 }} }}
+            }}
+        }};
+
+        function dollarAxis(axis) {{
+            return {{ ...axis, ticks: {{ callback: v => '$' + v.toLocaleString() }} }};
+        }}
+        function pctAxis(axis) {{
+            return {{ ...axis, ticks: {{ callback: v => v + '%' }} }};
+        }}
+
+        // 1 ── Total Revenue
+        new Chart(document.getElementById('trendRevenue'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'Total Revenue',
+                    data: T.total_revenue,
+                    borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Weekly Total Revenue' }} }},
+                scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+            }}
+        }});
+
+        // 2 ── Revenue by Silo
+        new Chart(document.getElementById('trendRevBySilo'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [
+                    {{ label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.08)', fill: false, borderWidth: 2 }},
+                    {{ label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.08)', fill: false, borderWidth: 2 }},
+                    {{ label: 'Courses', data: T.course_revenue, borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,.08)', fill: false, borderWidth: 2 }},
+                ]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Revenue by Silo' }} }},
+                scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+            }}
+        }});
+
+        // 3 ── Email Revenue
+        new Chart(document.getElementById('trendEmailRev'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'Email Revenue',
+                    data: T.email_revenue,
+                    borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Klaviyo Email Revenue' }} }},
+                scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+            }}
+        }});
+
+        // 4 ── Email Open & Click Rates
+        new Chart(document.getElementById('trendEmailRates'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [
+                    {{ label: 'Open Rate %', data: T.open_rate, borderColor: '#2e7d32', fill: false, borderWidth: 2, yAxisID: 'y' }},
+                    {{ label: 'Click Rate %', data: T.click_rate, borderColor: '#e65100', fill: false, borderWidth: 2, yAxisID: 'y1' }},
+                ]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Email Open & Click Rates' }} }},
+                scales: {{
+                    x: lineDefaults.options.scales.x,
+                    y: {{ ...pctAxis(lineDefaults.options.scales.y), position: 'left', title: {{ display: true, text: 'Open Rate' }} }},
+                    y1: {{ ...pctAxis(lineDefaults.options.scales.y), position: 'right', grid: {{ drawOnChartArea: false }}, title: {{ display: true, text: 'Click Rate' }} }},
+                }}
+            }}
+        }});
+
+        // 5 ── Orders
+        new Chart(document.getElementById('trendOrders'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [
+                    {{ label: 'Orders', data: T.order_count, borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)', fill: true, borderWidth: 2 }},
+                    {{ label: 'New Customers', data: T.new_customers, borderColor: '#1565c0', fill: false, borderWidth: 2 }},
+                ]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Orders & New Customers' }} }}
+            }}
+        }});
+
+        // 6 ── AOV
+        new Chart(document.getElementById('trendAOV'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'AOV',
+                    data: T.aov,
+                    borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Average Order Value' }} }},
+                scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+            }}
+        }});
+
+        // 7 ── MRR
+        new Chart(document.getElementById('trendMRR'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'MRR',
+                    data: T.mrr,
+                    borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Monthly Recurring Revenue (MRR)' }} }},
+                scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+            }}
+        }});
+
+        // 8 ── Stripe Volume
+        new Chart(document.getElementById('trendStripeVol'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'Gross Volume',
+                    data: T.gross_volume,
+                    borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Stripe Gross Volume' }} }},
+                scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+            }}
+        }});
+
+        // 9 ── Social: FB + IG
+        new Chart(document.getElementById('trendSocial'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [
+                    {{ label: 'FB Followers', data: T.fb_followers, borderColor: '#1565c0', fill: false, borderWidth: 2 }},
+                    {{ label: 'IG Followers', data: T.ig_followers, borderColor: '#e65100', fill: false, borderWidth: 2 }},
+                ]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Facebook & Instagram Followers' }} }}
+            }}
+        }});
+
+        // 10 ── YouTube
+        new Chart(document.getElementById('trendYT'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'YT Subscribers',
+                    data: T.yt_subscribers,
+                    borderColor: '#c62828', backgroundColor: 'rgba(198,40,40,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'YouTube Subscribers' }} }}
+            }}
+        }});
+
+        // 11 ── Pipeline
+        new Chart(document.getElementById('trendPipeline'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [
+                    {{ label: 'New Leads', data: T.new_leads, borderColor: '#2e7d32', fill: false, borderWidth: 2 }},
+                    {{ label: 'Booked Calls', data: T.booked, borderColor: '#1565c0', fill: false, borderWidth: 2 }},
+                ]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Sales Pipeline Activity' }} }}
+            }}
+        }});
+
+        // 12 ── Active Students
+        new Chart(document.getElementById('trendStudents'), {{
+            ...lineDefaults,
+            data: {{
+                labels: T.labels,
+                datasets: [{{
+                    label: 'Active Students',
+                    data: T.active_students,
+                    borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                    fill: true, borderWidth: 2,
+                }}]
+            }},
+            options: {{ ...lineDefaults.options,
+                plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Active Coaching Students' }} }}
+            }}
+        }});
+
+    }} // end if trends
     </script>
 </body>
 </html>"""
