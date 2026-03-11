@@ -100,8 +100,15 @@ def _get_metric_id_by_name(name):
     return None
 
 
-def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_value', extra_filters=None):
-    """Query aggregate metric data for a date range with optional dimension filters."""
+def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_value',
+                             extra_filters=None, group_by=None, dimension_filter=None):
+    """Query aggregate metric data for a date range with optional grouping.
+
+    Args:
+        group_by: list of dimension names to group by (e.g. ['$attributed_channel'])
+        dimension_filter: tuple of (dimension_value) to sum only that group.
+            E.g. '$email_channel' to get only email-attributed values.
+    """
     filters = [
         f"greater-or-equal(datetime,{start_iso})",
         f"less-than(datetime,{end_iso})",
@@ -109,15 +116,19 @@ def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_valu
     if extra_filters:
         filters.extend(extra_filters)
 
+    attributes = {
+        "metric_id": metric_id,
+        "measurements": [measurement],
+        "interval": "day",
+        "filter": filters,
+    }
+    if group_by:
+        attributes["by"] = group_by
+
     payload = {
         "data": {
             "type": "metric-aggregate",
-            "attributes": {
-                "metric_id": metric_id,
-                "measurements": [measurement],
-                "interval": "day",
-                "filter": filters,
-            }
+            "attributes": attributes,
         }
     }
     result = _klaviyo_post('metric-aggregates', payload)
@@ -127,8 +138,13 @@ def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_valu
     data = result.get('data', {}).get('attributes', {}).get('data', [])
     total = 0.0
     for series in data:
-        measurements = series.get('measurements', {})
-        values = measurements.get(measurement, [])
+        # If dimension_filter is set, only sum matching groups
+        if dimension_filter and group_by:
+            dimensions = series.get('dimensions', [])
+            if dimension_filter not in dimensions:
+                continue
+        measurements_data = series.get('measurements', {})
+        values = measurements_data.get(measurement, [])
         total += sum(v for v in values if v is not None)
 
     return total
@@ -260,10 +276,11 @@ def collect_weekly_data(week_ending_date=None):
         total_placed_order_revenue = _query_metric_aggregate(
             placed_order_id, start_iso, end_iso, 'sum_value'
         )
-        # Email-attributed revenue only (filtered by attribution channel)
+        # Email-attributed revenue only (grouped by channel, filtered to email)
         email_revenue = _query_metric_aggregate(
             placed_order_id, start_iso, end_iso, 'sum_value',
-            extra_filters=['equals($attributed_channel,"email")']
+            group_by=['$attributed_channel'],
+            dimension_filter='$email_channel'
         )
         logger.info(f"Klaviyo total placed order rev: ${total_placed_order_revenue:.2f}")
         logger.info(f"Klaviyo email-attributed rev: ${email_revenue:.2f}")

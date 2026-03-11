@@ -176,6 +176,26 @@ def _filter_by_date_range(opportunities, start_date, end_date):
     return filtered
 
 
+def _filter_by_stage_change_date(opportunities, start_date, end_date):
+    """Filter opportunities by lastStageChangeAt within the date range.
+
+    This captures when someone actually ENTERED a stage during the week,
+    rather than counting everyone currently sitting in that stage.
+    """
+    filtered = []
+    start_str = str(start_date)
+    end_str = str(end_date)
+
+    for opp in opportunities:
+        stage_change = opp.get('lastStageChangeAt', '')
+        if stage_change:
+            change_date = stage_change[:10]  # YYYY-MM-DD
+            if start_str <= change_date <= end_str:
+                filtered.append(opp)
+
+    return filtered
+
+
 def _load_from_cache(week_ending_date):
     """Load pre-fetched GHL data from cache file (populated via MCP tools).
 
@@ -265,23 +285,25 @@ def collect_weekly_data(week_ending_date=None):
 
     new_leads = sum(weekly_stage_counts.get(s, 0) for s in LEAD_STAGES)
 
-    # Count CURRENT pipeline state for booked/showed/closed
-    # This matches what the GHL dashboard displays (snapshot of all opps by stage)
-    all_stage_counts = defaultdict(int)
-    for opp in sales_opps:
-        stage_id = opp.get('pipelineStageId', '')
-        all_stage_counts[stage_id] += 1
+    # Count opportunities that ENTERED each stage during this week
+    # Uses lastStageChangeAt to detect when someone moved into a stage
+    booked_opps_in_stage = [o for o in sales_opps if o.get('pipelineStageId') in BOOKED_STAGES]
+    showed_opps_in_stage = [o for o in sales_opps if o.get('pipelineStageId') in SHOWED_STAGES]
+    closed_opps_in_stage = [o for o in sales_opps if o.get('pipelineStageId') in CLOSED_STAGES]
 
-    booked_appointments = sum(all_stage_counts.get(s, 0) for s in BOOKED_STAGES)
-    showed_appointments = sum(all_stage_counts.get(s, 0) for s in SHOWED_STAGES)
-    closed_deals = sum(all_stage_counts.get(s, 0) for s in CLOSED_STAGES)
+    all_weekly_booked = _filter_by_stage_change_date(booked_opps_in_stage, week_start, week_ending_date)
+    all_weekly_showed = _filter_by_stage_change_date(showed_opps_in_stage, week_start, week_ending_date)
+    all_weekly_closed = _filter_by_stage_change_date(closed_opps_in_stage, week_start, week_ending_date)
 
-    logger.info(f"Pipeline snapshot: {dict(all_stage_counts)}")
+    booked_appointments = len(all_weekly_booked)
+    showed_appointments = len(all_weekly_showed)
+    closed_deals = len(all_weekly_closed)
 
-    # Opportunity lists for close rate and revenue calculations
-    all_weekly_booked = [o for o in sales_opps if o.get('pipelineStageId') in BOOKED_STAGES]
-    all_weekly_showed = [o for o in sales_opps if o.get('pipelineStageId') in SHOWED_STAGES]
-    all_weekly_closed = [o for o in sales_opps if o.get('pipelineStageId') in CLOSED_STAGES]
+    logger.info(f"Pipeline weekly: {booked_appointments} booked, "
+                f"{showed_appointments} showed, {closed_deals} closed "
+                f"(filtered by stage change date {week_start} to {week_ending_date})")
+    logger.info(f"Pipeline totals in stage: {len(booked_opps_in_stage)} booked, "
+                f"{len(showed_opps_in_stage)} showed, {len(closed_opps_in_stage)} closed")
 
     # Close rate
     close_rate_overall = (closed_deals / booked_appointments) if booked_appointments > 0 else 0.0
