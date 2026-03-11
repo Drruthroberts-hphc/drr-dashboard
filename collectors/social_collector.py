@@ -191,7 +191,7 @@ def _get_fb_top_posts(week_start, week_ending_date, limit=5):
 
     try:
         data = _meta_get(f'{FB_PAGE_ID}/posts', {
-            'fields': 'message,created_time,shares,'
+            'fields': 'message,created_time,shares,permalink_url,'
                       'reactions.summary(true),comments.summary(true)',
             'limit': 25,
             'since': str(week_start),
@@ -217,6 +217,7 @@ def _get_fb_top_posts(week_start, week_ending_date, limit=5):
                 'comments': comments,
                 'shares': shares,
                 'total_engagement': reactions + comments + shares,
+                'link': post.get('permalink_url', ''),
             })
 
         posts.sort(key=lambda x: x['total_engagement'], reverse=True)
@@ -258,6 +259,7 @@ def _get_ig_top_posts(week_start, week_ending_date, limit=5):
                     'comments': comments,
                     'media_type': post.get('media_type', ''),
                     'total_engagement': likes + comments,
+                    'link': post.get('permalink', ''),
                 })
 
         posts.sort(key=lambda x: x['total_engagement'], reverse=True)

@@ -454,8 +454,14 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     try:
         fb_top_posts = json.loads(social.get('fb_top_posts_json', '[]'))
         if fb_top_posts:
+            def _fb_post_cell(p):
+                txt = p.get("message", "")[:50]
+                link = p.get("link", "")
+                if link:
+                    return f'<a href="{link}" target="_blank">{txt}</a>'
+                return txt
             fb_rows = "".join(
-                f'<tr><td>{p.get("message","")[:50]}</td>'
+                f'<tr><td>{_fb_post_cell(p)}</td>'
                 f'<td>{p.get("date","")}</td>'
                 f'<td class="text-right">{_fmt_int(p.get("reactions",0))}</td>'
                 f'<td class="text-right">{_fmt_int(p.get("comments",0))}</td>'
@@ -479,8 +485,14 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     try:
         ig_top_posts = json.loads(social.get('ig_top_posts_json', '[]'))
         if ig_top_posts:
+            def _ig_post_cell(p):
+                txt = p.get("caption", "")[:50]
+                link = p.get("link", "")
+                if link:
+                    return f'<a href="{link}" target="_blank">{txt}</a>'
+                return txt
             ig_rows = "".join(
-                f'<tr><td>{p.get("caption","")[:50]}</td>'
+                f'<tr><td>{_ig_post_cell(p)}</td>'
                 f'<td>{p.get("date","")}</td>'
                 f'<td>{p.get("media_type","")}</td>'
                 f'<td class="text-right">{_fmt_int(p.get("likes",0))}</td>'
