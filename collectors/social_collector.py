@@ -125,6 +125,148 @@ def _parse_duration_seconds(duration_str):
     return hours * 3600 + minutes * 60 + seconds
 
 
+def _get_uploads_playlist_id():
+    """Derive the uploads playlist ID from the channel ID."""
+    if YOUTUBE_CHANNEL_ID.startswith('UC'):
+        return 'UU' + YOUTUBE_CHANNEL_ID[2:]
+    # Fallback: query the channel API
+    data = _youtube_get('channels', {
+        'part': 'contentDetails',
+        'id': YOUTUBE_CHANNEL_ID,
+    })
+    if data and data.get('items'):
+        return data['items'][0].get('contentDetails', {}).get(
+            'relatedPlaylists', {}
+        ).get('uploads', '')
+    return ''
+
+
+def _get_recent_channel_videos(max_results=10):
+    """Get recent videos from the channel's uploads playlist with stats."""
+    playlist_id = _get_uploads_playlist_id()
+    if not playlist_id:
+        return []
+
+    data = _youtube_get('playlistItems', {
+        'part': 'contentDetails,snippet',
+        'playlistId': playlist_id,
+        'maxResults': max_results,
+    })
+
+    if not data or not data.get('items'):
+        return []
+
+    playlist_items = data['items']
+    video_ids = [item['contentDetails']['videoId'] for item in playlist_items]
+
+    video_stats = _get_video_stats(video_ids)
+    stats_by_id = {v['id']: v for v in video_stats}
+
+    results = []
+    for item in playlist_items:
+        vid = item['contentDetails']['videoId']
+        snippet = item.get('snippet', {})
+        vdata = stats_by_id.get(vid, {})
+        stats = vdata.get('statistics', {})
+        duration_s = _parse_duration_seconds(
+            vdata.get('contentDetails', {}).get('duration', '')
+        )
+
+        results.append({
+            'title': snippet.get('title', '')[:60],
+            'published': snippet.get('publishedAt', '')[:10],
+            'views': int(stats.get('viewCount', 0)),
+            'likes': int(stats.get('likeCount', 0)),
+            'comments': int(stats.get('commentCount', 0)),
+            'duration_min': round(duration_s / 60, 1),
+        })
+
+    return results
+
+
+def _get_fb_top_posts(week_start, week_ending_date, limit=5):
+    """Get top performing Facebook Page posts for the week."""
+    if not META_PAGE_ACCESS_TOKEN or not FB_PAGE_ID:
+        return []
+
+    try:
+        data = _meta_get(f'{FB_PAGE_ID}/posts', {
+            'fields': 'message,created_time,shares,'
+                      'reactions.summary(true),comments.summary(true)',
+            'limit': 25,
+            'since': str(week_start),
+            'until': str(week_ending_date + timedelta(days=1)),
+        })
+
+        if not data or 'data' not in data:
+            return []
+
+        posts = []
+        for post in data['data']:
+            reactions = post.get('reactions', {}).get('summary', {}).get('total_count', 0)
+            comments = post.get('comments', {}).get('summary', {}).get('total_count', 0)
+            shares = 0
+            if isinstance(post.get('shares'), dict):
+                shares = post['shares'].get('count', 0)
+
+            msg = (post.get('message') or '')[:80]
+            posts.append({
+                'message': msg if msg else '(no text)',
+                'date': post.get('created_time', '')[:10],
+                'reactions': reactions,
+                'comments': comments,
+                'shares': shares,
+                'total_engagement': reactions + comments + shares,
+            })
+
+        posts.sort(key=lambda x: x['total_engagement'], reverse=True)
+        return posts[:limit]
+    except Exception as e:
+        logger.error(f"Failed to fetch FB top posts: {e}")
+        return []
+
+
+def _get_ig_top_posts(week_start, week_ending_date, limit=5):
+    """Get top performing Instagram posts for the week."""
+    if not META_PAGE_ACCESS_TOKEN or not IG_ACCOUNT_ID:
+        return []
+
+    try:
+        data = _meta_get(f'{IG_ACCOUNT_ID}/media', {
+            'fields': 'caption,timestamp,like_count,comments_count,media_type,permalink',
+            'limit': 25,
+        })
+
+        if not data or 'data' not in data:
+            return []
+
+        posts = []
+        for post in data['data']:
+            post_date = post.get('timestamp', '')[:10]
+            try:
+                pd = datetime.strptime(post_date, '%Y-%m-%d').date()
+            except ValueError:
+                continue
+            if week_start <= pd <= week_ending_date:
+                likes = post.get('like_count', 0)
+                comments = post.get('comments_count', 0)
+                caption = (post.get('caption') or '')[:80]
+                posts.append({
+                    'caption': caption if caption else '(no caption)',
+                    'date': post_date,
+                    'likes': likes,
+                    'comments': comments,
+                    'media_type': post.get('media_type', ''),
+                    'total_engagement': likes + comments,
+                })
+
+        posts.sort(key=lambda x: x['total_engagement'], reverse=True)
+        return posts[:limit]
+    except Exception as e:
+        logger.error(f"Failed to fetch IG top posts: {e}")
+        return []
+
+
 def collect_weekly_data(week_ending_date=None):
     """
     Collect all social media metrics for a given week.
@@ -176,6 +318,10 @@ def collect_weekly_data(week_ending_date=None):
             yt_watch_seconds += duration_s * view_count * 0.4
 
     yt_watch_hours = round(yt_watch_seconds / 3600, 1)
+
+    # ── YouTube Recent Videos (regardless of publish date) ───────────────
+    yt_recent_videos = _get_recent_channel_videos(10)
+    logger.info(f"YouTube: {len(yt_recent_videos)} recent videos fetched")
 
     # ── Facebook Page Metrics (Meta Graph API) ───────────────────────────
     fb_followers = 0
@@ -248,6 +394,14 @@ def collect_weekly_data(week_ending_date=None):
         except Exception as e:
             logger.error(f"Instagram collection failed: {e}")
 
+    # ── Top Performing Posts ──────────────────────────────────────────────
+    fb_top_posts = _get_fb_top_posts(week_start, week_ending_date)
+    if fb_top_posts:
+        logger.info(f"FB top posts: {len(fb_top_posts)} collected")
+    ig_top_posts = _get_ig_top_posts(week_start, week_ending_date)
+    if ig_top_posts:
+        logger.info(f"IG top posts: {len(ig_top_posts)} collected")
+
     # ── Assemble results ─────────────────────────────────────────────────
     result = {
         'week_ending_date': str(week_ending_date),
@@ -267,6 +421,10 @@ def collect_weekly_data(week_ending_date=None):
         'ig_engagement_rate': round(ig_engagement_rate, 4),
         'ig_story_views': ig_story_views,
         'ig_dms': ig_dms,
+        'yt_total_views': yt_total_views,
+        'yt_recent_videos_json': json.dumps(yt_recent_videos),
+        'fb_top_posts_json': json.dumps(fb_top_posts),
+        'ig_top_posts_json': json.dumps(ig_top_posts),
     }
 
     logger.info(f"Social collection complete: YT={yt_subscribers:,} subs, "

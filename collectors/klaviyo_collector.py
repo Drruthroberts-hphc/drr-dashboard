@@ -100,8 +100,15 @@ def _get_metric_id_by_name(name):
     return None
 
 
-def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_value'):
-    """Query aggregate metric data for a date range."""
+def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_value', extra_filters=None):
+    """Query aggregate metric data for a date range with optional dimension filters."""
+    filters = [
+        f"greater-or-equal(datetime,{start_iso})",
+        f"less-than(datetime,{end_iso})",
+    ]
+    if extra_filters:
+        filters.extend(extra_filters)
+
     payload = {
         "data": {
             "type": "metric-aggregate",
@@ -109,10 +116,7 @@ def _query_metric_aggregate(metric_id, start_iso, end_iso, measurement='sum_valu
                 "metric_id": metric_id,
                 "measurements": [measurement],
                 "interval": "day",
-                "filter": [
-                    f"greater-or-equal(datetime,{start_iso})",
-                    f"less-than(datetime,{end_iso})",
-                ],
+                "filter": filters,
             }
         }
     }
@@ -250,10 +254,19 @@ def collect_weekly_data(week_ending_date=None):
 
     # ── Email-attributed revenue ─────────────────────────────────────────
     email_revenue = 0.0
+    total_placed_order_revenue = 0.0
     if placed_order_id:
-        email_revenue = _query_metric_aggregate(
+        # Total placed order revenue (all channels)
+        total_placed_order_revenue = _query_metric_aggregate(
             placed_order_id, start_iso, end_iso, 'sum_value'
         )
+        # Email-attributed revenue only (filtered by attribution channel)
+        email_revenue = _query_metric_aggregate(
+            placed_order_id, start_iso, end_iso, 'sum_value',
+            extra_filters=['equals($attributed_channel,"email")']
+        )
+        logger.info(f"Klaviyo total placed order rev: ${total_placed_order_revenue:.2f}")
+        logger.info(f"Klaviyo email-attributed rev: ${email_revenue:.2f}")
 
     # ── Flow revenue breakdown ───────────────────────────────────────────
     welcome_flow_revenue = 0.0
@@ -299,6 +312,7 @@ def collect_weekly_data(week_ending_date=None):
     result = {
         'week_ending_date': str(week_ending_date),
         'email_attributed_revenue': round(email_revenue, 2),
+        'total_placed_order_revenue': round(total_placed_order_revenue, 2),
         'welcome_flow_revenue': round(welcome_flow_revenue, 2),
         'abandon_cart_flow_revenue': round(abandon_cart_flow_revenue, 2),
         'post_purchase_flow_revenue': round(post_purchase_flow_revenue, 2),

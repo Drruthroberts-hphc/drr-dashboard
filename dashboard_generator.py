@@ -334,7 +334,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         top_products = json.loads(shopify.get('top_products_json', '[]'))
         if top_products:
             rows = "".join(
-                f'<tr><td>{p.get("title","")[:40]}</td>'
+                f'<tr><td>{p.get("name", p.get("title",""))[:40]}</td>'
                 f'<td class="text-right">{_fmt_money(p.get("revenue",0))}</td>'
                 f'<td class="text-right">{_fmt_int(p.get("quantity",0))}</td></tr>'
                 for p in top_products[:5]
@@ -418,6 +418,87 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     </div>"""
 
     # ── Tier 7: Social Media ──────────────────────────────────────────────
+
+    # YouTube: calculate weekly views from total views delta
+    yt_total_views = social.get('yt_total_views', 0)
+    prev_yt_total_views = prev_social.get('yt_total_views', 0)
+    yt_weekly_views = max(0, yt_total_views - prev_yt_total_views) if prev_yt_total_views else social.get('yt_views', 0)
+
+    # YouTube recent videos table
+    yt_videos_html = ""
+    try:
+        yt_recent_videos = json.loads(social.get('yt_recent_videos_json', '[]'))
+        if yt_recent_videos:
+            yt_rows = "".join(
+                f'<tr><td>{v.get("title","")[:50]}</td>'
+                f'<td>{v.get("published","")}</td>'
+                f'<td class="text-right">{_fmt_int(v.get("views",0))}</td>'
+                f'<td class="text-right">{_fmt_int(v.get("likes",0))}</td>'
+                f'<td class="text-right">{_fmt_int(v.get("comments",0))}</td>'
+                f'<td class="text-right">{v.get("duration_min",0)} min</td></tr>'
+                for v in yt_recent_videos[:5]
+            )
+            yt_videos_html = f"""
+            <h4>Recent Videos</h4>
+            <table class="data-table">
+                <thead><tr><th>Title</th><th>Published</th><th class="text-right">Views</th>
+                <th class="text-right">Likes</th><th class="text-right">Comments</th>
+                <th class="text-right">Duration</th></tr></thead>
+                <tbody>{yt_rows}</tbody>
+            </table>"""
+    except (json.JSONDecodeError, TypeError):
+        pass
+
+    # Facebook top posts table
+    fb_posts_html = ""
+    try:
+        fb_top_posts = json.loads(social.get('fb_top_posts_json', '[]'))
+        if fb_top_posts:
+            fb_rows = "".join(
+                f'<tr><td>{p.get("message","")[:50]}</td>'
+                f'<td>{p.get("date","")}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("reactions",0))}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("comments",0))}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("shares",0))}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("total_engagement",0))}</td></tr>'
+                for p in fb_top_posts[:5]
+            )
+            fb_posts_html = f"""
+            <h4>Top Facebook Posts This Week</h4>
+            <table class="data-table">
+                <thead><tr><th>Post</th><th>Date</th><th class="text-right">Reactions</th>
+                <th class="text-right">Comments</th><th class="text-right">Shares</th>
+                <th class="text-right">Total</th></tr></thead>
+                <tbody>{fb_rows}</tbody>
+            </table>"""
+    except (json.JSONDecodeError, TypeError):
+        pass
+
+    # Instagram top posts table
+    ig_posts_html = ""
+    try:
+        ig_top_posts = json.loads(social.get('ig_top_posts_json', '[]'))
+        if ig_top_posts:
+            ig_rows = "".join(
+                f'<tr><td>{p.get("caption","")[:50]}</td>'
+                f'<td>{p.get("date","")}</td>'
+                f'<td>{p.get("media_type","")}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("likes",0))}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("comments",0))}</td>'
+                f'<td class="text-right">{_fmt_int(p.get("total_engagement",0))}</td></tr>'
+                for p in ig_top_posts[:5]
+            )
+            ig_posts_html = f"""
+            <h4>Top Instagram Posts This Week</h4>
+            <table class="data-table">
+                <thead><tr><th>Caption</th><th>Date</th><th>Type</th>
+                <th class="text-right">Likes</th><th class="text-right">Comments</th>
+                <th class="text-right">Total</th></tr></thead>
+                <tbody>{ig_rows}</tbody>
+            </table>"""
+    except (json.JSONDecodeError, TypeError):
+        pass
+
     tier7 = f"""
     <div class="tier" id="tier7">
         <div class="tier-header" onclick="toggleTier('tier7-body')">
@@ -429,18 +510,31 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             <div class="card-grid">
                 {_metric_card("Subscribers", _fmt_int(social.get('yt_subscribers', 0)),
                     _wow_badge(social.get('yt_subscribers',0), prev_social.get('yt_subscribers',0)))}
-                {_metric_card("Views (This Week)", _fmt_int(social.get('yt_views', 0)))}
+                {_metric_card("Total Views", _fmt_int(yt_total_views),
+                    _wow_badge(yt_total_views, prev_yt_total_views) if prev_yt_total_views else '')}
+                {_metric_card("Views This Week", _fmt_int(yt_weekly_views))}
                 {_metric_card("Watch Hours", _fmt_float(social.get('yt_watch_hours', 0)))}
                 {_metric_card("New Videos", _fmt_int(social.get('yt_new_videos', 0)))}
                 {_metric_card("Comments", _fmt_int(social.get('yt_comments', 0)))}
             </div>
-            <h3>Facebook &amp; Instagram</h3>
+            {yt_videos_html}
+
+            <h3>Facebook</h3>
             <div class="card-grid">
-                {_metric_card("FB Followers", _fmt_int(social.get('fb_followers', 0)))}
-                {_metric_card("FB Reach", _fmt_int(social.get('fb_reach', 0)))}
-                {_metric_card("IG Followers", _fmt_int(social.get('ig_followers', 0)))}
-                {_metric_card("IG Engagement", _fmt_pct(social.get('ig_engagement_rate', 0)))}
+                {_metric_card("Followers", _fmt_int(social.get('fb_followers', 0)),
+                    _wow_badge(social.get('fb_followers',0), prev_social.get('fb_followers',0)))}
+                {_metric_card("Reach", _fmt_int(social.get('fb_reach', 0)))}
+                {_metric_card("Engagement Rate", _fmt_pct(social.get('fb_engagement_rate', 0)))}
             </div>
+            {fb_posts_html}
+
+            <h3>Instagram</h3>
+            <div class="card-grid">
+                {_metric_card("Followers", _fmt_int(social.get('ig_followers', 0)),
+                    _wow_badge(social.get('ig_followers',0), prev_social.get('ig_followers',0)))}
+                {_metric_card("Engagement Rate", _fmt_pct(social.get('ig_engagement_rate', 0)))}
+            </div>
+            {ig_posts_html}
         </div>
     </div>"""
 
