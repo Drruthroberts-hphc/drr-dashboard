@@ -269,6 +269,30 @@ def _get_ig_top_posts(week_start, week_ending_date, limit=5):
         return []
 
 
+def _load_previous_social_snapshot(week_ending_date):
+    """Load the most recent snapshot's social data before the given date."""
+    import os
+    snapshot_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'snapshots')
+    if not os.path.isdir(snapshot_dir):
+        return {}
+
+    prev_social = {}
+    for fname in sorted(os.listdir(snapshot_dir)):
+        if not fname.startswith('snapshot_') or not fname.endswith('.json'):
+            continue
+        date_part = fname.replace('snapshot_', '').replace('.json', '')
+        if date_part < str(week_ending_date):
+            try:
+                with open(os.path.join(snapshot_dir, fname), 'r') as f:
+                    snap = json.load(f)
+                    # Snapshots store data under 'all_data' key
+                    all_data = snap.get('all_data', snap)
+                    prev_social = all_data.get('social') or {}
+            except Exception:
+                pass
+    return prev_social
+
+
 def collect_weekly_data(week_ending_date=None):
     """
     Collect all social media metrics for a given week.
@@ -286,6 +310,9 @@ def collect_weekly_data(week_ending_date=None):
     end_iso = f"{week_ending_date}T23:59:59Z"
 
     logger.info(f"Collecting social media data for week {week_start} to {week_ending_date}")
+
+    # Load previous snapshot for fallback if API fails
+    prev_snap_social = _load_previous_social_snapshot(week_ending_date)
 
     # ── YouTube Channel Stats ────────────────────────────────────────────
     channel_stats = _get_channel_stats()
@@ -345,15 +372,19 @@ def collect_weekly_data(week_ending_date=None):
             if fb_data and 'error' not in fb_data:
                 fb_followers = fb_data.get('followers_count', 0)
                 talking = fb_data.get('talking_about_count', 0)
-                # Engagement rate = talking_about / followers
                 if fb_followers > 0:
                     fb_engagement_rate = round(talking / fb_followers, 4)
-                fb_reach = talking  # best available proxy without read_insights
+                fb_reach = talking
                 logger.info(f"FB: {fb_followers:,} followers, {talking} engaged")
             else:
                 logger.warning(f"FB page API error: {fb_data}")
+                # Carry forward followers from previous snapshot
+                fb_followers = prev_snap_social.get('fb_followers', 0)
+                if fb_followers:
+                    logger.info(f"FB: carried forward {fb_followers:,} followers from previous snapshot")
         except Exception as e:
             logger.error(f"Facebook collection failed: {e}")
+            fb_followers = prev_snap_social.get('fb_followers', 0)
 
     # ── Instagram Metrics (Meta Graph API) ────────────────────────────────
     ig_followers = 0
@@ -371,6 +402,11 @@ def collect_weekly_data(week_ending_date=None):
             if ig_data and 'error' not in ig_data:
                 ig_followers = ig_data.get('followers_count', 0)
                 logger.info(f"IG: {ig_followers:,} followers")
+            else:
+                logger.warning(f"IG API error: {ig_data}")
+                ig_followers = prev_snap_social.get('ig_followers', 0)
+                if ig_followers:
+                    logger.info(f"IG: carried forward {ig_followers:,} followers from previous snapshot")
 
             # Get recent posts for engagement calculation
             ig_media = _meta_get(f"{IG_ACCOUNT_ID}/media", {
@@ -400,6 +436,7 @@ def collect_weekly_data(week_ending_date=None):
                             f"{week_comments} comments, ER={ig_engagement_rate}")
         except Exception as e:
             logger.error(f"Instagram collection failed: {e}")
+            ig_followers = prev_snap_social.get('ig_followers', 0)
 
     # ── Top Performing Posts ──────────────────────────────────────────────
     fb_top_posts = _get_fb_top_posts(week_start, week_ending_date)
@@ -408,6 +445,16 @@ def collect_weekly_data(week_ending_date=None):
     ig_top_posts = _get_ig_top_posts(week_start, week_ending_date)
     if ig_top_posts:
         logger.info(f"IG top posts: {len(ig_top_posts)} collected")
+    elif not ig_top_posts and prev_snap_social:
+        # If Meta API failed, carry forward previous week's IG top posts
+        prev_ig_posts_json = prev_snap_social.get('ig_top_posts_json', '[]')
+        try:
+            prev_ig_posts = json.loads(prev_ig_posts_json)
+            if prev_ig_posts:
+                ig_top_posts = prev_ig_posts
+                logger.info(f"IG top posts: carried forward {len(ig_top_posts)} from previous snapshot")
+        except (json.JSONDecodeError, TypeError):
+            pass
 
     # Aggregate FB weekly metrics from top posts
     fb_week_likes = sum(p.get('reactions', 0) for p in fb_top_posts)

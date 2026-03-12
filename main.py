@@ -189,7 +189,11 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
     # ── Phase 7: Generate HTML dashboard ──────────────────────────────────
     logger.info("--- Generating HTML dashboard ---")
     try:
-        # Get previous week data for WoW displays in dashboard
+        # Load all historical snapshots for trend charts
+        history = _load_snapshot_history()
+        logger.info(f"Loaded {len(history)} historical snapshots for trend charts")
+
+        # Get previous week data from snapshots (more complete than Google Sheets)
         previous_data = {
             'shopify': None,
             'klaviyo': None,
@@ -197,7 +201,21 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
             'ghl': None,
             'social': None,
         }
-        if not dry_run:
+        if history and len(history) >= 2:
+            # Find the snapshot just before the current week
+            prev_snap = None
+            for snap in history:
+                if snap.get('week_ending_date', '') < str(week_ending_date):
+                    prev_snap = snap
+            if prev_snap:
+                # Snapshots store platform data under 'all_data' key
+                snap_data = prev_snap.get('all_data', prev_snap)
+                for key in ['shopify', 'klaviyo', 'stripe', 'ghl', 'social']:
+                    previous_data[key] = snap_data.get(key) or {}
+                previous_data['cross_platform'] = prev_snap.get('cross_platform') or {}
+                logger.info(f"Previous week data loaded from snapshot {prev_snap.get('week_ending_date')}")
+        if not previous_data.get('shopify') and not dry_run:
+            # Fallback to Google Sheets if no snapshot available
             for key, tab in [
                 ('shopify', 'Shopify_Weekly'),
                 ('klaviyo', 'Klaviyo_Weekly'),
@@ -209,10 +227,6 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
                     previous_data[key] = get_previous_week_data(tab, week_ending_date)
                 except Exception:
                     pass
-
-        # Load all historical snapshots for trend charts
-        history = _load_snapshot_history()
-        logger.info(f"Loaded {len(history)} historical snapshots for trend charts")
 
         html = generate_dashboard(
             all_data=all_data,
