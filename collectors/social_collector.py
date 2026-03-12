@@ -300,30 +300,35 @@ def collect_weekly_data(week_ending_date=None):
     yt_new_videos = len(video_ids)
 
     # Get stats for videos published this week
-    yt_views = 0
-    yt_watch_seconds = 0
-    yt_comments = 0
+    yt_new_video_views = 0
+    yt_new_video_comments = 0
 
     if video_ids:
         videos = _get_video_stats(video_ids)
         for video in videos:
             stats = video.get('statistics', {})
-            yt_views += int(stats.get('viewCount', 0))
-            yt_comments += int(stats.get('commentCount', 0))
-
-            # Estimate watch time from duration * views (rough approximation)
-            duration_s = _parse_duration_seconds(
-                video.get('contentDetails', {}).get('duration', '')
-            )
-            view_count = int(stats.get('viewCount', 0))
-            # Assume average 40% watch-through rate
-            yt_watch_seconds += duration_s * view_count * 0.4
-
-    yt_watch_hours = round(yt_watch_seconds / 3600, 1)
+            yt_new_video_views += int(stats.get('viewCount', 0))
+            yt_new_video_comments += int(stats.get('commentCount', 0))
 
     # ── YouTube Recent Videos (regardless of publish date) ───────────────
     yt_recent_videos = _get_recent_channel_videos(10)
     logger.info(f"YouTube: {len(yt_recent_videos)} recent videos fetched")
+
+    # Sum total comments and compute avg video duration from recent videos
+    yt_total_comments = sum(v.get('comments', 0) for v in yt_recent_videos)
+    avg_duration_min = 0
+    if yt_recent_videos:
+        avg_duration_min = sum(v.get('duration_min', 0) for v in yt_recent_videos) / len(yt_recent_videos)
+
+    # Weekly views: will be computed as delta from yt_total_views in dashboard
+    # For the collector, store new-video views as a fallback
+    yt_views = yt_new_video_views
+    yt_comments = yt_new_video_comments
+
+    # Estimate watch hours from total views (delta computed in dashboard)
+    # avg_duration_min * 0.4 watch-through rate = avg watch minutes per view
+    yt_avg_watch_min = avg_duration_min * 0.4
+    yt_watch_hours = 0.0  # Will be estimated in dashboard from weekly views delta
 
     # ── Facebook Page Metrics (Meta Graph API) ───────────────────────────
     fb_followers = 0
@@ -404,6 +409,15 @@ def collect_weekly_data(week_ending_date=None):
     if ig_top_posts:
         logger.info(f"IG top posts: {len(ig_top_posts)} collected")
 
+    # Aggregate FB weekly metrics from top posts
+    fb_week_likes = sum(p.get('reactions', 0) for p in fb_top_posts)
+    fb_week_comments = sum(p.get('comments', 0) for p in fb_top_posts)
+    fb_week_shares = sum(p.get('shares', 0) for p in fb_top_posts)
+
+    # Aggregate IG weekly metrics from top posts
+    ig_week_likes = sum(p.get('likes', 0) for p in ig_top_posts)
+    ig_week_comments = sum(p.get('comments', 0) for p in ig_top_posts)
+
     # ── Assemble results ─────────────────────────────────────────────────
     result = {
         'week_ending_date': str(week_ending_date),
@@ -413,14 +427,21 @@ def collect_weekly_data(week_ending_date=None):
         'yt_watch_hours': yt_watch_hours,
         'yt_new_videos': yt_new_videos,
         'yt_comments': yt_comments,
+        'yt_total_comments': yt_total_comments,
+        'yt_avg_watch_min': round(yt_avg_watch_min, 1),
         'fb_followers': fb_followers,
         'fb_follower_growth': fb_follower_growth,
         'fb_reach': fb_reach,
         'fb_engagement_rate': round(fb_engagement_rate, 4),
         'fb_messages': fb_messages,
+        'fb_week_likes': fb_week_likes,
+        'fb_week_comments': fb_week_comments,
+        'fb_week_shares': fb_week_shares,
         'ig_followers': ig_followers,
         'ig_follower_growth': ig_follower_growth,
         'ig_engagement_rate': round(ig_engagement_rate, 4),
+        'ig_week_likes': ig_week_likes,
+        'ig_week_comments': ig_week_comments,
         'ig_story_views': ig_story_views,
         'ig_dms': ig_dms,
         'yt_total_views': yt_total_views,

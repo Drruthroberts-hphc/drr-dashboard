@@ -424,6 +424,22 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     prev_yt_total_views = prev_social.get('yt_total_views', 0)
     yt_weekly_views = max(0, yt_total_views - prev_yt_total_views) if prev_yt_total_views else social.get('yt_views', 0)
 
+    # Estimate weekly watch hours from views delta * avg video duration
+    yt_avg_watch_min = social.get('yt_avg_watch_min', 0)
+    yt_watch_hours = social.get('yt_watch_hours', 0)
+    if yt_watch_hours == 0 and yt_weekly_views > 0 and yt_avg_watch_min > 0:
+        # avg_watch_min already includes 40% watch-through estimate
+        yt_watch_hours = round(yt_weekly_views * yt_avg_watch_min / 60, 1)
+
+    # Weekly comments: use total comments delta if available
+    prev_total_comments = prev_social.get('yt_total_comments', 0)
+    cur_total_comments = social.get('yt_total_comments', 0)
+    yt_weekly_comments = social.get('yt_comments', 0)
+    if cur_total_comments and prev_total_comments:
+        delta_comments = max(0, cur_total_comments - prev_total_comments)
+        if delta_comments > 0:
+            yt_weekly_comments = delta_comments
+
     # YouTube recent videos table
     yt_videos_html = ""
     try:
@@ -525,9 +541,9 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                 {_metric_card("Total Views", _fmt_int(yt_total_views),
                     _wow_badge(yt_total_views, prev_yt_total_views) if prev_yt_total_views else '')}
                 {_metric_card("Views This Week", _fmt_int(yt_weekly_views))}
-                {_metric_card("Watch Hours", _fmt_float(social.get('yt_watch_hours', 0)))}
+                {_metric_card("Watch Hours (est.)", _fmt_float(yt_watch_hours))}
                 {_metric_card("New Videos", _fmt_int(social.get('yt_new_videos', 0)))}
-                {_metric_card("Comments", _fmt_int(social.get('yt_comments', 0)))}
+                {_metric_card("Comments", _fmt_int(yt_weekly_comments))}
             </div>
             {yt_videos_html}
 
@@ -537,6 +553,9 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                     _wow_badge(social.get('fb_followers',0), prev_social.get('fb_followers',0)))}
                 {_metric_card("Reach", _fmt_int(social.get('fb_reach', 0)))}
                 {_metric_card("Engagement Rate", _fmt_pct(social.get('fb_engagement_rate', 0)))}
+                {_metric_card("Likes", _fmt_int(social.get('fb_week_likes', 0)))}
+                {_metric_card("Comments", _fmt_int(social.get('fb_week_comments', 0)))}
+                {_metric_card("Shares", _fmt_int(social.get('fb_week_shares', 0)))}
             </div>
             {fb_posts_html}
 
@@ -545,6 +564,8 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                 {_metric_card("Followers", _fmt_int(social.get('ig_followers', 0)),
                     _wow_badge(social.get('ig_followers',0), prev_social.get('ig_followers',0)))}
                 {_metric_card("Engagement Rate", _fmt_pct(social.get('ig_engagement_rate', 0)))}
+                {_metric_card("Likes", _fmt_int(social.get('ig_week_likes', 0)))}
+                {_metric_card("Comments", _fmt_int(social.get('ig_week_comments', 0)))}
             </div>
             {ig_posts_html}
         </div>

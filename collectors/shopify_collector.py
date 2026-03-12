@@ -143,6 +143,7 @@ def collect_weekly_data(week_ending_date=None):
     total_discounts = 0.0
     silo_revenue = defaultdict(float)
     product_revenue = defaultdict(float)
+    product_quantity = defaultdict(int)
     order_count = len(orders)
 
     for order in orders:
@@ -157,13 +158,15 @@ def collect_weekly_data(week_ending_date=None):
         # Classify each line item into a silo
         for item in order.get('line_items', []):
             product_id = item.get('product_id')
-            line_total = float(item.get('price', 0)) * int(item.get('quantity', 1))
+            qty = int(item.get('quantity', 1))
+            line_total = float(item.get('price', 0)) * qty
             silo = silo_map.get(product_id, 'E-Commerce')
             silo_revenue[silo] += line_total
 
-            # Track product revenue for top 10
+            # Track product revenue and quantity for top 10
             product_name = item.get('title', 'Unknown')
             product_revenue[product_name] += line_total
+            product_quantity[product_name] += qty
 
     # AOV
     aov = gross_revenue / order_count if order_count > 0 else 0.0
@@ -171,7 +174,8 @@ def collect_weekly_data(week_ending_date=None):
     # Top 10 products by revenue
     top_products = sorted(product_revenue.items(), key=lambda x: x[1], reverse=True)[:10]
     top_products_json = json.dumps([
-        {'name': name, 'revenue': round(rev, 2)} for name, rev in top_products
+        {'name': name, 'revenue': round(rev, 2), 'quantity': product_quantity[name]}
+        for name, rev in top_products
     ])
 
     # Discount rate
