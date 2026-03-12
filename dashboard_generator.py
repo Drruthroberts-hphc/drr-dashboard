@@ -1021,9 +1021,13 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
 
 
 def save_dashboard(html, output_path='dashboard/index.html'):
-    """Save the dashboard HTML to a file."""
+    """Save the dashboard HTML to a file and copy to repo root for GitHub Pages."""
     import os
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
     logger.info(f"Dashboard saved to {output_path}")
+    # Also write to repo root so GitHub Pages serves the latest version
+    with open('index.html', 'w', encoding='utf-8') as f:
+        f.write(html)
+    logger.info("Dashboard also saved to index.html (GitHub Pages root)")
