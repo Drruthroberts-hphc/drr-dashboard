@@ -1,0 +1,13 @@
+name = "Dashboard-connect-correct"
+client_id = "9e98eabb1bec51d34f022da599d9d172"
+application_url = "http://localhost:3000"
+embedded = false
+
+[access_scopes]
+scopes = "read_analytics,read_customers,read_orders,read_products,read_reports,read_inventory,write_inventory"
+
+[auth]
+redirect_urls = ["http://localhost:3000/callback"]
+
+[webhooks]
+api_version = "2026-01"

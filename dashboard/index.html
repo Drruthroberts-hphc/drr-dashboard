@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Ruth Roberts - Weekly Dashboard | 2026-03-15</title>
+    <title>Dr. Ruth Roberts - Weekly Dashboard | 2026-03-29</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -63,11 +63,8 @@
         .data-table th { background: #f5f5f5; padding: 8px 12px; text-align: left; font-size: 12px; border-bottom: 2px solid #ddd; }
         .data-table td { padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 13px; }
         .text-right { text-align: right; }
-        .phase-badge {
-            background: #e3f2fd; color: #1565c0; padding: 2px 8px;
-            border-radius: 10px; font-size: 10px; font-weight: 600; vertical-align: middle;
-        }
         h3 { font-size: 14px; color: #444; margin: 16px 0 8px; }
+        h4 { font-size: 13px; color: #555; margin: 14px 0 6px; }
         .footer { text-align: center; padding: 20px; color: #999; font-size: 12px; }
         .chart-row {
             display: flex; gap: 16px; margin-bottom: 20px;
@@ -76,6 +73,16 @@
             flex: 1; min-width: 0;
             background: #fafbfc; border: 1px solid #e8ecef; border-radius: 6px;
             padding: 12px;
+        }
+        .progress-row { margin: 8px 0; }
+        .progress-label { font-size: 12px; color: #555; margin-bottom: 4px; }
+        .progress-track {
+            background: #e8ecef; border-radius: 8px; height: 20px;
+            overflow: hidden; position: relative;
+        }
+        .progress-fill {
+            height: 100%; border-radius: 8px;
+            transition: width 0.5s ease;
         }
         @media (max-width: 768px) {
             .card-grid { grid-template-columns: repeat(2, 1fr); }
@@ -87,7 +94,7 @@
 <body>
     <div class="header">
         <h1>Dr. Ruth Roberts - Weekly Dashboard</h1>
-        <div class="subtitle">Week ending: 2026-03-15 | Generated: 2026-03-16 14:09 UTC</div>
+        <div class="subtitle">Week ending: 2026-03-29 | Generated: 2026-03-30 22:50 UTC</div>
     </div>
 
     <div class="container">
@@ -100,58 +107,58 @@
         <div class="tier-body" id="tier1-body">
             
         <div class="alert-banner">
-            <h3>&#9888; 1 Alert(s) Triggered</h3>
-            <ul><li><strong>Revenue WoW Change</strong>: -0.5188 (below -0.25)</li></ul>
+            <h3>&#9888; 3 Alert(s) Triggered</h3>
+            <ul><li><strong>Google Ads Weekly Spend</strong>: 1100.9500 (above 750)</li><li><strong>Payroll % of Revenue</strong>: 0.3623 (above 0.3)</li><li><strong>Burn > Revenue (Weekly)</strong>: 1.1462 (above 1.0)</li></ul>
         </div>
             <div class="card-grid">
                 
     <div class="metric-card">
         <div class="card-label">Total Revenue</div>
-        <div class="card-value">$9,699.72</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -3.1%</span></div>
+        <div class="card-value">$8,560.80</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -10.7%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">E-Commerce</div>
-        <div class="card-value">$9,431.27</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -2.3%</span></div>
+        <div class="card-value">$6,917.58</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -23.4%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Coaching</div>
-        <div class="card-value">$23.00</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -90.7%</span></div>
+        <div class="card-value">$0.00</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -100.0%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Courses</div>
-        <div class="card-value">$245.45</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +132.6%</span></div>
+        <div class="card-value">$1,643.22</div>
+        <div class="card-wow"><span class="badge badge-green">&#9650; +260.1%</span></div>
         
     </div>
                 
     <div class="metric-card">
-        <div class="card-label">Email Revenue</div>
-        <div class="card-value">$2,184.69</div>
+        <div class="card-label">NOI (Weekly)</div>
+        <div class="card-value" style="color: #c62828;">-$1,251.21</div>
+        
+        <div class="card-subtitle">Margin: -14.6%</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Cash Flow (Weekly)</div>
+        <div class="card-value" style="color: #c62828;">-$2,405.94</div>
         
         
     </div>
                 
     <div class="metric-card">
-        <div class="card-label">MRR</div>
-        <div class="card-value">$1,545.25</div>
+        <div class="card-label">Monthly Burn</div>
+        <div class="card-value">$42,486.00</div>
         
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Net Profit/Loss</div>
-        <div class="card-value">$9,620.36</div>
-        
-        
+        <div class="card-subtitle">Verified from bank data</div>
     </div>
                 
     <div class="metric-card">
@@ -161,6 +168,23 @@
         
     </div>
             </div>
+
+            <h3>Revenue vs Target</h3>
+            
+    <div class="progress-row">
+        <div class="progress-label">Weekly: $8,560.80 / $15,011.55 (57%)</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width:57%; background:#c62828;"></div>
+        </div>
+    </div>
+            
+    <div class="progress-row">
+        <div class="progress-label">Monthly run rate: $37,068.26 / $65,000.00 (57%)</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width:57%; background:#c62828;"></div>
+        </div>
+    </div>
+
             <div class="chart-container">
                 <canvas id="revenueChart" height="250"></canvas>
             </div>
@@ -169,10 +193,199 @@
         
     <div class="tier" id="tier2">
         <div class="tier-header" onclick="toggleTier('tier2-body')">
-            <h2>&#9656; Tier 2: Sales Pipeline (GHL)</h2>
+            <h2>&#9656; Tier 2: Financial Health</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
         <div class="tier-body" id="tier2-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Payroll % of Revenue</div>
+        <div class="card-value" style="color: #c62828;">36.2%</div>
+        
+        <div class="card-subtitle">Target: < 25%</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">NOI Margin</div>
+        <div class="card-value" style="color: #c62828;">-14.6%</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Monthly Cash Flow</div>
+        <div class="card-value" style="color: #c62828;">-$10,417.74</div>
+        
+        <div class="card-subtitle">After debt service</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Monthly Revenue Run Rate</div>
+        <div class="card-value">$37,068.26</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Debt Remaining</div>
+        <div class="card-value">$219,000.00</div>
+        
+        <div class="card-subtitle">Cash flow negative</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Monthly Burn</div>
+        <div class="card-value">$42,486.00</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Ad Spend (Weekly)</div>
+        <div class="card-value">$1,100.95</div>
+        
+        <div class="card-subtitle">ROAS: 2.5x</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Email Revenue</div>
+        <div class="card-value">$991.67</div>
+        
+        
+    </div>
+            </div>
+
+            <h3>Debt Paydown Progress</h3>
+            
+    <div class="progress-row">
+        <div class="progress-label">Paid: $0.00 of $219,000.00 (0%)</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width:0%; background:#1565c0;"></div>
+        </div>
+    </div>
+
+            <h3>Monthly Expense Breakdown</h3>
+            <table class="data-table">
+                <thead><tr><th>Category</th><th class="text-right">Monthly</th></tr></thead>
+                <tbody>
+                    <tr><td>Team (fixed)</td><td class="text-right">$13,431.00</td></tr><tr><td>Rana Commission (est.)</td><td class="text-right">$0.00</td></tr><tr><td>Google Ads</td><td class="text-right">$2,500.00</td></tr><tr><td>COGS & Shipping</td><td class="text-right">$8,750.00</td></tr><tr><td>Mentors (est.)</td><td class="text-right">$3,200.00</td></tr><tr><td>Payment Processing</td><td class="text-right">$3,200.00</td></tr><tr><td>Software & Services</td><td class="text-right">$6,646.00</td></tr><tr><td>Debt Service</td><td class="text-right">$5,000.00</td></tr>
+                    <tr style="font-weight: bold; border-top: 2px solid #333;">
+                        <td>Total Monthly Burn</td>
+                        <td class="text-right">$42,486.00</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="chart-container">
+                <canvas id="expenseChart" height="280"></canvas>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier3">
+        <div class="tier-header" onclick="toggleTier('tier3-body')">
+            <h2>&#9656; Tier 3: Google Ads</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier3-body">
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Ad Spend</div>
+        <div class="card-value">$1,100.95</div>
+        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">ROAS</div>
+        <div class="card-value" style="color: #e65100;">2.5x</div>
+        
+        <div class="card-subtitle">Target: > 3.0x</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Conversion Value</div>
+        <div class="card-value">$2,761.50</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Conversions</div>
+        <div class="card-value">28.0</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">CPA</div>
+        <div class="card-value">$39.32</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Clicks</div>
+        <div class="card-value">5,319</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Impressions</div>
+        <div class="card-value">75,994</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">CTR</div>
+        <div class="card-value">7.0%</div>
+        
+        
+    </div>
+            </div>
+
+            <h3>Shopping Product Health</h3>
+            <div class="card-grid">
+                
+    <div class="metric-card">
+        <div class="card-label">Active Products</div>
+        <div class="card-value" style="color: #2e7d32;">3</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Disapproved Products</div>
+        <div class="card-value" style="color: #c62828;">39</div>
+        
+        
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Disapproval Rate</div>
+        <div class="card-value" style="color: #c62828;">92.9%</div>
+        
+        <div class="card-subtitle">45% = lost revenue at 5.1x ROAS</div>
+    </div>
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="adsSpendROAS" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="adsProductHealth" height="280"></canvas></div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="tier" id="tier4">
+        <div class="tier-header" onclick="toggleTier('tier4-body')">
+            <h2>&#9656; Tier 4: Sales Pipeline (GHL)</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier4-body">
             <div class="card-grid">
                 
     <div class="metric-card">
@@ -237,59 +450,59 @@
         </div>
     </div>
         
-    <div class="tier" id="tier3">
-        <div class="tier-header" onclick="toggleTier('tier3-body')">
-            <h2>&#9656; Tier 3: Email Marketing (Klaviyo)</h2>
+    <div class="tier" id="tier5">
+        <div class="tier-header" onclick="toggleTier('tier5-body')">
+            <h2>&#9656; Tier 5: Email Marketing (Klaviyo)</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier3-body">
+        <div class="tier-body" id="tier5-body">
             <div class="card-grid">
                 
     <div class="metric-card">
         <div class="card-label">Email Revenue</div>
-        <div class="card-value">$2,184.69</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +14.6%</span></div>
+        <div class="card-value">$991.67</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -55.8%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Open Rate</div>
-        <div class="card-value">62.2%</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -2.2%</span></div>
+        <div class="card-value">61.9%</div>
+        <div class="card-wow"><span class="badge badge-green">&#9650; +0.1%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Click Rate</div>
-        <div class="card-value">0.6%</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +110.7%</span></div>
+        <div class="card-value">0.4%</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -7.7%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Click-to-Open</div>
-        <div class="card-value">0.9%</div>
+        <div class="card-value">0.6%</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">List Size</div>
-        <div class="card-value">15,773</div>
+        <div class="card-value">15,767</div>
         <div class="card-wow"><span class="badge badge-red">&#9660; -0.0%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Delivery Rate</div>
-        <div class="card-value">99.7%</div>
+        <div class="card-value">92.8%</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Spam Rate</div>
-        <div class="card-value">0.002%</div>
+        <div class="card-value">0.000%</div>
         
         <div class="card-subtitle">Target: < 0.1%</div>
     </div>
@@ -304,52 +517,52 @@
         </div>
     </div>
         
-    <div class="tier" id="tier4">
-        <div class="tier-header" onclick="toggleTier('tier4-body')">
-            <h2>&#9656; Tier 4: E-Commerce Detail (Shopify)</h2>
+    <div class="tier" id="tier6">
+        <div class="tier-header" onclick="toggleTier('tier6-body')">
+            <h2>&#9656; Tier 6: E-Commerce Detail (Shopify)</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier4-body">
+        <div class="tier-body" id="tier6-body">
             <div class="card-grid">
                 
     <div class="metric-card">
         <div class="card-label">Gross Revenue</div>
-        <div class="card-value">$8,933.01</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -8.8%</span></div>
+        <div class="card-value">$8,829.13</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -7.4%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Net Revenue</div>
-        <div class="card-value">$8,384.85</div>
+        <div class="card-value">$8,215.42</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Orders</div>
-        <div class="card-value">94</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -1.1%</span></div>
+        <div class="card-value">93</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -10.6%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">AOV</div>
-        <div class="card-value">$95.03</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -7.9%</span></div>
+        <div class="card-value">$94.94</div>
+        <div class="card-wow"><span class="badge badge-green">&#9650; +3.5%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">New Customers</div>
-        <div class="card-value">78</div>
+        <div class="card-value">69</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Returning Customers</div>
-        <div class="card-value">3</div>
+        <div class="card-value">4</div>
         
         
     </div>
@@ -363,7 +576,7 @@
                 
     <div class="metric-card">
         <div class="card-label">Return Rate</div>
-        <div class="card-value">106.0%</div>
+        <div class="card-value">0.0%</div>
         
         <div class="card-subtitle">Target: < 5%</div>
     </div>
@@ -372,29 +585,29 @@
             <h3>Top 5 Products</h3>
             <table class="data-table">
                 <thead><tr><th>Product</th><th class="text-right">Revenue</th><th class="text-right">Qty</th></tr></thead>
-                <tbody><tr><td>Holistic Total Body Support – Multivitam</td><td class="text-right">$3,013.11</td><td class="text-right">49</td></tr><tr><td>Hista Paws – with Quercetin for Dogs and</td><td class="text-right">$1,195.95</td><td class="text-right">24</td></tr><tr><td>Glacier Peak Pet Intolerance Test (Pet W</td><td class="text-right">$519.80</td><td class="text-right">4</td></tr><tr><td>Omega Pawz - Liquid Omega 3 Oil for Dogs</td><td class="text-right">$489.62</td><td class="text-right">13</td></tr><tr><td>PetsPEMF Pad - PEMF Mat for Dogs and Cat</td><td class="text-right">$439.00</td><td class="text-right">1</td></tr></tbody>
+                <tbody><tr><td>Holistic Pet Health Coach™ Certification</td><td class="text-right">$1,500.00</td><td class="text-right">1</td></tr><tr><td>Holistic Total Body Support – Multivitam</td><td class="text-right">$1,408.98</td><td class="text-right">23</td></tr><tr><td>Hista Paws – with Quercetin for Dogs and</td><td class="text-right">$779.88</td><td class="text-right">16</td></tr><tr><td>Glacier Peak Pet Intolerance Test (Pet W</td><td class="text-right">$649.75</td><td class="text-right">5</td></tr><tr><td>Pet's Daily Wellness Formula - For Pets </td><td class="text-right">$543.60</td><td class="text-right">10</td></tr></tbody>
             </table>
         </div>
     </div>
         
-    <div class="tier" id="tier5">
-        <div class="tier-header" onclick="toggleTier('tier5-body')">
-            <h2>&#9656; Tier 5: Payments &amp; Health (Stripe)</h2>
+    <div class="tier" id="tier7">
+        <div class="tier-header" onclick="toggleTier('tier7-body')">
+            <h2>&#9656; Tier 7: Payments &amp; Health (Stripe)</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier5-body">
+        <div class="tier-body" id="tier7-body">
             <div class="card-grid">
                 
     <div class="metric-card">
         <div class="card-label">Gross Volume</div>
-        <div class="card-value">$2,308.00</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +2208.0%</span></div>
+        <div class="card-value">$142.99</div>
+        <div class="card-wow"><span class="badge badge-red">&#9660; -93.2%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Net Revenue</div>
-        <div class="card-value">$2,228.64</div>
+        <div class="card-value">$137.22</div>
         
         
     </div>
@@ -429,14 +642,14 @@
                 
     <div class="metric-card">
         <div class="card-label">MRR</div>
-        <div class="card-value">$1,545.25</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -38.7%</span></div>
+        <div class="card-value">$1,672.73</div>
+        <div class="card-wow"><span class="badge badge-green">&#9650; +0.6%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Processing Fees</div>
-        <div class="card-value">$79.36</div>
+        <div class="card-value">$5.77</div>
         
         
     </div>
@@ -444,12 +657,12 @@
         </div>
     </div>
         
-    <div class="tier" id="tier6">
-        <div class="tier-header" onclick="toggleTier('tier6-body')">
-            <h2>&#9656; Tier 6: Coaching Program</h2>
+    <div class="tier" id="tier8">
+        <div class="tier-header" onclick="toggleTier('tier8-body')">
+            <h2>&#9656; Tier 8: Coaching Program</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier6-body">
+        <div class="tier-body" id="tier8-body">
             <div class="card-grid">
                 
     <div class="metric-card">
@@ -479,57 +692,71 @@
         
         
     </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Rana Commission</div>
+        <div class="card-value">$0.00</div>
+        
+        <div class="card-subtitle">10% of coaching revenue</div>
+    </div>
+                
+    <div class="metric-card">
+        <div class="card-label">Mentor Cost (est.)</div>
+        <div class="card-value">$739.03</div>
+        
+        <div class="card-subtitle">$800/student</div>
+    </div>
             </div>
         </div>
     </div>
         
-    <div class="tier" id="tier7">
-        <div class="tier-header" onclick="toggleTier('tier7-body')">
-            <h2>&#9656; Tier 7: Social Media</h2>
+    <div class="tier" id="tier9">
+        <div class="tier-header" onclick="toggleTier('tier9-body')">
+            <h2>&#9656; Tier 9: Social Media</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier7-body">
+        <div class="tier-body" id="tier9-body">
             <h3>YouTube</h3>
             <div class="card-grid">
                 
     <div class="metric-card">
         <div class="card-label">Subscribers</div>
-        <div class="card-value">7,070</div>
+        <div class="card-value">7,110</div>
         <div class="card-wow"><span class="badge badge-green">&#9650; +0.1%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Total Views</div>
-        <div class="card-value">592,014</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +0.1%</span></div>
+        <div class="card-value">594,814</div>
+        <div class="card-wow"><span class="badge badge-green">&#9650; +0.3%</span></div>
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Views This Week</div>
-        <div class="card-value">710</div>
+        <div class="card-value">1,499</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Watch Hours (est.)</div>
-        <div class="card-value">59.2</div>
+        <div class="card-value">124.9</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">New Videos</div>
-        <div class="card-value">1</div>
+        <div class="card-value">0</div>
         
         
     </div>
                 
     <div class="metric-card">
         <div class="card-label">Comments</div>
-        <div class="card-value">1</div>
+        <div class="card-value">0</div>
         
         
     </div>
@@ -540,7 +767,7 @@
                 <thead><tr><th>Title</th><th>Published</th><th class="text-right">Views</th>
                 <th class="text-right">Likes</th><th class="text-right">Comments</th>
                 <th class="text-right">Duration</th></tr></thead>
-                <tbody><tr><td>Healing Tails Episode 27: Transforming Pet Health </td><td>2026-03-11</td><td class="text-right">136</td><td class="text-right">5</td><td class="text-right">1</td><td class="text-right">35.2 min</td></tr><tr><td>🐱 Transform Your Cat's Wellness: The Revolutionary</td><td>2026-02-04</td><td class="text-right">92</td><td class="text-right">13</td><td class="text-right">1</td><td class="text-right">44.3 min</td></tr><tr><td>Hidden Health Clues: How Iridology Can Save Your P</td><td>2026-01-28</td><td class="text-right">107</td><td class="text-right">7</td><td class="text-right">0</td><td class="text-right">40.4 min</td></tr><tr><td>Listen to what your pet is telling you. Early awar</td><td>2026-01-20</td><td class="text-right">187</td><td class="text-right">8</td><td class="text-right">1</td><td class="text-right">1.4 min</td></tr><tr><td>Join me LIVE TOMORROW (January 14th) at 12pm ET fo</td><td>2026-01-13</td><td class="text-right">500</td><td class="text-right">11</td><td class="text-right">4</td><td class="text-right">0.6 min</td></tr></tbody>
+                <tbody><tr><td>Healing Tails Episode 27: Transforming Pet Health </td><td>2026-03-11</td><td class="text-right">160</td><td class="text-right">5</td><td class="text-right">1</td><td class="text-right">35.2 min</td></tr><tr><td>🐱 Transform Your Cat's Wellness: The Revolutionary</td><td>2026-02-04</td><td class="text-right">101</td><td class="text-right">13</td><td class="text-right">1</td><td class="text-right">44.3 min</td></tr><tr><td>Hidden Health Clues: How Iridology Can Save Your P</td><td>2026-01-28</td><td class="text-right">109</td><td class="text-right">7</td><td class="text-right">0</td><td class="text-right">40.4 min</td></tr><tr><td>Listen to what your pet is telling you. Early awar</td><td>2026-01-20</td><td class="text-right">189</td><td class="text-right">8</td><td class="text-right">1</td><td class="text-right">1.4 min</td></tr><tr><td>Join me LIVE TOMORROW (January 14th) at 12pm ET fo</td><td>2026-01-13</td><td class="text-right">506</td><td class="text-right">11</td><td class="text-right">4</td><td class="text-right">0.6 min</td></tr></tbody>
             </table>
 
             <h3>Facebook</h3>
@@ -625,16 +852,28 @@
         </div>
     </div>
         
-    <div class="tier" id="tier8">
-        <div class="tier-header" onclick="toggleTier('tier8-body')">
+    <div class="tier" id="tier10">
+        <div class="tier-header" onclick="toggleTier('tier10-body')">
             <h2>&#9656; Trends &amp; Year-over-Year</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier8-body">
+        <div class="tier-body" id="tier10-body">
             <h3>Revenue Trends</h3>
             <div class="chart-row">
                 <div class="chart-half"><canvas id="trendRevenue" height="280"></canvas></div>
                 <div class="chart-half"><canvas id="trendRevBySilo" height="280"></canvas></div>
+            </div>
+
+            <h3>Financial Health Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendNOI" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendPayroll" height="280"></canvas></div>
+            </div>
+
+            <h3>Google Ads Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendAdSpend" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendAdROAS" height="280"></canvas></div>
             </div>
 
             <h3>Email Marketing Trends</h3>
@@ -671,18 +910,18 @@
     </div>
 
     <div class="footer">
-        DRR Dashboard v1.0 | Data refreshed weekly Monday 6:00 AM Central
+        DRR Dashboard v2.0 | Data refreshed weekly Monday 6:00 AM Central
     </div>
 
     <script>
-    const chartData = {"revenue": {"ecommerce": 9431.27, "coaching": 23.0, "courses": 245.45}, "funnel": {"leads": 6, "booked": 0, "showed": 0, "closed": 0}, "trends": {"labels": ["1/4", "1/11", "1/18", "1/25", "2/1", "2/8", "2/15", "2/22", "3/1", "3/8"], "total_revenue": [0.0, 2893.95, 10874.54, 22822.38, 21945.77, 8804.68, 10898.15, 17376.01, 20159.41, 10008.87], "ecommerce_revenue": [0.0, 2785.96, 10038.79, 7011.41, 9510.66, 6547.71, 10356.16, 6840.0, 9106.2, 9655.34], "coaching_revenue": [0.0, 0.0, 225.0, 135.0, 0.0, 150.0, 135.0, 150.0, 480.0, 248.0], "course_revenue": [0.0, 107.99, 610.75, 15675.97, 12435.11, 2106.97, 406.99, 10386.01, 10573.21, 105.53], "email_revenue": [2935.27, 3383.21, 2983.5, 1844.15, 3441.57, 1110.75, 2723.19, 493.64, 6020.01, 1905.77], "open_rate": [63.7, 61.8, 62.8, 63.2, 64.9, 62.8, 64.8, 65.4, 65.3, 63.6], "click_rate": [0.11, 0.29, 0.64, 0.15, 0.49, 0.71, 0.35, 0.61, 0.47, 0.28], "list_size": [15774, 15774, 15774, 15774, 15774, 15774, 15774, 15774, 15246, 15774], "order_count": [0, 30, 113, 86, 117, 86, 115, 81, 112, 95], "aov": [0.0, 97.68, 93.84, 266.54, 184.94, 102.28, 88.2, 212.08, 166.6, 103.14], "new_customers": [98, 66, 75, 65, 86, 64, 56, 51, 62, 171], "mrr": [2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83], "gross_volume": [99.0, 742.44, 2132.0, 2915.0, 5581.0, 615.0, 2491.0, 200.0, 133.0, 100.0], "yt_subscribers": [7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060], "fb_followers": [86686, 86706, 86726, 86746, 86766, 86786, 86806, 86826, 86846, 86846], "ig_followers": [9331, 9341, 9351, 9361, 9371, 9381, 9391, 9401, 9411, 9411], "ig_engagement": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "new_leads": [3, 3, 3, 3, 3, 3, 3, 3, 3, 6], "booked": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "active_students": [80, 80, 80, 80, 80, 80, 80, 80, 80, 80]}};
+    const chartData = {"revenue": {"ecommerce": 6917.58, "coaching": 0.0, "courses": 1643.22}, "funnel": {"leads": 6, "booked": 0, "showed": 0, "closed": 0}, "expense": {"labels": ["Team (fixed)", "Rana Commission (est.)", "Google Ads", "COGS & Shipping", "Mentors (est.)", "Payment Processing", "Software & Services", "Debt Service"], "values": [13431, 0.0, 2500, 8750, 3200, 3200, 6646, 5000]}, "ads": {"active": 3, "disapproved": 39, "spend": 1100.95, "roas": 2.51}, "trends": {"labels": ["1/4", "1/11", "1/18", "1/25", "2/1", "2/8", "2/15", "2/22", "3/1", "3/8", "3/15", "3/22", "3/29"], "total_revenue": [0.0, 2893.95, 10874.54, 22822.38, 21945.77, 8804.68, 10898.15, 17376.01, 20159.41, 10008.87, 9699.72, 9588.98, 8560.8], "ecommerce_revenue": [0.0, 2785.96, 10038.79, 7011.41, 9510.66, 6547.71, 10356.16, 6840.0, 9106.2, 9655.34, 9431.27, 9032.62, 6917.58], "coaching_revenue": [0.0, 0.0, 225.0, 135.0, 0.0, 150.0, 135.0, 150.0, 480.0, 248.0, 23.0, 100.0, 0.0], "course_revenue": [0.0, 107.99, 610.75, 15675.97, 12435.11, 2106.97, 406.99, 10386.01, 10573.21, 105.53, 245.45, 456.36, 1643.22], "email_revenue": [2935.27, 3383.21, 2983.5, 1844.15, 3441.57, 1110.75, 2723.19, 493.64, 6020.01, 1905.77, 2184.69, 2241.61, 991.67], "open_rate": [63.7, 61.8, 62.8, 63.2, 64.9, 62.8, 64.8, 65.4, 65.3, 63.6, 62.2, 61.8, 61.9], "click_rate": [0.11, 0.29, 0.64, 0.15, 0.49, 0.71, 0.35, 0.61, 0.47, 0.28, 0.59, 0.39, 0.36], "list_size": [15774, 15774, 15774, 15774, 15774, 15774, 15774, 15774, 15246, 15774, 15773, 15769, 15767], "order_count": [0, 30, 113, 86, 117, 86, 115, 81, 112, 95, 94, 104, 93], "aov": [0.0, 97.68, 93.84, 266.54, 184.94, 102.28, 88.2, 212.08, 166.6, 103.14, 95.03, 91.72, 94.94], "new_customers": [98, 66, 75, 65, 86, 64, 56, 51, 62, 171, 78, 100, 69], "mrr": [2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 1545.25, 1662.74, 1672.73], "gross_volume": [99.0, 742.44, 2132.0, 2915.0, 5581.0, 615.0, 2491.0, 200.0, 133.0, 100.0, 2308.0, 2097.18, 142.99], "yt_subscribers": [7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7070, 7100, 7110], "fb_followers": [86686, 86706, 86726, 86746, 86766, 86786, 86806, 86826, 86846, 86846, 86846, 86846, 86846], "ig_followers": [9331, 9341, 9351, 9361, 9371, 9381, 9391, 9401, 9411, 9411, 9411, 9411, 9411], "ig_engagement": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "new_leads": [3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6], "booked": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "active_students": [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80], "noi_weekly": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -223.03, -1251.21], "payroll_pct": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 32.5, 36.2], "weekly_burn": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 9812.01, 9812.01], "ad_spend": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1100.95], "ad_roas": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 2.51]}};
 
     function toggleTier(id) {
         const el = document.getElementById(id);
         if (el) el.classList.toggle('collapsed');
     }
 
-    // Revenue Pie Chart
+    // Revenue Doughnut Chart
     const revCtx = document.getElementById('revenueChart');
     if (revCtx) {
         new Chart(revCtx, {
@@ -701,6 +940,33 @@
                 plugins: {
                     legend: { position: 'right' },
                     title: { display: true, text: 'Revenue by Silo' }
+                }
+            }
+        });
+    }
+
+    // Expense Breakdown Pie Chart
+    const expCtx = document.getElementById('expenseChart');
+    if (expCtx) {
+        new Chart(expCtx, {
+            type: 'doughnut',
+            data: {
+                labels: chartData.expense.labels,
+                datasets: [{
+                    data: chartData.expense.values,
+                    backgroundColor: [
+                        '#2e7d32', '#43a047', '#1565c0', '#e65100',
+                        '#6a1b9a', '#00838f', '#ef6c00', '#c62828'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right', labels: { font: { size: 11 } } },
+                    title: { display: true, text: 'Monthly Expense Breakdown' }
                 }
             }
         });
@@ -727,6 +993,67 @@
                     title: { display: true, text: 'Sales Funnel' }
                 },
                 scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    // Google Ads: Spend vs ROAS dual-axis (will populate with trend data)
+    const adsSpendCtx = document.getElementById('adsSpendROAS');
+    if (adsSpendCtx && chartData.ads.spend > 0) {
+        new Chart(adsSpendCtx, {
+            type: 'bar',
+            data: {
+                labels: ['This Week'],
+                datasets: [
+                    {
+                        label: 'Spend',
+                        data: [chartData.ads.spend],
+                        backgroundColor: '#1565c0',
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                    },
+                    {
+                        label: 'Return',
+                        data: [chartData.ads.spend * chartData.ads.roas],
+                        backgroundColor: '#2e7d32',
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Ad Spend vs Return' },
+                    legend: { position: 'bottom' }
+                },
+                scales: {
+                    y: { beginAtZero: true, ticks: { callback: v => '$' + v.toLocaleString() } }
+                }
+            }
+        });
+    }
+
+    // Google Ads: Product Health Doughnut
+    const adsHealthCtx = document.getElementById('adsProductHealth');
+    if (adsHealthCtx && (chartData.ads.active > 0 || chartData.ads.disapproved > 0)) {
+        new Chart(adsHealthCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Active', 'Disapproved'],
+                datasets: [{
+                    data: [chartData.ads.active, chartData.ads.disapproved],
+                    backgroundColor: ['#2e7d32', '#c62828'],
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: { display: true, text: 'Shopping Product Status' },
+                    legend: { position: 'bottom' }
+                }
             }
         });
     }
@@ -780,9 +1107,9 @@
             data: {
                 labels: T.labels,
                 datasets: [
-                    { label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.08)', fill: false, borderWidth: 2 },
-                    { label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.08)', fill: false, borderWidth: 2 },
-                    { label: 'Courses', data: T.course_revenue, borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,.08)', fill: false, borderWidth: 2 },
+                    { label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
+                    { label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', fill: false, borderWidth: 2 },
+                    { label: 'Courses', data: T.course_revenue, borderColor: '#e65100', fill: false, borderWidth: 2 },
                 ]
             },
             options: { ...lineDefaults.options,
@@ -791,7 +1118,94 @@
             }
         });
 
-        // 3 ── Email Revenue
+        // 3 ── NOI Trend
+        if (document.getElementById('trendNOI')) {
+            new Chart(document.getElementById('trendNOI'), {
+                ...lineDefaults,
+                data: {
+                    labels: T.labels,
+                    datasets: [
+                        { label: 'Revenue', data: T.total_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
+                        { label: 'Burn', data: T.weekly_burn, borderColor: '#c62828', borderDash: [5,5], fill: false, borderWidth: 2 },
+                        { label: 'NOI', data: T.noi_weekly, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)', fill: true, borderWidth: 2 },
+                    ]
+                },
+                options: { ...lineDefaults.options,
+                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Revenue vs Burn vs NOI' } },
+                    scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                }
+            });
+        }
+
+        // 4 ── Payroll % Trend
+        if (document.getElementById('trendPayroll')) {
+            new Chart(document.getElementById('trendPayroll'), {
+                ...lineDefaults,
+                data: {
+                    labels: T.labels,
+                    datasets: [{
+                        label: 'Payroll %',
+                        data: T.payroll_pct,
+                        borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                        fill: true, borderWidth: 2,
+                    }]
+                },
+                options: { ...lineDefaults.options,
+                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Payroll as % of Revenue' } },
+                    scales: {
+                        x: lineDefaults.options.scales.x,
+                        y: { ...pctAxis(lineDefaults.options.scales.y),
+                            suggestedMax: 40
+                        }
+                    }
+                }
+            });
+        }
+
+        // 5 ── Ad Spend Trend
+        if (document.getElementById('trendAdSpend') && T.ad_spend) {
+            new Chart(document.getElementById('trendAdSpend'), {
+                ...lineDefaults,
+                data: {
+                    labels: T.labels,
+                    datasets: [{
+                        label: 'Ad Spend',
+                        data: T.ad_spend,
+                        borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
+                        fill: true, borderWidth: 2,
+                    }]
+                },
+                options: { ...lineDefaults.options,
+                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Weekly Ad Spend' } },
+                    scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                }
+            });
+        }
+
+        // 6 ── Ad ROAS Trend
+        if (document.getElementById('trendAdROAS') && T.ad_roas) {
+            new Chart(document.getElementById('trendAdROAS'), {
+                ...lineDefaults,
+                data: {
+                    labels: T.labels,
+                    datasets: [{
+                        label: 'ROAS',
+                        data: T.ad_roas,
+                        borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                        fill: true, borderWidth: 2,
+                    }]
+                },
+                options: { ...lineDefaults.options,
+                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Google Ads ROAS' } },
+                    scales: {
+                        x: lineDefaults.options.scales.x,
+                        y: { ...lineDefaults.options.scales.y, ticks: { callback: v => v + 'x' }, suggestedMin: 0 }
+                    }
+                }
+            });
+        }
+
+        // 7 ── Email Revenue
         new Chart(document.getElementById('trendEmailRev'), {
             ...lineDefaults,
             data: {
@@ -809,7 +1223,7 @@
             }
         });
 
-        // 4 ── Email Open & Click Rates
+        // 8 ── Email Open & Click Rates
         new Chart(document.getElementById('trendEmailRates'), {
             ...lineDefaults,
             data: {
@@ -829,7 +1243,7 @@
             }
         });
 
-        // 5 ── Orders
+        // 9 ── Orders
         new Chart(document.getElementById('trendOrders'), {
             ...lineDefaults,
             data: {
@@ -844,7 +1258,7 @@
             }
         });
 
-        // 6 ── AOV
+        // 10 ── AOV
         new Chart(document.getElementById('trendAOV'), {
             ...lineDefaults,
             data: {
@@ -862,7 +1276,7 @@
             }
         });
 
-        // 7 ── MRR
+        // 11 ── MRR
         new Chart(document.getElementById('trendMRR'), {
             ...lineDefaults,
             data: {
@@ -880,7 +1294,7 @@
             }
         });
 
-        // 8 ── Stripe Volume
+        // 12 ── Stripe Volume
         new Chart(document.getElementById('trendStripeVol'), {
             ...lineDefaults,
             data: {
@@ -898,7 +1312,7 @@
             }
         });
 
-        // 9 ── Social: FB + IG
+        // 13 ── Social: FB + IG
         new Chart(document.getElementById('trendSocial'), {
             ...lineDefaults,
             data: {
@@ -913,7 +1327,7 @@
             }
         });
 
-        // 10 ── YouTube
+        // 14 ── YouTube
         new Chart(document.getElementById('trendYT'), {
             ...lineDefaults,
             data: {
@@ -930,7 +1344,7 @@
             }
         });
 
-        // 11 ── Pipeline
+        // 15 ── Pipeline
         new Chart(document.getElementById('trendPipeline'), {
             ...lineDefaults,
             data: {
@@ -945,7 +1359,7 @@
             }
         });
 
-        // 12 ── Active Students
+        // 16 ── Active Students
         new Chart(document.getElementById('trendStudents'), {
             ...lineDefaults,
             data: {

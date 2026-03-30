@@ -23,6 +23,7 @@ from collectors.klaviyo_collector import collect_weekly_data as collect_klaviyo
 from collectors.stripe_collector import collect_weekly_data as collect_stripe
 from collectors.ghl_collector import collect_weekly_data as collect_ghl
 from collectors.social_collector import collect_weekly_data as collect_social
+from collectors.google_ads_collector import collect_weekly_data as collect_google_ads
 
 from cross_platform import calculate_cross_platform
 from sheets_writer import write_all_weekly_data, write_alert, get_previous_week_data
@@ -92,6 +93,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
         ('stripe', collect_stripe, 'Stripe'),
         ('ghl', collect_ghl, 'GoHighLevel'),
         ('social', collect_social, 'Social Media'),
+        ('google_ads', collect_google_ads, 'Google Ads'),
     ]
 
     for key, collector_fn, display_name in collectors:
@@ -142,6 +144,22 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
     if not dry_run:
         logger.info("--- Writing to Google Sheets ---")
         try:
+            # Build financial data for its own sheet tab
+            financial_sheet_data = {
+                'week_ending_date': cross_data.get('week_ending_date', ''),
+                'weekly_revenue': cross_data.get('total_revenue', 0),
+                'monthly_revenue_run_rate': cross_data.get('monthly_revenue_run_rate', 0),
+                'weekly_burn': cross_data.get('weekly_burn', 0),
+                'monthly_burn': cross_data.get('monthly_burn', 0),
+                'noi': cross_data.get('noi_weekly', 0),
+                'noi_margin': cross_data.get('noi_margin', 0),
+                'payroll_pct': cross_data.get('payroll_pct_of_revenue', 0),
+                'debt_remaining': cross_data.get('debt_remaining', 0),
+                'months_to_debt_free': cross_data.get('months_to_debt_free', 0),
+                'cash_flow_weekly': cross_data.get('weekly_cash_flow', 0),
+                'revenue_vs_target_pct': cross_data.get('revenue_vs_target_pct', 0),
+            }
+
             sheet_results = write_all_weekly_data(
                 shopify_data=all_data.get('shopify', {}),
                 klaviyo_data=all_data.get('klaviyo', {}),
@@ -149,6 +167,8 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
                 stripe_data=all_data.get('stripe', {}),
                 social_data=all_data.get('social', {}),
                 cross_platform_data=cross_data,
+                google_ads_data=all_data.get('google_ads', {}),
+                financial_data=financial_sheet_data,
                 overwrite=overwrite,
             )
             for tab, status in sheet_results.items():
@@ -200,6 +220,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
             'stripe': None,
             'ghl': None,
             'social': None,
+            'google_ads': None,
         }
         if history and len(history) >= 2:
             # Find the snapshot just before the current week
@@ -210,7 +231,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
             if prev_snap:
                 # Snapshots store platform data under 'all_data' key
                 snap_data = prev_snap.get('all_data', prev_snap)
-                for key in ['shopify', 'klaviyo', 'stripe', 'ghl', 'social']:
+                for key in ['shopify', 'klaviyo', 'stripe', 'ghl', 'social', 'google_ads']:
                     previous_data[key] = snap_data.get(key) or {}
                 previous_data['cross_platform'] = prev_snap.get('cross_platform') or {}
                 logger.info(f"Previous week data loaded from snapshot {prev_snap.get('week_ending_date')}")
@@ -222,6 +243,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
                 ('stripe', 'Stripe_Weekly'),
                 ('ghl', 'GHL_Weekly'),
                 ('social', 'Social_Weekly'),
+                ('google_ads', 'GoogleAds_Weekly'),
             ]:
                 try:
                     previous_data[key] = get_previous_week_data(tab, week_ending_date)

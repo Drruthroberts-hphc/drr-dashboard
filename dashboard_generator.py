@@ -2,12 +2,15 @@
 Dashboard HTML Generator
 ========================
 Generates a single-file interactive HTML dashboard with Chart.js charts,
-7 collapsible tiers, and 54 KPIs. Output is suitable for GitHub Pages.
+9 collapsible tiers (including Financial Health and Google Ads), and 70+ KPIs.
+Output is suitable for GitHub Pages.
 """
 
 import json
 import logging
 from datetime import datetime
+
+from config import FINANCIAL
 
 logger = logging.getLogger(__name__)
 
@@ -16,6 +19,8 @@ def _fmt_money(val):
     """Format as currency."""
     try:
         v = float(val)
+        if v < 0:
+            return f"-${abs(v):,.2f}"
         return f"${v:,.2f}"
     except (ValueError, TypeError):
         return "$0.00"
@@ -69,29 +74,46 @@ def _wow_badge(current, previous, is_inverse=False):
     return f'<span class="badge {css}">{arrow} {pct}</span>'
 
 
-def _metric_card(label, value, wow_html="", subtitle=""):
+def _metric_card(label, value, wow_html="", subtitle="", color=None):
     """Generate a metric card HTML snippet."""
     sub = f'<div class="card-subtitle">{subtitle}</div>' if subtitle else ""
     wow = f'<div class="card-wow">{wow_html}</div>' if wow_html else ""
+    val_style = f' style="color: {color};"' if color else ""
     return f"""
     <div class="metric-card">
         <div class="card-label">{label}</div>
-        <div class="card-value">{value}</div>
+        <div class="card-value"{val_style}>{value}</div>
         {wow}
         {sub}
+    </div>"""
+
+
+def _progress_bar(label, current, target, color="#2e7d32", show_pct=True):
+    """Generate a progress bar HTML snippet."""
+    try:
+        pct = min((float(current) / float(target)) * 100, 100) if float(target) > 0 else 0
+    except (ValueError, TypeError):
+        pct = 0
+    pct_label = f" ({pct:.0f}%)" if show_pct else ""
+    bar_color = color if pct < 100 else "#2e7d32"
+    return f"""
+    <div class="progress-row">
+        <div class="progress-label">{label}{pct_label}</div>
+        <div class="progress-track">
+            <div class="progress-fill" style="width:{pct:.0f}%; background:{bar_color};"></div>
+        </div>
     </div>"""
 
 
 def _build_trend_data(history):
     """
     Extract time-series arrays from snapshot history for Chart.js.
-
     Returns a dict ready for JSON serialization with labels and datasets.
     """
     if not history:
         return {}
 
-    labels = []  # week-ending dates as "M/D" strings
+    labels = []
 
     # Revenue
     total_revenue = []
@@ -125,12 +147,19 @@ def _build_trend_data(history):
     booked = []
     active_students = []
 
+    # Financial
+    noi_weekly = []
+    payroll_pct = []
+    weekly_burn = []
+
+    # Google Ads
+    ad_spend = []
+    ad_roas = []
+
     for snap in history:
-        # Label: "1/4", "1/11", etc.
         wed = snap.get('week_ending_date', '')
         try:
-            from datetime import datetime as _dt
-            d = _dt.strptime(wed, '%Y-%m-%d')
+            d = datetime.strptime(wed, '%Y-%m-%d')
             labels.append(f"{d.month}/{d.day}")
         except Exception:
             labels.append(wed[-5:] if len(wed) >= 5 else wed)
@@ -142,6 +171,7 @@ def _build_trend_data(history):
         st = ad.get('stripe', {})
         gh = ad.get('ghl', {})
         so = ad.get('social', {})
+        ga = ad.get('google_ads', {})
 
         # Revenue
         total_revenue.append(float(cp.get('total_revenue', 0)))
@@ -175,6 +205,15 @@ def _build_trend_data(history):
         booked.append(int(gh.get('booked_appointments', 0)))
         active_students.append(int(gh.get('active_students', 0)))
 
+        # Financial
+        noi_weekly.append(float(cp.get('noi_weekly', 0)))
+        payroll_pct.append(round(float(cp.get('payroll_pct_of_revenue', 0)) * 100, 1))
+        weekly_burn.append(float(cp.get('weekly_burn', 0)))
+
+        # Google Ads
+        ad_spend.append(float(ga.get('ad_spend', 0)))
+        ad_roas.append(float(ga.get('roas', 0)))
+
     return {
         'labels': labels,
         'total_revenue': total_revenue,
@@ -197,6 +236,11 @@ def _build_trend_data(history):
         'new_leads': new_leads,
         'booked': booked,
         'active_students': active_students,
+        'noi_weekly': noi_weekly,
+        'payroll_pct': payroll_pct,
+        'weekly_burn': weekly_burn,
+        'ad_spend': ad_spend,
+        'ad_roas': ad_roas,
     }
 
 
@@ -205,7 +249,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     Generate the full single-file HTML dashboard.
 
     Args:
-        all_data: dict with 'shopify', 'klaviyo', 'stripe', 'ghl', 'social' data
+        all_data: dict with 'shopify', 'klaviyo', 'stripe', 'ghl', 'social', 'google_ads' data
         cross_data: dict with cross-platform metrics
         alerts: list of triggered alerts
         previous_data: dict with previous week's data (same structure as all_data)
@@ -223,6 +267,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     stripe_data = all_data.get('stripe') or {}
     ghl = all_data.get('ghl') or {}
     social = all_data.get('social') or {}
+    google_ads = all_data.get('google_ads') or {}
 
     prev = previous_data or {}
     prev_shopify = prev.get('shopify') or {}
@@ -231,6 +276,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     prev_ghl = prev.get('ghl') or {}
     prev_social = prev.get('social') or {}
     prev_cross = prev.get('cross_platform') or {}
+    prev_google_ads = prev.get('google_ads') or {}
 
     # Alert banner
     alert_banner = ""
@@ -246,7 +292,20 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             <ul>{items}</ul>
         </div>"""
 
-    # ── Tier 1: Executive Overview ────────────────────────────────────────
+    # ── Revenue vs Target gauge ───────────────────────────────────────────
+    rev_target_pct = float(cross_data.get('revenue_vs_target_pct', 0))
+    weekly_target = float(cross_data.get('weekly_target', 0))
+    rev_target_color = "#2e7d32" if rev_target_pct >= 0.9 else "#e65100" if rev_target_pct >= 0.7 else "#c62828"
+
+    # NOI color
+    noi_val = float(cross_data.get('noi_weekly', 0))
+    noi_color = "#2e7d32" if noi_val >= 0 else "#c62828"
+
+    # Cash flow color
+    cf_val = float(cross_data.get('weekly_cash_flow', 0))
+    cf_color = "#2e7d32" if cf_val >= 0 else "#c62828"
+
+    # ── Tier 1: Executive Overview (enhanced) ─────────────────────────────
     tier1 = f"""
     <div class="tier" id="tier1">
         <div class="tier-header" onclick="toggleTier('tier1-body')">
@@ -264,25 +323,153 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                     _wow_badge(cross_data.get('coaching_revenue',0), prev_cross.get('coaching_revenue',0)))}
                 {_metric_card("Courses", _fmt_money(cross_data.get('course_revenue', 0)),
                     _wow_badge(cross_data.get('course_revenue',0), prev_cross.get('course_revenue',0)))}
-                {_metric_card("Email Revenue", _fmt_money(cross_data.get('total_email_revenue', 0)))}
-                {_metric_card("MRR", _fmt_money(stripe_data.get('mrr', 0)))}
-                {_metric_card("Net Profit/Loss", _fmt_money(cross_data.get('net_profit_loss', 0)))}
+                {_metric_card("NOI (Weekly)", _fmt_money(noi_val), color=noi_color,
+                    subtitle=f"Margin: {_fmt_pct(cross_data.get('noi_margin', 0))}")}
+                {_metric_card("Cash Flow (Weekly)", _fmt_money(cf_val), color=cf_color)}
+                {_metric_card("Monthly Burn", _fmt_money(cross_data.get('monthly_burn', 0)),
+                    subtitle="Verified from bank data")}
                 {_metric_card("Active Students", _fmt_int(ghl.get('active_students', 0)))}
             </div>
+
+            <h3>Revenue vs Target</h3>
+            {_progress_bar(
+                f"Weekly: {_fmt_money(cross_data.get('total_revenue',0))} / {_fmt_money(weekly_target)}",
+                cross_data.get('total_revenue', 0), weekly_target, color=rev_target_color
+            )}
+            {_progress_bar(
+                f"Monthly run rate: {_fmt_money(cross_data.get('monthly_revenue_run_rate',0))} / {_fmt_money(cross_data.get('revenue_target_monthly',0))}",
+                cross_data.get('monthly_revenue_run_rate', 0), cross_data.get('revenue_target_monthly', 0),
+                color=rev_target_color
+            )}
+
             <div class="chart-container">
                 <canvas id="revenueChart" height="250"></canvas>
             </div>
         </div>
     </div>"""
 
-    # ── Tier 2: Sales Pipeline (GHL) ──────────────────────────────────────
+    # ── Tier 2: Financial Health ──────────────────────────────────────────
+    payroll_pct = float(cross_data.get('payroll_pct_of_revenue', 0))
+    payroll_color = "#2e7d32" if payroll_pct < 0.25 else "#e65100" if payroll_pct < 0.30 else "#c62828"
+
+    debt_remaining = float(cross_data.get('debt_remaining', 0))
+    months_dtf = float(cross_data.get('months_to_debt_free', 999))
+
+    # Build expense breakdown table
+    expense_rows = ""
+    categories = [
+        ("Team (fixed)", FINANCIAL['team_fixed_total']),
+        ("Rana Commission (est.)", float(cross_data.get('rana_commission', 0)) * 4.33),
+        ("Google Ads", FINANCIAL['google_ads_budget']),
+        ("COGS & Shipping", FINANCIAL['cogs_standard_process'] + FINANCIAL['cogs_other'] + FINANCIAL['healthy_life_shipping']),
+        ("Mentors (est.)", FINANCIAL['mentor_monthly_est']),
+        ("Payment Processing", FINANCIAL['stripe_processing_est'] + FINANCIAL['shopify_fees_est'] + FINANCIAL['paypal_fees_est']),
+        ("Software & Services", FINANCIAL['services_total']),
+        ("Debt Service", FINANCIAL['monthly_debt_service']),
+    ]
+    for cat_name, cat_amount in categories:
+        expense_rows += f'<tr><td>{cat_name}</td><td class="text-right">{_fmt_money(cat_amount)}</td></tr>'
+
     tier2 = f"""
     <div class="tier" id="tier2">
         <div class="tier-header" onclick="toggleTier('tier2-body')">
-            <h2>&#9656; Tier 2: Sales Pipeline (GHL)</h2>
+            <h2>&#9656; Tier 2: Financial Health</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
         <div class="tier-body" id="tier2-body">
+            <div class="card-grid">
+                {_metric_card("Payroll % of Revenue", _fmt_pct(payroll_pct), color=payroll_color,
+                    subtitle="Target: < 25%")}
+                {_metric_card("NOI Margin", _fmt_pct(cross_data.get('noi_margin', 0)),
+                    color=noi_color)}
+                {_metric_card("Monthly Cash Flow", _fmt_money(cross_data.get('monthly_cash_flow', 0)),
+                    color=cf_color, subtitle="After debt service")}
+                {_metric_card("Monthly Revenue Run Rate", _fmt_money(cross_data.get('monthly_revenue_run_rate', 0)))}
+                {_metric_card("Debt Remaining", _fmt_money(debt_remaining),
+                    subtitle=f"~{months_dtf:.0f} months to debt-free" if months_dtf < 900 else "Cash flow negative")}
+                {_metric_card("Monthly Burn", _fmt_money(cross_data.get('monthly_burn', 0)))}
+                {_metric_card("Ad Spend (Weekly)", _fmt_money(cross_data.get('ad_spend_weekly', 0)),
+                    subtitle=f"ROAS: {cross_data.get('ad_roas', 0):.1f}x")}
+                {_metric_card("Email Revenue", _fmt_money(cross_data.get('total_email_revenue', 0)))}
+            </div>
+
+            <h3>Debt Paydown Progress</h3>
+            {_progress_bar(
+                f"Paid: {_fmt_money(FINANCIAL['total_debt'] - debt_remaining)} of {_fmt_money(FINANCIAL['total_debt'])}",
+                FINANCIAL['total_debt'] - debt_remaining, FINANCIAL['total_debt'], color="#1565c0"
+            )}
+
+            <h3>Monthly Expense Breakdown</h3>
+            <table class="data-table">
+                <thead><tr><th>Category</th><th class="text-right">Monthly</th></tr></thead>
+                <tbody>
+                    {expense_rows}
+                    <tr style="font-weight: bold; border-top: 2px solid #333;">
+                        <td>Total Monthly Burn</td>
+                        <td class="text-right">{_fmt_money(FINANCIAL['total_monthly_burn'])}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="chart-container">
+                <canvas id="expenseChart" height="280"></canvas>
+            </div>
+        </div>
+    </div>"""
+
+    # ── Tier 3: Google Ads ────────────────────────────────────────────────
+    ga_spend = float(google_ads.get('ad_spend', 0))
+    ga_roas = float(google_ads.get('roas', 0))
+    ga_disapproval = float(google_ads.get('disapproval_rate', 0))
+    roas_color = "#2e7d32" if ga_roas >= 3.0 else "#e65100" if ga_roas >= 2.0 else "#c62828"
+    disapproval_color = "#c62828" if ga_disapproval > 0.20 else "#e65100" if ga_disapproval > 0.10 else "#2e7d32"
+
+    tier3 = f"""
+    <div class="tier" id="tier3">
+        <div class="tier-header" onclick="toggleTier('tier3-body')">
+            <h2>&#9656; Tier 3: Google Ads</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier3-body">
+            <div class="card-grid">
+                {_metric_card("Ad Spend", _fmt_money(ga_spend),
+                    _wow_badge(ga_spend, float(prev_google_ads.get('ad_spend', 0))))}
+                {_metric_card("ROAS", f"{ga_roas:.1f}x", color=roas_color,
+                    subtitle="Target: > 3.0x")}
+                {_metric_card("Conversion Value", _fmt_money(google_ads.get('conversion_value', 0)))}
+                {_metric_card("Conversions", _fmt_float(google_ads.get('conversions', 0)))}
+                {_metric_card("CPA", _fmt_money(google_ads.get('cpa', 0)))}
+                {_metric_card("Clicks", _fmt_int(google_ads.get('clicks', 0)))}
+                {_metric_card("Impressions", _fmt_int(google_ads.get('impressions', 0)))}
+                {_metric_card("CTR", _fmt_pct(google_ads.get('ctr', 0)))}
+            </div>
+
+            <h3>Shopping Product Health</h3>
+            <div class="card-grid">
+                {_metric_card("Active Products", _fmt_int(google_ads.get('active_products', 0)),
+                    color="#2e7d32")}
+                {_metric_card("Disapproved Products", _fmt_int(google_ads.get('disapproved_products', 0)),
+                    color=disapproval_color)}
+                {_metric_card("Disapproval Rate", _fmt_pct(ga_disapproval),
+                    color=disapproval_color,
+                    subtitle="45% = lost revenue at 5.1x ROAS" if ga_disapproval > 0.40 else "Target: < 10%")}
+            </div>
+
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="adsSpendROAS" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="adsProductHealth" height="280"></canvas></div>
+            </div>
+        </div>
+    </div>"""
+
+    # ── Tier 4: Sales Pipeline (GHL) ──────────────────────────────────────
+    tier4 = f"""
+    <div class="tier" id="tier4">
+        <div class="tier-header" onclick="toggleTier('tier4-body')">
+            <h2>&#9656; Tier 4: Sales Pipeline (GHL)</h2>
+            <span class="tier-toggle">&#9660;</span>
+        </div>
+        <div class="tier-body" id="tier4-body">
             <div class="card-grid">
                 {_metric_card("New Leads", _fmt_int(ghl.get('new_leads', 0)),
                     _wow_badge(ghl.get('new_leads',0), prev_ghl.get('new_leads',0)))}
@@ -302,14 +489,14 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         </div>
     </div>"""
 
-    # ── Tier 3: Email Marketing (Klaviyo) ─────────────────────────────────
-    tier3 = f"""
-    <div class="tier" id="tier3">
-        <div class="tier-header" onclick="toggleTier('tier3-body')">
-            <h2>&#9656; Tier 3: Email Marketing (Klaviyo)</h2>
+    # ── Tier 5: Email Marketing (Klaviyo) ─────────────────────────────────
+    tier5 = f"""
+    <div class="tier" id="tier5">
+        <div class="tier-header" onclick="toggleTier('tier5-body')">
+            <h2>&#9656; Tier 5: Email Marketing (Klaviyo)</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier3-body">
+        <div class="tier-body" id="tier5-body">
             <div class="card-grid">
                 {_metric_card("Email Revenue", _fmt_money(klaviyo.get('email_attributed_revenue', 0)),
                     _wow_badge(klaviyo.get('email_attributed_revenue',0), prev_klaviyo.get('email_attributed_revenue',0)))}
@@ -328,7 +515,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         </div>
     </div>"""
 
-    # ── Tier 4: E-Commerce Detail (Shopify) ───────────────────────────────
+    # ── Tier 6: E-Commerce Detail (Shopify) ───────────────────────────────
     top_products_html = ""
     try:
         top_products = json.loads(shopify.get('top_products_json', '[]'))
@@ -348,13 +535,13 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     except (json.JSONDecodeError, TypeError):
         pass
 
-    tier4 = f"""
-    <div class="tier" id="tier4">
-        <div class="tier-header" onclick="toggleTier('tier4-body')">
-            <h2>&#9656; Tier 4: E-Commerce Detail (Shopify)</h2>
+    tier6 = f"""
+    <div class="tier" id="tier6">
+        <div class="tier-header" onclick="toggleTier('tier6-body')">
+            <h2>&#9656; Tier 6: E-Commerce Detail (Shopify)</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier4-body">
+        <div class="tier-body" id="tier6-body">
             <div class="card-grid">
                 {_metric_card("Gross Revenue", _fmt_money(shopify.get('gross_revenue', 0)),
                     _wow_badge(shopify.get('gross_revenue',0), prev_shopify.get('gross_revenue',0)))}
@@ -373,14 +560,14 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         </div>
     </div>"""
 
-    # ── Tier 5: Payments & Health (Stripe) ────────────────────────────────
-    tier5 = f"""
-    <div class="tier" id="tier5">
-        <div class="tier-header" onclick="toggleTier('tier5-body')">
-            <h2>&#9656; Tier 5: Payments &amp; Health (Stripe)</h2>
+    # ── Tier 7: Payments & Health (Stripe) ────────────────────────────────
+    tier7 = f"""
+    <div class="tier" id="tier7">
+        <div class="tier-header" onclick="toggleTier('tier7-body')">
+            <h2>&#9656; Tier 7: Payments &amp; Health (Stripe)</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier5-body">
+        <div class="tier-body" id="tier7-body">
             <div class="card-grid">
                 {_metric_card("Gross Volume", _fmt_money(stripe_data.get('gross_payment_volume', 0)),
                     _wow_badge(stripe_data.get('gross_payment_volume',0), prev_stripe.get('gross_payment_volume',0)))}
@@ -398,14 +585,14 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         </div>
     </div>"""
 
-    # ── Tier 6: Coaching Program ──────────────────────────────────────────
-    tier6 = f"""
-    <div class="tier" id="tier6">
-        <div class="tier-header" onclick="toggleTier('tier6-body')">
-            <h2>&#9656; Tier 6: Coaching Program</h2>
+    # ── Tier 8: Coaching Program ──────────────────────────────────────────
+    tier8 = f"""
+    <div class="tier" id="tier8">
+        <div class="tier-header" onclick="toggleTier('tier8-body')">
+            <h2>&#9656; Tier 8: Coaching Program</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier6-body">
+        <div class="tier-body" id="tier8-body">
             <div class="card-grid">
                 {_metric_card("Active Students", _fmt_int(ghl.get('active_students', 0)),
                     _wow_badge(ghl.get('active_students',0), prev_ghl.get('active_students',0)))}
@@ -413,25 +600,23 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                 {_metric_card("Student Churn", _fmt_pct(ghl.get('student_churn_rate', 0)),
                     subtitle="Target: < 15%")}
                 {_metric_card("Rev per Student", _fmt_money(ghl.get('revenue_per_student', 0)))}
+                {_metric_card("Rana Commission", _fmt_money(cross_data.get('rana_commission', 0)),
+                    subtitle="10% of coaching revenue")}
+                {_metric_card("Mentor Cost (est.)", _fmt_money(FINANCIAL['mentor_monthly_est'] / 4.33),
+                    subtitle=f"${FINANCIAL['mentor_cost_per_student']}/student")}
             </div>
         </div>
     </div>"""
 
-    # ── Tier 7: Social Media ──────────────────────────────────────────────
-
-    # YouTube: calculate weekly views from total views delta
+    # ── Tier 9: Social Media ──────────────────────────────────────────────
     yt_total_views = social.get('yt_total_views', 0)
     prev_yt_total_views = prev_social.get('yt_total_views', 0)
     yt_weekly_views = max(0, yt_total_views - prev_yt_total_views) if prev_yt_total_views else social.get('yt_views', 0)
-
-    # Estimate weekly watch hours from views delta * avg video duration
     yt_avg_watch_min = social.get('yt_avg_watch_min', 0)
     yt_watch_hours = social.get('yt_watch_hours', 0)
     if yt_watch_hours == 0 and yt_weekly_views > 0 and yt_avg_watch_min > 0:
-        # avg_watch_min already includes 40% watch-through estimate
         yt_watch_hours = round(yt_weekly_views * yt_avg_watch_min / 60, 1)
 
-    # Weekly comments: use total comments delta if available
     prev_total_comments = prev_social.get('yt_total_comments', 0)
     cur_total_comments = social.get('yt_total_comments', 0)
     yt_weekly_comments = social.get('yt_comments', 0)
@@ -527,13 +712,13 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
     except (json.JSONDecodeError, TypeError):
         pass
 
-    tier7 = f"""
-    <div class="tier" id="tier7">
-        <div class="tier-header" onclick="toggleTier('tier7-body')">
-            <h2>&#9656; Tier 7: Social Media</h2>
+    tier9 = f"""
+    <div class="tier" id="tier9">
+        <div class="tier-header" onclick="toggleTier('tier9-body')">
+            <h2>&#9656; Tier 9: Social Media</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier7-body">
+        <div class="tier-body" id="tier9-body">
             <h3>YouTube</h3>
             <div class="card-grid">
                 {_metric_card("Subscribers", _fmt_int(social.get('yt_subscribers', 0)),
@@ -571,23 +756,35 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         </div>
     </div>"""
 
-    # ── Tier 8: Trends ───────────────────────────────────────────────────
+    # ── Tier 10: Trends ───────────────────────────────────────────────────
     trend_data = _build_trend_data(history or [])
     has_trends = bool(trend_data.get('labels'))
 
-    tier8 = ""
+    tier10 = ""
     if has_trends:
-        tier8 = """
-    <div class="tier" id="tier8">
-        <div class="tier-header" onclick="toggleTier('tier8-body')">
+        tier10 = """
+    <div class="tier" id="tier10">
+        <div class="tier-header" onclick="toggleTier('tier10-body')">
             <h2>&#9656; Trends &amp; Year-over-Year</h2>
             <span class="tier-toggle">&#9660;</span>
         </div>
-        <div class="tier-body" id="tier8-body">
+        <div class="tier-body" id="tier10-body">
             <h3>Revenue Trends</h3>
             <div class="chart-row">
                 <div class="chart-half"><canvas id="trendRevenue" height="280"></canvas></div>
                 <div class="chart-half"><canvas id="trendRevBySilo" height="280"></canvas></div>
+            </div>
+
+            <h3>Financial Health Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendNOI" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendPayroll" height="280"></canvas></div>
+            </div>
+
+            <h3>Google Ads Trends</h3>
+            <div class="chart-row">
+                <div class="chart-half"><canvas id="trendAdSpend" height="280"></canvas></div>
+                <div class="chart-half"><canvas id="trendAdROAS" height="280"></canvas></div>
             </div>
 
             <h3>Email Marketing Trends</h3>
@@ -634,6 +831,16 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             "booked": int(ghl.get('booked_appointments', 0)),
             "showed": int(ghl.get('showed_appointments', 0)),
             "closed": int(ghl.get('closed_deals', 0)),
+        },
+        "expense": {
+            "labels": [c[0] for c in categories],
+            "values": [c[1] for c in categories],
+        },
+        "ads": {
+            "active": int(google_ads.get('active_products', 0)),
+            "disapproved": int(google_ads.get('disapproved_products', 0)),
+            "spend": ga_spend,
+            "roas": ga_roas,
         },
         "trends": trend_data,
     }
@@ -703,11 +910,8 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         .data-table th {{ background: #f5f5f5; padding: 8px 12px; text-align: left; font-size: 12px; border-bottom: 2px solid #ddd; }}
         .data-table td {{ padding: 8px 12px; border-bottom: 1px solid #eee; font-size: 13px; }}
         .text-right {{ text-align: right; }}
-        .phase-badge {{
-            background: #e3f2fd; color: #1565c0; padding: 2px 8px;
-            border-radius: 10px; font-size: 10px; font-weight: 600; vertical-align: middle;
-        }}
         h3 {{ font-size: 14px; color: #444; margin: 16px 0 8px; }}
+        h4 {{ font-size: 13px; color: #555; margin: 14px 0 6px; }}
         .footer {{ text-align: center; padding: 20px; color: #999; font-size: 12px; }}
         .chart-row {{
             display: flex; gap: 16px; margin-bottom: 20px;
@@ -716,6 +920,16 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             flex: 1; min-width: 0;
             background: #fafbfc; border: 1px solid #e8ecef; border-radius: 6px;
             padding: 12px;
+        }}
+        .progress-row {{ margin: 8px 0; }}
+        .progress-label {{ font-size: 12px; color: #555; margin-bottom: 4px; }}
+        .progress-track {{
+            background: #e8ecef; border-radius: 8px; height: 20px;
+            overflow: hidden; position: relative;
+        }}
+        .progress-fill {{
+            height: 100%; border-radius: 8px;
+            transition: width 0.5s ease;
         }}
         @media (max-width: 768px) {{
             .card-grid {{ grid-template-columns: repeat(2, 1fr); }}
@@ -739,10 +953,12 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         {tier6}
         {tier7}
         {tier8}
+        {tier9}
+        {tier10}
     </div>
 
     <div class="footer">
-        DRR Dashboard v1.0 | Data refreshed weekly Monday 6:00 AM Central
+        DRR Dashboard v2.0 | Data refreshed weekly Monday 6:00 AM Central
     </div>
 
     <script>
@@ -753,7 +969,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
         if (el) el.classList.toggle('collapsed');
     }}
 
-    // Revenue Pie Chart
+    // Revenue Doughnut Chart
     const revCtx = document.getElementById('revenueChart');
     if (revCtx) {{
         new Chart(revCtx, {{
@@ -772,6 +988,33 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                 plugins: {{
                     legend: {{ position: 'right' }},
                     title: {{ display: true, text: 'Revenue by Silo' }}
+                }}
+            }}
+        }});
+    }}
+
+    // Expense Breakdown Pie Chart
+    const expCtx = document.getElementById('expenseChart');
+    if (expCtx) {{
+        new Chart(expCtx, {{
+            type: 'doughnut',
+            data: {{
+                labels: chartData.expense.labels,
+                datasets: [{{
+                    data: chartData.expense.values,
+                    backgroundColor: [
+                        '#2e7d32', '#43a047', '#1565c0', '#e65100',
+                        '#6a1b9a', '#00838f', '#ef6c00', '#c62828'
+                    ],
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{
+                    legend: {{ position: 'right', labels: {{ font: {{ size: 11 }} }} }},
+                    title: {{ display: true, text: 'Monthly Expense Breakdown' }}
                 }}
             }}
         }});
@@ -798,6 +1041,67 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
                     title: {{ display: true, text: 'Sales Funnel' }}
                 }},
                 scales: {{ y: {{ beginAtZero: true }} }}
+            }}
+        }});
+    }}
+
+    // Google Ads: Spend vs ROAS dual-axis (will populate with trend data)
+    const adsSpendCtx = document.getElementById('adsSpendROAS');
+    if (adsSpendCtx && chartData.ads.spend > 0) {{
+        new Chart(adsSpendCtx, {{
+            type: 'bar',
+            data: {{
+                labels: ['This Week'],
+                datasets: [
+                    {{
+                        label: 'Spend',
+                        data: [chartData.ads.spend],
+                        backgroundColor: '#1565c0',
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                    }},
+                    {{
+                        label: 'Return',
+                        data: [chartData.ads.spend * chartData.ads.roas],
+                        backgroundColor: '#2e7d32',
+                        borderRadius: 4,
+                        yAxisID: 'y',
+                    }}
+                ]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{
+                    title: {{ display: true, text: 'Ad Spend vs Return' }},
+                    legend: {{ position: 'bottom' }}
+                }},
+                scales: {{
+                    y: {{ beginAtZero: true, ticks: {{ callback: v => '$' + v.toLocaleString() }} }}
+                }}
+            }}
+        }});
+    }}
+
+    // Google Ads: Product Health Doughnut
+    const adsHealthCtx = document.getElementById('adsProductHealth');
+    if (adsHealthCtx && (chartData.ads.active > 0 || chartData.ads.disapproved > 0)) {{
+        new Chart(adsHealthCtx, {{
+            type: 'doughnut',
+            data: {{
+                labels: ['Active', 'Disapproved'],
+                datasets: [{{
+                    data: [chartData.ads.active, chartData.ads.disapproved],
+                    backgroundColor: ['#2e7d32', '#c62828'],
+                    borderWidth: 2,
+                    borderColor: '#fff',
+                }}]
+            }},
+            options: {{
+                responsive: true,
+                plugins: {{
+                    title: {{ display: true, text: 'Shopping Product Status' }},
+                    legend: {{ position: 'bottom' }}
+                }}
             }}
         }});
     }}
@@ -851,9 +1155,9 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             data: {{
                 labels: T.labels,
                 datasets: [
-                    {{ label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.08)', fill: false, borderWidth: 2 }},
-                    {{ label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.08)', fill: false, borderWidth: 2 }},
-                    {{ label: 'Courses', data: T.course_revenue, borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,.08)', fill: false, borderWidth: 2 }},
+                    {{ label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 }},
+                    {{ label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', fill: false, borderWidth: 2 }},
+                    {{ label: 'Courses', data: T.course_revenue, borderColor: '#e65100', fill: false, borderWidth: 2 }},
                 ]
             }},
             options: {{ ...lineDefaults.options,
@@ -862,7 +1166,94 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 3 ── Email Revenue
+        // 3 ── NOI Trend
+        if (document.getElementById('trendNOI')) {{
+            new Chart(document.getElementById('trendNOI'), {{
+                ...lineDefaults,
+                data: {{
+                    labels: T.labels,
+                    datasets: [
+                        {{ label: 'Revenue', data: T.total_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 }},
+                        {{ label: 'Burn', data: T.weekly_burn, borderColor: '#c62828', borderDash: [5,5], fill: false, borderWidth: 2 }},
+                        {{ label: 'NOI', data: T.noi_weekly, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)', fill: true, borderWidth: 2 }},
+                    ]
+                }},
+                options: {{ ...lineDefaults.options,
+                    plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Revenue vs Burn vs NOI' }} }},
+                    scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+                }}
+            }});
+        }}
+
+        // 4 ── Payroll % Trend
+        if (document.getElementById('trendPayroll')) {{
+            new Chart(document.getElementById('trendPayroll'), {{
+                ...lineDefaults,
+                data: {{
+                    labels: T.labels,
+                    datasets: [{{
+                        label: 'Payroll %',
+                        data: T.payroll_pct,
+                        borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                        fill: true, borderWidth: 2,
+                    }}]
+                }},
+                options: {{ ...lineDefaults.options,
+                    plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Payroll as % of Revenue' }} }},
+                    scales: {{
+                        x: lineDefaults.options.scales.x,
+                        y: {{ ...pctAxis(lineDefaults.options.scales.y),
+                            suggestedMax: 40
+                        }}
+                    }}
+                }}
+            }});
+        }}
+
+        // 5 ── Ad Spend Trend
+        if (document.getElementById('trendAdSpend') && T.ad_spend) {{
+            new Chart(document.getElementById('trendAdSpend'), {{
+                ...lineDefaults,
+                data: {{
+                    labels: T.labels,
+                    datasets: [{{
+                        label: 'Ad Spend',
+                        data: T.ad_spend,
+                        borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
+                        fill: true, borderWidth: 2,
+                    }}]
+                }},
+                options: {{ ...lineDefaults.options,
+                    plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Weekly Ad Spend' }} }},
+                    scales: {{ x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }}
+                }}
+            }});
+        }}
+
+        // 6 ── Ad ROAS Trend
+        if (document.getElementById('trendAdROAS') && T.ad_roas) {{
+            new Chart(document.getElementById('trendAdROAS'), {{
+                ...lineDefaults,
+                data: {{
+                    labels: T.labels,
+                    datasets: [{{
+                        label: 'ROAS',
+                        data: T.ad_roas,
+                        borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                        fill: true, borderWidth: 2,
+                    }}]
+                }},
+                options: {{ ...lineDefaults.options,
+                    plugins: {{ ...lineDefaults.options.plugins, title: {{ display: true, text: 'Google Ads ROAS' }} }},
+                    scales: {{
+                        x: lineDefaults.options.scales.x,
+                        y: {{ ...lineDefaults.options.scales.y, ticks: {{ callback: v => v + 'x' }}, suggestedMin: 0 }}
+                    }}
+                }}
+            }});
+        }}
+
+        // 7 ── Email Revenue
         new Chart(document.getElementById('trendEmailRev'), {{
             ...lineDefaults,
             data: {{
@@ -880,7 +1271,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 4 ── Email Open & Click Rates
+        // 8 ── Email Open & Click Rates
         new Chart(document.getElementById('trendEmailRates'), {{
             ...lineDefaults,
             data: {{
@@ -900,7 +1291,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 5 ── Orders
+        // 9 ── Orders
         new Chart(document.getElementById('trendOrders'), {{
             ...lineDefaults,
             data: {{
@@ -915,7 +1306,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 6 ── AOV
+        // 10 ── AOV
         new Chart(document.getElementById('trendAOV'), {{
             ...lineDefaults,
             data: {{
@@ -933,7 +1324,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 7 ── MRR
+        // 11 ── MRR
         new Chart(document.getElementById('trendMRR'), {{
             ...lineDefaults,
             data: {{
@@ -951,7 +1342,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 8 ── Stripe Volume
+        // 12 ── Stripe Volume
         new Chart(document.getElementById('trendStripeVol'), {{
             ...lineDefaults,
             data: {{
@@ -969,7 +1360,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 9 ── Social: FB + IG
+        // 13 ── Social: FB + IG
         new Chart(document.getElementById('trendSocial'), {{
             ...lineDefaults,
             data: {{
@@ -984,7 +1375,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 10 ── YouTube
+        // 14 ── YouTube
         new Chart(document.getElementById('trendYT'), {{
             ...lineDefaults,
             data: {{
@@ -1001,7 +1392,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 11 ── Pipeline
+        // 15 ── Pipeline
         new Chart(document.getElementById('trendPipeline'), {{
             ...lineDefaults,
             data: {{
@@ -1016,7 +1407,7 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
             }}
         }});
 
-        // 12 ── Active Students
+        // 16 ── Active Students
         new Chart(document.getElementById('trendStudents'), {{
             ...lineDefaults,
             data: {{

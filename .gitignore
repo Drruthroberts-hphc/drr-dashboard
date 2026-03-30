@@ -9,8 +9,8 @@ ghl_cache.json
 ghl_cache_sales.json
 ghl_cache_students.json
 
-# Snapshots (weekly JSON data - stay local)
-snapshots/
+# Snapshots are tracked for GitHub Pages dashboard
+# snapshots/
 
 # Python
 __pycache__/

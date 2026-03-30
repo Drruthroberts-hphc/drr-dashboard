@@ -112,13 +112,16 @@ def write_weekly_data(tab_name, data_dict, overwrite=False):
 
 
 def write_all_weekly_data(shopify_data, klaviyo_data, ghl_data, stripe_data,
-                          social_data, cross_platform_data, overwrite=False):
+                          social_data, cross_platform_data, google_ads_data=None,
+                          financial_data=None, overwrite=False):
     """
     Write all collector data to their respective tabs.
 
     Args:
         *_data: Dict from each collector's collect_weekly_data()
         cross_platform_data: Computed cross-platform aggregates
+        google_ads_data: Google Ads collector data
+        financial_data: Financial health metrics (derived from cross_platform)
         overwrite: If True, overwrite existing rows
     """
     results = {}
@@ -130,6 +133,8 @@ def write_all_weekly_data(shopify_data, klaviyo_data, ghl_data, stripe_data,
         ('Stripe_Weekly', stripe_data),
         ('Social_Weekly', social_data),
         ('CrossPlatform_Weekly', cross_platform_data),
+        ('GoogleAds_Weekly', google_ads_data),
+        ('Financial_Weekly', financial_data),
     ]
 
     for tab_name, data in tab_data_pairs:
