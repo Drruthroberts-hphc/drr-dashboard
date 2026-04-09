@@ -37,8 +37,12 @@ GOOGLE_SHEETS_CREDENTIALS = os.getenv('GOOGLE_SHEETS_CREDENTIALS', 'credentials.
 GMAIL_CREDENTIALS = os.getenv('GMAIL_CREDENTIALS', 'gmail_credentials.json')
 GMAIL_TOKEN = os.getenv('GMAIL_TOKEN', 'gmail_token.json')
 
-# Alert recipient
-ALERT_EMAIL = 'dr.ruth.roberts4pets@gmail.com'
+# Alert / weekly-summary recipients
+ALERT_EMAILS = [
+    'dr.ruth.roberts4pets@gmail.com',
+    'carol@minepetplatter.com',
+    'jenny@drruthroberts.com',
+]
 
 # Rana's identifier for GHL filtering
 RANA_EMAIL = 'rana@holisticpethealthcoach.com'
