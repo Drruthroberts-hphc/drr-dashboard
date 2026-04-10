@@ -73,11 +73,11 @@ def classify_product_silo(title, vendor, product_type):
     Classify a Shopify product into a revenue silo.
 
     Priority rules (checked in order):
-    1. Vendor is a coaching vendor → Coaching
-    2. Type is a coaching type → Coaching
-    3. Vendor is a course vendor OR type is a course type → Courses
-    4. Title contains 'CrockPET/Crockpet' AND ebook/recipe keyword → Courses
-    5. Title contains 'Certification Program' → Coaching
+    1. Title contains 'Certification Program' → Coaching (highest priority)
+    2. Vendor is a coaching vendor → Coaching
+    3. Type is a coaching type → Coaching
+    4. Vendor is a course vendor OR type is a course type → Courses
+    5. Title contains 'CrockPET/Crockpet' AND ebook/recipe keyword → Courses
     6. Everything else → E-Commerce
 
     Note: Physical CrockPET diet kits (starter kit, refill kit) are E-Commerce.
@@ -87,26 +87,26 @@ def classify_product_silo(title, vendor, product_type):
     vendor_clean = (vendor or '').strip()
     type_clean = (product_type or '').strip()
 
-    # Rule 1: Coaching vendors
+    # Rule 1: Certification programs → Coaching (must check BEFORE course vendors)
+    if any(kw in title_lower for kw in CERTIFICATION_KEYWORDS):
+        return 'Coaching'
+
+    # Rule 2: Coaching vendors
     if vendor_clean in COACHING_VENDORS:
         return 'Coaching'
 
-    # Rule 2: Coaching types
+    # Rule 3: Coaching types
     if type_clean in COACHING_TYPES:
         return 'Coaching'
 
-    # Rule 3: Course vendors or types
+    # Rule 4: Course vendors or types
     if vendor_clean in COURSE_VENDORS or type_clean in COURSE_TYPES:
         return 'Courses'
 
-    # Rule 4: CrockPET ebook/recipe only (NOT physical kits)
+    # Rule 5: CrockPET ebook/recipe only (NOT physical kits)
     if 'crockpet' in title_lower or 'crockpet' in title_lower.replace(' ', ''):
         if any(kw in title_lower for kw in CROCKPET_COURSE_KEYWORDS):
             return 'Courses'
-
-    # Rule 5: Certification programs
-    if any(kw in title_lower for kw in CERTIFICATION_KEYWORDS):
-        return 'Coaching'
 
     # Rule 6: Default
     return 'E-Commerce'
@@ -167,13 +167,21 @@ FINANCIAL = {
     'other_software': 200,         # Misc SaaS (annual amortized: Opus Clip, Consensus, Zoom, etc.)
 
     # ── Debt ──────────────────────────────────────────────────────────────
-    'total_debt': 219000,          # As of March 2026
+    'total_debt': 250000,          # As of March 2026 (~$250K total)
     'debt_breakdown': {
         'existing': 169000,        # Pre-existing obligations
-        'carol_branding': 30000,   # Our Pet Project (remaining)
+        'carol_branding': 30000,   # Our Pet Project (remaining after $50K paid Jan-Mar)
         'event_sponsorship': 20000,  # Event sponsorship
+        'bofa_credit_card': 30712, # Bank of America credit card
     },
-    'monthly_debt_service': 5000,  # Estimated monthly payments
+    # Actual debt payments by month (branding payments to Carol Smeja)
+    'debt_service_by_month': {
+        '2026-01': 10000,
+        '2026-02': 20000,
+        '2026-03': 20000,
+        '2026-04': 20000,  # Estimated remaining
+    },
+    'monthly_debt_service': 20000,  # Current monthly (branding payments)
 
     # ── Revenue Targets ───────────────────────────────────────────────────
     'revenue_target_monthly': 65000,  # Current realistic target

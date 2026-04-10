@@ -76,7 +76,17 @@ def calculate_cross_platform(all_data, previous_week_data=None):
     noi_monthly = monthly_revenue_run_rate - monthly_burn
 
     # Cash flow (revenue minus burn minus debt service)
-    monthly_debt_service = FINANCIAL['monthly_debt_service']
+    # Use month-specific debt service if available
+    if week_ending_str:
+        try:
+            debt_month_key = datetime.strptime(week_ending_str, '%Y-%m-%d').strftime('%Y-%m')
+            monthly_debt_service = FINANCIAL.get('debt_service_by_month', {}).get(
+                debt_month_key, FINANCIAL['monthly_debt_service']
+            )
+        except ValueError:
+            monthly_debt_service = FINANCIAL['monthly_debt_service']
+    else:
+        monthly_debt_service = FINANCIAL['monthly_debt_service']
     weekly_debt_service = monthly_debt_service / 4.33
     weekly_cash_flow = total_revenue - weekly_burn - weekly_debt_service
     monthly_cash_flow = monthly_revenue_run_rate - monthly_burn - monthly_debt_service
