@@ -77,6 +77,7 @@ def calculate_cross_platform(all_data, previous_week_data=None):
 
     # Cash flow (revenue minus burn minus debt service)
     # Use month-specific debt service if available
+    week_ending_str = shopify.get('week_ending_date', '')
     if week_ending_str:
         try:
             debt_month_key = datetime.strptime(week_ending_str, '%Y-%m-%d').strftime('%Y-%m')
