@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dr. Ruth Roberts - Weekly Dashboard | 2026-04-05</title>
+    <title>Dr. Ruth Roberts - Weekly Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -84,6 +84,15 @@
             height: 100%; border-radius: 8px;
             transition: width 0.5s ease;
         }
+        .loading-overlay {
+            text-align: center; padding: 60px 20px; color: #888;
+        }
+        .loading-overlay h2 { color: #1b5e20; margin-bottom: 10px; }
+        .error-banner {
+            background: #ffebee; border-left: 4px solid #c62828;
+            padding: 15px 20px; margin-bottom: 20px; border-radius: 4px;
+            color: #c62828;
+        }
         @media (max-width: 768px) {
             .card-grid { grid-template-columns: repeat(2, 1fr); }
             .card-value { font-size: 18px; }
@@ -94,1289 +103,1236 @@
 <body>
     <div class="header">
         <h1>Dr. Ruth Roberts - Weekly Dashboard</h1>
-        <div class="subtitle">Week ending: 2026-04-05 | Generated: 2026-04-06 09:53 UTC</div>
+        <div class="subtitle" id="header-subtitle">Loading latest data...</div>
     </div>
 
-    <div class="container">
-        
-    <div class="tier" id="tier1">
-        <div class="tier-header" onclick="toggleTier('tier1-body')">
-            <h2>&#9656; Tier 1: Executive Overview</h2>
-            <span class="tier-toggle">&#9660;</span>
+    <div class="container" id="dashboard-container">
+        <div class="loading-overlay" id="loading">
+            <h2>Loading Dashboard Data</h2>
+            <p>Fetching latest snapshot data...</p>
         </div>
-        <div class="tier-body" id="tier1-body">
-            
-        <div class="alert-banner">
-            <h3>&#9888; 2 Alert(s) Triggered</h3>
-            <ul><li><strong>Payment Success Rate</strong>: 0.0000 (below 0.95)</li><li><strong>Google Ads ROAS</strong>: 0.0000 (below 2.5)</li></ul>
-        </div>
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Total Revenue</div>
-        <div class="card-value">$17,994.88</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +115.5%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">E-Commerce</div>
-        <div class="card-value">$12,165.60</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +81.4%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Coaching</div>
-        <div class="card-value">$345.00</div>
-        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Courses</div>
-        <div class="card-value">$5,484.28</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +233.8%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">NOI (Weekly)</div>
-        <div class="card-value" style="color: #2e7d32;">$8,182.87</div>
-        
-        <div class="card-subtitle">Margin: 45.5%</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Cash Flow (Weekly)</div>
-        <div class="card-value" style="color: #2e7d32;">$7,028.14</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Monthly Burn</div>
-        <div class="card-value">$42,486.00</div>
-        
-        <div class="card-subtitle">Verified from bank data</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Active Students</div>
-        <div class="card-value">80</div>
-        
-        
-    </div>
-            </div>
-
-            <h3>Revenue vs Target</h3>
-            
-    <div class="progress-row">
-        <div class="progress-label">Weekly: $17,994.88 / $15,011.55 (100%)</div>
-        <div class="progress-track">
-            <div class="progress-fill" style="width:100%; background:#2e7d32;"></div>
-        </div>
-    </div>
-            
-    <div class="progress-row">
-        <div class="progress-label">Monthly run rate: $77,917.83 / $65,000.00 (100%)</div>
-        <div class="progress-track">
-            <div class="progress-fill" style="width:100%; background:#2e7d32;"></div>
-        </div>
-    </div>
-
-            <div class="chart-container">
-                <canvas id="revenueChart" height="250"></canvas>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier2">
-        <div class="tier-header" onclick="toggleTier('tier2-body')">
-            <h2>&#9656; Tier 2: Financial Health</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier2-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Payroll % of Revenue</div>
-        <div class="card-value" style="color: #2e7d32;">17.4%</div>
-        
-        <div class="card-subtitle">Target: < 25%</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">NOI Margin</div>
-        <div class="card-value" style="color: #2e7d32;">45.5%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Monthly Cash Flow</div>
-        <div class="card-value" style="color: #2e7d32;">$30,431.83</div>
-        
-        <div class="card-subtitle">After debt service</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Monthly Revenue Run Rate</div>
-        <div class="card-value">$77,917.83</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Debt Remaining</div>
-        <div class="card-value">$219,000.00</div>
-        
-        <div class="card-subtitle">~7 months to debt-free</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Monthly Burn</div>
-        <div class="card-value">$42,486.00</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Ad Spend (Weekly)</div>
-        <div class="card-value">$0.00</div>
-        
-        <div class="card-subtitle">ROAS: 0.0x</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Email Revenue</div>
-        <div class="card-value">$2,573.71</div>
-        
-        
-    </div>
-            </div>
-
-            <h3>Debt Paydown Progress</h3>
-            
-    <div class="progress-row">
-        <div class="progress-label">Paid: $0.00 of $219,000.00 (0%)</div>
-        <div class="progress-track">
-            <div class="progress-fill" style="width:0%; background:#1565c0;"></div>
-        </div>
-    </div>
-
-            <h3>Monthly Expense Breakdown</h3>
-            <table class="data-table">
-                <thead><tr><th>Category</th><th class="text-right">Monthly</th></tr></thead>
-                <tbody>
-                    <tr><td>Team (fixed)</td><td class="text-right">$13,431.00</td></tr><tr><td>Rana Commission (est.)</td><td class="text-right">$149.38</td></tr><tr><td>Google Ads</td><td class="text-right">$2,500.00</td></tr><tr><td>COGS & Shipping</td><td class="text-right">$8,750.00</td></tr><tr><td>Mentors (est.)</td><td class="text-right">$3,200.00</td></tr><tr><td>Payment Processing</td><td class="text-right">$3,200.00</td></tr><tr><td>Software & Services</td><td class="text-right">$6,646.00</td></tr><tr><td>Debt Service</td><td class="text-right">$5,000.00</td></tr>
-                    <tr style="font-weight: bold; border-top: 2px solid #333;">
-                        <td>Total Monthly Burn</td>
-                        <td class="text-right">$42,486.00</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div class="chart-container">
-                <canvas id="expenseChart" height="280"></canvas>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier3">
-        <div class="tier-header" onclick="toggleTier('tier3-body')">
-            <h2>&#9656; Tier 3: Google Ads</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier3-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Ad Spend</div>
-        <div class="card-value">$0.00</div>
-        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">ROAS</div>
-        <div class="card-value" style="color: #c62828;">0.0x</div>
-        
-        <div class="card-subtitle">Target: > 3.0x</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Conversion Value</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Conversions</div>
-        <div class="card-value">0.0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">CPA</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Clicks</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Impressions</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">CTR</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-            </div>
-
-            <h3>Shopping Product Health</h3>
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Active Products</div>
-        <div class="card-value" style="color: #2e7d32;">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Disapproved Products</div>
-        <div class="card-value" style="color: #2e7d32;">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Disapproval Rate</div>
-        <div class="card-value" style="color: #2e7d32;">0.0%</div>
-        
-        <div class="card-subtitle">Target: < 10%</div>
-    </div>
-            </div>
-
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="adsSpendROAS" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="adsProductHealth" height="280"></canvas></div>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier4">
-        <div class="tier-header" onclick="toggleTier('tier4-body')">
-            <h2>&#9656; Tier 4: Sales Pipeline (GHL)</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier4-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">New Leads</div>
-        <div class="card-value">6</div>
-        <div class="card-wow"><span class="badge badge-neutral">&#9644; +0.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Booked Calls</div>
-        <div class="card-value">0</div>
-        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Showed</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Closed Deals</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Close Rate (Overall)</div>
-        <div class="card-value">0.0%</div>
-        <div class="card-wow"><span class="badge badge-neutral">NEW</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Close Rate (Rana)</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Pipeline Value</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Revenue per Call</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="funnelChart" height="250"></canvas>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier5">
-        <div class="tier-header" onclick="toggleTier('tier5-body')">
-            <h2>&#9656; Tier 5: Email Marketing (Klaviyo)</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier5-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Email Revenue</div>
-        <div class="card-value">$2,573.71</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +159.5%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Open Rate</div>
-        <div class="card-value">0.0%</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -100.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Click Rate</div>
-        <div class="card-value">0.0%</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -100.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Click-to-Open</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">List Size</div>
-        <div class="card-value">15,214</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -3.5%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Delivery Rate</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Spam Rate</div>
-        <div class="card-value">0.000%</div>
-        
-        <div class="card-subtitle">Target: < 0.1%</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Welcome Flow Rev</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier6">
-        <div class="tier-header" onclick="toggleTier('tier6-body')">
-            <h2>&#9656; Tier 6: E-Commerce Detail (Shopify)</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier6-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Gross Revenue</div>
-        <div class="card-value">$16,787.06</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +95.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Net Revenue</div>
-        <div class="card-value">$16,118.25</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Orders</div>
-        <div class="card-value">114</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +25.3%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">AOV</div>
-        <div class="card-value">$147.25</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +55.7%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">New Customers</div>
-        <div class="card-value">84</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Returning Customers</div>
-        <div class="card-value">1</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Conversion Rate</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Return Rate</div>
-        <div class="card-value">351.0%</div>
-        
-        <div class="card-subtitle">Target: < 5%</div>
-    </div>
-            </div>
-            
-            <h3>Top 5 Products</h3>
-            <table class="data-table">
-                <thead><tr><th>Product</th><th class="text-right">Revenue</th><th class="text-right">Qty</th></tr></thead>
-                <tbody><tr><td>Holistic Pet Health Coach™ Certification</td><td class="text-right">$5,150.00</td><td class="text-right">1</td></tr><tr><td>Holistic Total Body Support – Multivitam</td><td class="text-right">$3,144.95</td><td class="text-right">50</td></tr><tr><td>Hista Paws – with Quercetin for Dogs and</td><td class="text-right">$1,487.23</td><td class="text-right">30</td></tr><tr><td>Glacier Peak Pet Intolerance Test (Pet W</td><td class="text-right">$1,429.45</td><td class="text-right">11</td></tr><tr><td>Pet's Daily Wellness Formula - For Pets </td><td class="text-right">$702.00</td><td class="text-right">13</td></tr></tbody>
-            </table>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier7">
-        <div class="tier-header" onclick="toggleTier('tier7-body')">
-            <h2>&#9656; Tier 7: Payments &amp; Health (Stripe)</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier7-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Gross Volume</div>
-        <div class="card-value">$0.00</div>
-        <div class="card-wow"><span class="badge badge-red">&#9660; -100.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Net Revenue</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Payment Success</div>
-        <div class="card-value">0.0%</div>
-        
-        <div class="card-subtitle">Target: > 95%</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Dispute Rate</div>
-        <div class="card-value">0.000%</div>
-        
-        <div class="card-subtitle">Target: < 0.5%</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Refund Rate</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Refund Amount</div>
-        <div class="card-value">$33.00</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">MRR</div>
-        <div class="card-value">$1,680.23</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +0.4%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Processing Fees</div>
-        <div class="card-value">$0.00</div>
-        
-        
-    </div>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier8">
-        <div class="tier-header" onclick="toggleTier('tier8-body')">
-            <h2>&#9656; Tier 8: Coaching Program</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier8-body">
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Active Students</div>
-        <div class="card-value">80</div>
-        <div class="card-wow"><span class="badge badge-neutral">&#9644; +0.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Enrollment Growth</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Student Churn</div>
-        <div class="card-value">0.0%</div>
-        
-        <div class="card-subtitle">Target: < 15%</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Rev per Student</div>
-        <div class="card-value">$2,881.68</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Rana Commission</div>
-        <div class="card-value">$34.50</div>
-        
-        <div class="card-subtitle">10% of coaching revenue</div>
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Mentor Cost (est.)</div>
-        <div class="card-value">$739.03</div>
-        
-        <div class="card-subtitle">$800/student</div>
-    </div>
-            </div>
-        </div>
-    </div>
-        
-    <div class="tier" id="tier9">
-        <div class="tier-header" onclick="toggleTier('tier9-body')">
-            <h2>&#9656; Tier 9: Social Media</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier9-body">
-            <h3>YouTube</h3>
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Subscribers</div>
-        <div class="card-value">7,130</div>
-        <div class="card-wow"><span class="badge badge-neutral">&#9644; +0.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Total Views</div>
-        <div class="card-value">596,435</div>
-        <div class="card-wow"><span class="badge badge-green">&#9650; +0.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Views This Week</div>
-        <div class="card-value">151</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Watch Hours (est.)</div>
-        <div class="card-value">12.6</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">New Videos</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Comments</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-            </div>
-            
-            <h4>Recent Videos</h4>
-            <table class="data-table">
-                <thead><tr><th>Title</th><th>Published</th><th class="text-right">Views</th>
-                <th class="text-right">Likes</th><th class="text-right">Comments</th>
-                <th class="text-right">Duration</th></tr></thead>
-                <tbody><tr><td>Healing Tails Episode 27: Transforming Pet Health </td><td>2026-03-11</td><td class="text-right">161</td><td class="text-right">5</td><td class="text-right">1</td><td class="text-right">35.2 min</td></tr><tr><td>🐱 Transform Your Cat's Wellness: The Revolutionary</td><td>2026-02-04</td><td class="text-right">104</td><td class="text-right">13</td><td class="text-right">1</td><td class="text-right">44.3 min</td></tr><tr><td>Hidden Health Clues: How Iridology Can Save Your P</td><td>2026-01-28</td><td class="text-right">112</td><td class="text-right">7</td><td class="text-right">0</td><td class="text-right">40.4 min</td></tr><tr><td>Listen to what your pet is telling you. Early awar</td><td>2026-01-20</td><td class="text-right">190</td><td class="text-right">8</td><td class="text-right">1</td><td class="text-right">1.4 min</td></tr><tr><td>Join me LIVE TOMORROW (January 14th) at 12pm ET fo</td><td>2026-01-13</td><td class="text-right">506</td><td class="text-right">11</td><td class="text-right">4</td><td class="text-right">0.6 min</td></tr></tbody>
-            </table>
-
-            <h3>Facebook</h3>
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Followers</div>
-        <div class="card-value">86,846</div>
-        <div class="card-wow"><span class="badge badge-neutral">&#9644; +0.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Reach</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Engagement Rate</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Likes</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Comments</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Shares</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-            </div>
-            
-
-            <h3>Instagram</h3>
-            <div class="card-grid">
-                
-    <div class="metric-card">
-        <div class="card-label">Followers</div>
-        <div class="card-value">9,411</div>
-        <div class="card-wow"><span class="badge badge-neutral">&#9644; +0.0%</span></div>
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Engagement Rate</div>
-        <div class="card-value">0.0%</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Likes</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-                
-    <div class="metric-card">
-        <div class="card-label">Comments</div>
-        <div class="card-value">0</div>
-        
-        
-    </div>
-            </div>
-            
-        </div>
-    </div>
-        
-    <div class="tier" id="tier10">
-        <div class="tier-header" onclick="toggleTier('tier10-body')">
-            <h2>&#9656; Trends &amp; Year-over-Year</h2>
-            <span class="tier-toggle">&#9660;</span>
-        </div>
-        <div class="tier-body" id="tier10-body">
-            <h3>Revenue Trends</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendRevenue" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendRevBySilo" height="280"></canvas></div>
-            </div>
-
-            <h3>Financial Health Trends</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendNOI" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendPayroll" height="280"></canvas></div>
-            </div>
-
-            <h3>Google Ads Trends</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendAdSpend" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendAdROAS" height="280"></canvas></div>
-            </div>
-
-            <h3>Email Marketing Trends</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendEmailRev" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendEmailRates" height="280"></canvas></div>
-            </div>
-
-            <h3>E-Commerce Trends</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendOrders" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendAOV" height="280"></canvas></div>
-            </div>
-
-            <h3>Payments &amp; Subscriptions</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendMRR" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendStripeVol" height="280"></canvas></div>
-            </div>
-
-            <h3>Social Media Growth</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendSocial" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendYT" height="280"></canvas></div>
-            </div>
-
-            <h3>Sales Pipeline &amp; Coaching</h3>
-            <div class="chart-row">
-                <div class="chart-half"><canvas id="trendPipeline" height="280"></canvas></div>
-                <div class="chart-half"><canvas id="trendStudents" height="280"></canvas></div>
-            </div>
-        </div>
-    </div>
     </div>
 
     <div class="footer">
-        DRR Dashboard v2.0 | Data refreshed weekly Monday 6:00 AM Central
+        DRR Dashboard v2.1 | Data loaded dynamically from snapshots
     </div>
 
     <script>
-    const chartData = {"revenue": {"ecommerce": 12165.6, "coaching": 345.0, "courses": 5484.28}, "funnel": {"leads": 6, "booked": 0, "showed": 0, "closed": 0}, "expense": {"labels": ["Team (fixed)", "Rana Commission (est.)", "Google Ads", "COGS & Shipping", "Mentors (est.)", "Payment Processing", "Software & Services", "Debt Service"], "values": [13431, 149.385, 2500, 8750, 3200, 3200, 6646, 5000]}, "ads": {"active": 0, "disapproved": 0, "spend": 0.0, "roas": 0.0}, "trends": {"labels": ["1/4", "1/11", "1/18", "1/25", "2/1", "2/8", "2/15", "2/22", "3/1", "3/8", "3/15", "3/22", "3/29", "4/5"], "total_revenue": [0.0, 2893.95, 10874.54, 22822.38, 21945.77, 8804.68, 10898.15, 17376.01, 20159.41, 10008.87, 9699.72, 9588.98, 8350.22, 17994.88], "ecommerce_revenue": [0.0, 2785.96, 10038.79, 7011.41, 9510.66, 6547.71, 10356.16, 6840.0, 9106.2, 9655.34, 9431.27, 9032.62, 6707.0, 12165.6], "coaching_revenue": [0.0, 0.0, 225.0, 135.0, 0.0, 150.0, 135.0, 150.0, 480.0, 248.0, 23.0, 100.0, 0.0, 345.0], "course_revenue": [0.0, 107.99, 610.75, 15675.97, 12435.11, 2106.97, 406.99, 10386.01, 10573.21, 105.53, 245.45, 456.36, 1643.22, 5484.28], "email_revenue": [2935.27, 3383.21, 2983.5, 1844.15, 3441.57, 1110.75, 2723.19, 493.64, 6020.01, 1905.77, 2184.69, 2241.61, 991.67, 2573.71], "open_rate": [63.7, 61.8, 62.8, 63.2, 64.9, 62.8, 64.8, 65.4, 65.3, 63.6, 62.2, 61.8, 64.1, 62.1], "click_rate": [0.11, 0.29, 0.64, 0.15, 0.49, 0.71, 0.35, 0.61, 0.47, 0.28, 0.59, 0.39, 0.39, 0.35], "list_size": [15774, 15774, 15774, 15774, 15774, 15774, 15774, 15774, 15246, 15774, 15773, 15769, 15763, 15234], "order_count": [0, 30, 113, 86, 117, 86, 115, 81, 112, 95, 94, 104, 91, 114], "aov": [0.0, 97.68, 93.84, 266.54, 184.94, 102.28, 88.2, 212.08, 166.6, 103.14, 95.03, 91.72, 94.6, 147.25], "new_customers": [98, 66, 75, 65, 86, 64, 56, 51, 62, 171, 78, 100, 69, 84], "mrr": [2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 2518.83, 1545.25, 1662.74, 1672.73, 1680.23], "gross_volume": [99.0, 742.44, 2132.0, 2915.0, 5581.0, 615.0, 2491.0, 200.0, 133.0, 100.0, 2308.0, 2097.18, 142.99, 0.0], "yt_subscribers": [7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7060, 7070, 7100, 7130, 7130], "fb_followers": [86686, 86706, 86726, 86746, 86766, 86786, 86806, 86826, 86846, 86846, 86846, 86846, 86846, 86846], "ig_followers": [9331, 9341, 9351, 9361, 9371, 9381, 9391, 9401, 9411, 9411, 9411, 9411, 9411, 9411], "ig_engagement": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "new_leads": [3, 3, 3, 3, 3, 3, 3, 3, 3, 6, 6, 6, 6, 6], "booked": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], "active_students": [80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80, 80], "noi_weekly": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -223.03, -1461.79, 8182.87], "payroll_pct": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 32.5, 37.1, 17.4], "weekly_burn": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 9812.01, 9812.01, 9812.01], "ad_spend": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0], "ad_roas": [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]}};
+    // ── Financial Constants (from config.py) ─────────────────────────────
+    const FINANCIAL = {
+        team_fixed_total: 13431,
+        google_ads_budget: 2500,
+        cogs_shipping: 8750,       // cogs_standard_process(5000) + cogs_other(2000) + healthy_life_shipping(1750)
+        mentor_monthly_est: 3200,
+        processing_fees: 3200,     // stripe(2500) + shopify(500) + paypal(200)
+        services_total: 6646,      // ghl(1028)+klaviyo(670)+shopify_plan(399)+circle(99)+tickner(1250)+harquin(400)+perfect_labs(1000)+delphi(350)+mexico(1200)+revolut(50)+other(200)
+        monthly_debt_service: 5000,
+        total_monthly_burn: 42486,
+        total_debt: 219000,
+        revenue_target_monthly: 65000,
+    };
+
+    // ── Helper Functions ─────────────────────────────────────────────────
+    function fmtMoney(val) {
+        const v = parseFloat(val) || 0;
+        if (v < 0) return '-$' + Math.abs(v).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        return '$' + v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    }
+
+    function fmtPct(val, decimals) {
+        decimals = decimals !== undefined ? decimals : 1;
+        const v = parseFloat(val) || 0;
+        return (v * 100).toFixed(decimals) + '%';
+    }
+
+    function fmtPctRaw(val, decimals) {
+        // Value is already a percentage (not decimal)
+        decimals = decimals !== undefined ? decimals : 1;
+        const v = parseFloat(val) || 0;
+        return v.toFixed(decimals) + '%';
+    }
+
+    function fmtInt(val) {
+        const v = parseInt(val) || 0;
+        return v.toLocaleString();
+    }
+
+    function fmtFloat(val, decimals) {
+        decimals = decimals !== undefined ? decimals : 1;
+        return (parseFloat(val) || 0).toFixed(decimals);
+    }
+
+    function wowBadge(current, previous, isInverse) {
+        const c = parseFloat(current) || 0;
+        const p = parseFloat(previous) || 0;
+        if (p === 0) return '<span class="badge badge-neutral">NEW</span>';
+        const change = (c - p) / Math.abs(p);
+        const pct = (change >= 0 ? '+' : '') + (change * 100).toFixed(1) + '%';
+        let css, arrow;
+        if (isInverse) {
+            css = change > 0 ? 'badge-red' : change < 0 ? 'badge-green' : 'badge-neutral';
+        } else {
+            css = change > 0 ? 'badge-green' : change < 0 ? 'badge-red' : 'badge-neutral';
+        }
+        arrow = change > 0 ? '&#9650;' : change < 0 ? '&#9660;' : '&#9644;';
+        return '<span class="badge ' + css + '">' + arrow + ' ' + pct + '</span>';
+    }
+
+    function metricCard(label, value, wowHtml, subtitle, color) {
+        const sub = subtitle ? '<div class="card-subtitle">' + subtitle + '</div>' : '';
+        const wow = wowHtml ? '<div class="card-wow">' + wowHtml + '</div>' : '';
+        const valStyle = color ? ' style="color: ' + color + ';"' : '';
+        return '<div class="metric-card">' +
+            '<div class="card-label">' + label + '</div>' +
+            '<div class="card-value"' + valStyle + '>' + value + '</div>' +
+            wow + sub + '</div>';
+    }
+
+    function progressBar(label, current, target, color) {
+        color = color || '#2e7d32';
+        const c = parseFloat(current) || 0;
+        const t = parseFloat(target) || 0;
+        let pct = t > 0 ? Math.min((c / t) * 100, 100) : 0;
+        const barColor = pct >= 100 ? '#2e7d32' : color;
+        return '<div class="progress-row">' +
+            '<div class="progress-label">' + label + ' (' + Math.round(pct) + '%)</div>' +
+            '<div class="progress-track">' +
+            '<div class="progress-fill" style="width:' + pct + '%; background:' + barColor + ';"></div>' +
+            '</div></div>';
+    }
 
     function toggleTier(id) {
         const el = document.getElementById(id);
         if (el) el.classList.toggle('collapsed');
     }
 
-    // Revenue Doughnut Chart
-    const revCtx = document.getElementById('revenueChart');
-    if (revCtx) {
-        new Chart(revCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['E-Commerce', 'Coaching', 'Courses'],
-                datasets: [{
-                    data: [chartData.revenue.ecommerce, chartData.revenue.coaching, chartData.revenue.courses],
-                    backgroundColor: ['#2e7d32', '#1565c0', '#e65100'],
-                    borderWidth: 2,
-                    borderColor: '#fff',
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'right' },
-                    title: { display: true, text: 'Revenue by Silo' }
-                }
-            }
-        });
+    // ── Data Loading ─────────────────────────────────────────────────────
+    async function loadManifest() {
+        const resp = await fetch('snapshots/manifest.json');
+        if (!resp.ok) throw new Error('Could not load manifest.json');
+        return await resp.json();
     }
 
-    // Expense Breakdown Pie Chart
-    const expCtx = document.getElementById('expenseChart');
-    if (expCtx) {
-        new Chart(expCtx, {
-            type: 'doughnut',
-            data: {
-                labels: chartData.expense.labels,
-                datasets: [{
-                    data: chartData.expense.values,
-                    backgroundColor: [
-                        '#2e7d32', '#43a047', '#1565c0', '#e65100',
-                        '#6a1b9a', '#00838f', '#ef6c00', '#c62828'
-                    ],
-                    borderWidth: 2,
-                    borderColor: '#fff',
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { position: 'right', labels: { font: { size: 11 } } },
-                    title: { display: true, text: 'Monthly Expense Breakdown' }
-                }
-            }
-        });
+    async function loadSnapshot(filename) {
+        const resp = await fetch('snapshots/' + filename);
+        if (!resp.ok) throw new Error('Could not load ' + filename);
+        return await resp.json();
     }
 
-    // Funnel Bar Chart
-    const funnelCtx = document.getElementById('funnelChart');
-    if (funnelCtx) {
-        new Chart(funnelCtx, {
-            type: 'bar',
-            data: {
-                labels: ['New Leads', 'Booked', 'Showed', 'Closed'],
-                datasets: [{
-                    label: 'Count',
-                    data: [chartData.funnel.leads, chartData.funnel.booked, chartData.funnel.showed, chartData.funnel.closed],
-                    backgroundColor: ['#c8e6c9', '#81c784', '#4caf50', '#2e7d32'],
-                    borderRadius: 4,
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false },
-                    title: { display: true, text: 'Sales Funnel' }
-                },
-                scales: { y: { beginAtZero: true } }
-            }
+    async function loadAllData() {
+        const manifest = await loadManifest();
+        if (!manifest.snapshots || manifest.snapshots.length === 0) {
+            throw new Error('No snapshots found in manifest');
+        }
+
+        // Load all snapshots in parallel
+        const allSnapshots = await Promise.all(
+            manifest.snapshots.map(function(f) { return loadSnapshot(f); })
+        );
+
+        // Sort by date
+        allSnapshots.sort(function(a, b) {
+            return (a.week_ending_date || '').localeCompare(b.week_ending_date || '');
         });
+
+        const latest = allSnapshots[allSnapshots.length - 1];
+        const previous = allSnapshots.length >= 2 ? allSnapshots[allSnapshots.length - 2] : null;
+
+        return { latest: latest, previous: previous, history: allSnapshots };
     }
 
-    // Google Ads: Spend vs ROAS dual-axis (will populate with trend data)
-    const adsSpendCtx = document.getElementById('adsSpendROAS');
-    if (adsSpendCtx && chartData.ads.spend > 0) {
-        new Chart(adsSpendCtx, {
-            type: 'bar',
-            data: {
-                labels: ['This Week'],
-                datasets: [
-                    {
-                        label: 'Spend',
-                        data: [chartData.ads.spend],
-                        backgroundColor: '#1565c0',
-                        borderRadius: 4,
-                        yAxisID: 'y',
-                    },
-                    {
-                        label: 'Return',
-                        data: [chartData.ads.spend * chartData.ads.roas],
-                        backgroundColor: '#2e7d32',
-                        borderRadius: 4,
-                        yAxisID: 'y',
-                    }
-                ]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: { display: true, text: 'Ad Spend vs Return' },
-                    legend: { position: 'bottom' }
-                },
-                scales: {
-                    y: { beginAtZero: true, ticks: { callback: v => '$' + v.toLocaleString() } }
-                }
+    // ── Build Trend Data from All Snapshots ──────────────────────────────
+    function buildTrendData(history) {
+        if (!history || history.length === 0) return {};
+
+        const labels = [];
+        const total_revenue = [], ecommerce_revenue = [], coaching_revenue = [], course_revenue = [];
+        const email_revenue = [], open_rate = [], click_rate = [], list_size = [];
+        const order_count = [], aov = [], new_customers = [];
+        const mrr = [], gross_volume = [];
+        const yt_subscribers = [], fb_followers = [], ig_followers = [], ig_engagement = [];
+        const new_leads = [], booked = [], active_students = [];
+        const noi_weekly = [], payroll_pct = [], weekly_burn = [];
+        const ad_spend = [], ad_roas = [];
+
+        history.forEach(function(snap) {
+            const wed = snap.week_ending_date || '';
+            try {
+                const d = new Date(wed + 'T00:00:00');
+                labels.push((d.getMonth() + 1) + '/' + d.getDate());
+            } catch(e) {
+                labels.push(wed.slice(-5));
             }
+
+            const ad = snap.all_data || {};
+            const cp = snap.cross_platform || (ad.cross_platform || {});
+            const sh = ad.shopify || {};
+            const kl = ad.klaviyo || {};
+            const st = ad.stripe || {};
+            const gh = ad.ghl || {};
+            const so = ad.social || {};
+            const ga = ad.google_ads || {};
+
+            total_revenue.push(parseFloat(cp.total_revenue) || 0);
+            ecommerce_revenue.push(parseFloat(cp.ecommerce_revenue) || 0);
+            coaching_revenue.push(parseFloat(cp.coaching_revenue) || 0);
+            course_revenue.push(parseFloat(cp.course_revenue) || 0);
+
+            email_revenue.push(parseFloat(kl.email_attributed_revenue) || 0);
+            open_rate.push(Math.round((parseFloat(kl.open_rate) || 0) * 1000) / 10);
+            click_rate.push(Math.round((parseFloat(kl.click_rate) || 0) * 10000) / 100);
+            list_size.push(parseInt(kl.list_size) || 0);
+
+            order_count.push(parseInt(sh.order_count) || 0);
+            aov.push(parseFloat(sh.aov) || 0);
+            new_customers.push(parseInt(sh.new_customers) || 0);
+
+            mrr.push(parseFloat(st.mrr) || 0);
+            gross_volume.push(parseFloat(st.gross_payment_volume) || 0);
+
+            yt_subscribers.push(parseInt(so.yt_subscribers) || 0);
+            fb_followers.push(parseInt(so.fb_followers) || 0);
+            ig_followers.push(parseInt(so.ig_followers) || 0);
+            ig_engagement.push(Math.round((parseFloat(so.ig_engagement_rate) || 0) * 10000) / 100);
+
+            new_leads.push(parseInt(gh.new_leads) || 0);
+            booked.push(parseInt(gh.booked_appointments) || 0);
+            active_students.push(parseInt(gh.active_students) || 0);
+
+            noi_weekly.push(parseFloat(cp.noi_weekly) || 0);
+            payroll_pct.push(Math.round((parseFloat(cp.payroll_pct_of_revenue) || 0) * 1000) / 10);
+            weekly_burn.push(parseFloat(cp.weekly_burn) || 0);
+
+            ad_spend.push(parseFloat(ga.ad_spend) || 0);
+            ad_roas.push(parseFloat(ga.roas) || 0);
         });
+
+        return {
+            labels: labels,
+            total_revenue: total_revenue,
+            ecommerce_revenue: ecommerce_revenue,
+            coaching_revenue: coaching_revenue,
+            course_revenue: course_revenue,
+            email_revenue: email_revenue,
+            open_rate: open_rate,
+            click_rate: click_rate,
+            list_size: list_size,
+            order_count: order_count,
+            aov: aov,
+            new_customers: new_customers,
+            mrr: mrr,
+            gross_volume: gross_volume,
+            yt_subscribers: yt_subscribers,
+            fb_followers: fb_followers,
+            ig_followers: ig_followers,
+            ig_engagement: ig_engagement,
+            new_leads: new_leads,
+            booked: booked,
+            active_students: active_students,
+            noi_weekly: noi_weekly,
+            payroll_pct: payroll_pct,
+            weekly_burn: weekly_burn,
+            ad_spend: ad_spend,
+            ad_roas: ad_roas,
+        };
     }
 
-    // Google Ads: Product Health Doughnut
-    const adsHealthCtx = document.getElementById('adsProductHealth');
-    if (adsHealthCtx && (chartData.ads.active > 0 || chartData.ads.disapproved > 0)) {
-        new Chart(adsHealthCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Active', 'Disapproved'],
-                datasets: [{
-                    data: [chartData.ads.active, chartData.ads.disapproved],
-                    backgroundColor: ['#2e7d32', '#c62828'],
-                    borderWidth: 2,
-                    borderColor: '#fff',
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    title: { display: true, text: 'Shopping Product Status' },
-                    legend: { position: 'bottom' }
-                }
-            }
+    // ── Render Dashboard ─────────────────────────────────────────────────
+    function renderDashboard(latest, previous, history) {
+        const ad = latest.all_data || {};
+        const cp = latest.cross_platform || (ad.cross_platform || {});
+        const shopify = ad.shopify || {};
+        const klaviyo = ad.klaviyo || {};
+        const stripe_data = ad.stripe || {};
+        const ghl = ad.ghl || {};
+        const social = ad.social || {};
+        const google_ads = ad.google_ads || {};
+        const alerts = latest.alerts || [];
+
+        const prev_ad = previous ? (previous.all_data || {}) : {};
+        const prev_cp = previous ? (previous.cross_platform || (prev_ad.cross_platform || {})) : {};
+        const prev_shopify = prev_ad.shopify || {};
+        const prev_klaviyo = prev_ad.klaviyo || {};
+        const prev_stripe = prev_ad.stripe || {};
+        const prev_ghl = prev_ad.ghl || {};
+        const prev_social = prev_ad.social || {};
+        const prev_google_ads = prev_ad.google_ads || {};
+
+        const wed = latest.week_ending_date || 'Unknown';
+
+        // Update header
+        document.querySelector('.header h1').textContent = 'Dr. Ruth Roberts - Weekly Dashboard';
+        document.getElementById('header-subtitle').innerHTML =
+            'Week ending: ' + wed + ' | Data loaded dynamically';
+        document.title = 'Dr. Ruth Roberts - Weekly Dashboard | ' + wed;
+
+        // ── Build HTML ──────────────────────────────────────────────────
+        let html = '';
+
+        // Alert banner
+        let alertBanner = '';
+        if (alerts.length > 0) {
+            let items = '';
+            alerts.forEach(function(a) {
+                items += '<li><strong>' + a.metric_name + '</strong>: ' +
+                    parseFloat(a.current_value).toFixed(4) + ' (' + a.direction + ' ' + a.threshold + ')</li>';
+            });
+            alertBanner = '<div class="alert-banner"><h3>&#9888; ' + alerts.length +
+                ' Alert(s) Triggered</h3><ul>' + items + '</ul></div>';
+        }
+
+        // Revenue/Financial derived values
+        const totalRev = parseFloat(cp.total_revenue) || 0;
+        const noiVal = parseFloat(cp.noi_weekly) || 0;
+        const cfVal = parseFloat(cp.weekly_cash_flow) || 0;
+        const weeklyTarget = parseFloat(cp.weekly_target) || 0;
+        const revTargetPct = parseFloat(cp.revenue_vs_target_pct) || 0;
+        const revTargetColor = revTargetPct >= 0.9 ? '#2e7d32' : revTargetPct >= 0.7 ? '#e65100' : '#c62828';
+        const noiColor = noiVal >= 0 ? '#2e7d32' : '#c62828';
+        const cfColor = cfVal >= 0 ? '#2e7d32' : '#c62828';
+        const payrollPctVal = parseFloat(cp.payroll_pct_of_revenue) || 0;
+        const payrollColor = payrollPctVal < 0.25 ? '#2e7d32' : payrollPctVal < 0.30 ? '#e65100' : '#c62828';
+        const monthlyBurn = parseFloat(cp.monthly_burn) || FINANCIAL.total_monthly_burn;
+        const debtRemaining = parseFloat(cp.debt_remaining) || FINANCIAL.total_debt;
+        const monthsDTF = parseFloat(cp.months_to_debt_free) || 999;
+        const ranaCommission = parseFloat(cp.rana_commission) || 0;
+
+        // Google Ads
+        const gaSpend = parseFloat(google_ads.ad_spend || google_ads.google_ads_weekly_spend || 0);
+        const gaRoas = parseFloat(google_ads.roas || google_ads.google_ads_roas || 0);
+
+        // Expense categories
+        const categories = [
+            ['Team (fixed)', FINANCIAL.team_fixed_total],
+            ['Rana Commission (est.)', ranaCommission * 4.33],
+            ['Google Ads', FINANCIAL.google_ads_budget],
+            ['COGS & Shipping', FINANCIAL.cogs_shipping],
+            ['Mentors (est.)', FINANCIAL.mentor_monthly_est],
+            ['Payment Processing', FINANCIAL.processing_fees],
+            ['Software & Services', FINANCIAL.services_total],
+            ['Debt Service', FINANCIAL.monthly_debt_service],
+        ];
+
+        // ── Tier 1: Executive Overview ──────────────────────────────────
+        html += '<div class="tier" id="tier1">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier1-body\')">' +
+            '<h2>&#9656; Tier 1: Executive Overview</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier1-body">' +
+            alertBanner +
+            '<div class="card-grid">' +
+            metricCard('Total Revenue', fmtMoney(cp.total_revenue),
+                wowBadge(cp.total_revenue, prev_cp.total_revenue)) +
+            metricCard('E-Commerce', fmtMoney(cp.ecommerce_revenue),
+                wowBadge(cp.ecommerce_revenue, prev_cp.ecommerce_revenue)) +
+            metricCard('Coaching', fmtMoney(cp.coaching_revenue),
+                wowBadge(cp.coaching_revenue, prev_cp.coaching_revenue)) +
+            metricCard('Courses', fmtMoney(cp.course_revenue),
+                wowBadge(cp.course_revenue, prev_cp.course_revenue)) +
+            metricCard('NOI (Weekly)', fmtMoney(noiVal), '', 'Margin: ' + fmtPct(cp.noi_margin), noiColor) +
+            metricCard('Cash Flow (Weekly)', fmtMoney(cfVal), '', '', cfColor) +
+            metricCard('Monthly Burn', fmtMoney(monthlyBurn), '', 'Verified from bank data') +
+            metricCard('Active Students', fmtInt(ghl.active_students)) +
+            '</div>' +
+            '<h3>Revenue vs Target</h3>' +
+            progressBar('Weekly: ' + fmtMoney(totalRev) + ' / ' + fmtMoney(weeklyTarget),
+                totalRev, weeklyTarget, revTargetColor) +
+            progressBar('Monthly run rate: ' + fmtMoney(cp.monthly_revenue_run_rate) + ' / ' + fmtMoney(cp.revenue_target_monthly),
+                cp.monthly_revenue_run_rate, cp.revenue_target_monthly, revTargetColor) +
+            '<div class="chart-container"><canvas id="revenueChart" height="250"></canvas></div>' +
+            '</div></div>';
+
+        // ── Tier 2: Financial Health ────────────────────────────────────
+        let expenseRows = '';
+        categories.forEach(function(c) {
+            expenseRows += '<tr><td>' + c[0] + '</td><td class="text-right">' + fmtMoney(c[1]) + '</td></tr>';
         });
-    }
 
-    // ── Trend Line Charts ──────────────────────────────────────────────
-    const T = chartData.trends || {};
-    if (T.labels && T.labels.length > 1) {
+        html += '<div class="tier" id="tier2">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier2-body\')">' +
+            '<h2>&#9656; Tier 2: Financial Health</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier2-body">' +
+            '<div class="card-grid">' +
+            metricCard('Payroll % of Revenue', fmtPctRaw((payrollPctVal * 100).toFixed(1)), '', 'Target: < 25%', payrollColor) +
+            metricCard('NOI Margin', fmtPct(cp.noi_margin), '', '', noiVal >= 0 ? '#2e7d32' : '#c62828') +
+            metricCard('Monthly Cash Flow', fmtMoney(cp.monthly_cash_flow), '', 'After debt service',
+                (parseFloat(cp.monthly_cash_flow) || 0) >= 0 ? '#2e7d32' : '#c62828') +
+            metricCard('Monthly Revenue Run Rate', fmtMoney(cp.monthly_revenue_run_rate)) +
+            metricCard('Debt Remaining', fmtMoney(debtRemaining), '',
+                '~' + fmtFloat(monthsDTF) + ' months to debt-free') +
+            metricCard('Monthly Burn', fmtMoney(monthlyBurn)) +
+            metricCard('Ad Spend (Weekly)', fmtMoney(cp.ad_spend_weekly), '',
+                'ROAS: ' + fmtFloat(cp.ad_roas) + 'x') +
+            metricCard('Email Revenue', fmtMoney(klaviyo.email_attributed_revenue)) +
+            '</div>' +
+            '<h3>Debt Paydown Progress</h3>' +
+            progressBar('Paid: ' + fmtMoney(0) + ' of ' + fmtMoney(debtRemaining),
+                0, debtRemaining, '#1565c0') +
+            '<h3>Monthly Expense Breakdown</h3>' +
+            '<table class="data-table"><thead><tr><th>Category</th><th class="text-right">Monthly</th></tr></thead>' +
+            '<tbody>' + expenseRows +
+            '<tr style="font-weight: bold; border-top: 2px solid #333;"><td>Total Monthly Burn</td>' +
+            '<td class="text-right">' + fmtMoney(monthlyBurn) + '</td></tr>' +
+            '</tbody></table>' +
+            '<div class="chart-container"><canvas id="expenseChart" height="280"></canvas></div>' +
+            '</div></div>';
 
-        const lineDefaults = {
-            type: 'line',
-            options: {
-                responsive: true,
-                interaction: { mode: 'index', intersect: false },
-                plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } } },
-                scales: {
-                    x: { grid: { display: false } },
-                    y: { beginAtZero: true }
-                },
-                elements: { point: { radius: 3, hoverRadius: 5 }, line: { tension: 0.3 } }
+        // ── Tier 3: Google Ads ──────────────────────────────────────────
+        html += '<div class="tier" id="tier3">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier3-body\')">' +
+            '<h2>&#9656; Tier 3: Google Ads</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier3-body">' +
+            '<div class="card-grid">' +
+            metricCard('Ad Spend', fmtMoney(gaSpend),
+                wowBadge(gaSpend, parseFloat(prev_google_ads.ad_spend || prev_google_ads.google_ads_weekly_spend || 0))) +
+            metricCard('ROAS', fmtFloat(gaRoas) + 'x', '', 'Target: > 3.0x',
+                gaRoas >= 3 ? '#2e7d32' : gaRoas >= 2 ? '#e65100' : '#c62828') +
+            metricCard('Conversion Value', fmtMoney(google_ads.conversion_value)) +
+            metricCard('Conversions', fmtFloat(google_ads.conversions)) +
+            metricCard('CPA', fmtMoney(google_ads.cpa)) +
+            metricCard('Clicks', fmtInt(google_ads.clicks)) +
+            metricCard('Impressions', fmtInt(google_ads.impressions)) +
+            metricCard('CTR', fmtPctRaw(parseFloat(google_ads.ctr || 0).toFixed(1))) +
+            '</div>' +
+            '<h3>Shopping Product Health</h3>' +
+            '<div class="card-grid">' +
+            metricCard('Active Products', fmtInt(google_ads.active_products), '',  '',
+                parseInt(google_ads.active_products || 0) > 0 ? '#2e7d32' : undefined) +
+            metricCard('Disapproved Products', fmtInt(google_ads.disapproved_products), '', '',
+                parseInt(google_ads.disapproved_products || 0) === 0 ? '#2e7d32' : '#c62828') +
+            metricCard('Disapproval Rate', fmtPctRaw(parseFloat(google_ads.disapproval_rate || 0).toFixed(1)), '',
+                'Target: < 10%',
+                parseFloat(google_ads.disapproval_rate || 0) < 10 ? '#2e7d32' : '#c62828') +
+            '</div>' +
+            '<div class="chart-row">' +
+            '<div class="chart-half"><canvas id="adsSpendROAS" height="280"></canvas></div>' +
+            '<div class="chart-half"><canvas id="adsProductHealth" height="280"></canvas></div>' +
+            '</div></div></div>';
+
+        // ── Tier 4: Sales Pipeline (GHL) ────────────────────────────────
+        html += '<div class="tier" id="tier4">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier4-body\')">' +
+            '<h2>&#9656; Tier 4: Sales Pipeline (GHL)</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier4-body">' +
+            '<div class="card-grid">' +
+            metricCard('New Leads', fmtInt(ghl.new_leads),
+                wowBadge(ghl.new_leads, prev_ghl.new_leads)) +
+            metricCard('Booked Calls', fmtInt(ghl.booked_appointments),
+                wowBadge(ghl.booked_appointments, prev_ghl.booked_appointments)) +
+            metricCard('Showed', fmtInt(ghl.showed_appointments)) +
+            metricCard('Closed Deals', fmtInt(ghl.closed_deals)) +
+            metricCard('Close Rate (Overall)', fmtPct(ghl.close_rate_overall),
+                wowBadge(ghl.close_rate_overall, prev_ghl.close_rate_overall)) +
+            metricCard('Close Rate (Rana)', fmtPct(ghl.close_rate_rana)) +
+            metricCard('Pipeline Value', fmtMoney(ghl.pipeline_value)) +
+            metricCard('Revenue per Call', fmtMoney(ghl.revenue_per_call)) +
+            '</div>' +
+            '<div class="chart-container"><canvas id="funnelChart" height="250"></canvas></div>' +
+            '</div></div>';
+
+        // ── Tier 5: Email Marketing (Klaviyo) ───────────────────────────
+        html += '<div class="tier" id="tier5">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier5-body\')">' +
+            '<h2>&#9656; Tier 5: Email Marketing (Klaviyo)</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier5-body">' +
+            '<div class="card-grid">' +
+            metricCard('Email Revenue', fmtMoney(klaviyo.email_attributed_revenue),
+                wowBadge(klaviyo.email_attributed_revenue, prev_klaviyo.email_attributed_revenue)) +
+            metricCard('Open Rate', fmtPct(klaviyo.open_rate),
+                wowBadge(klaviyo.open_rate, prev_klaviyo.open_rate)) +
+            metricCard('Click Rate', fmtPct(klaviyo.click_rate),
+                wowBadge(klaviyo.click_rate, prev_klaviyo.click_rate)) +
+            metricCard('Click-to-Open', fmtPct(klaviyo.ctor)) +
+            metricCard('List Size', fmtInt(klaviyo.list_size),
+                wowBadge(klaviyo.list_size, prev_klaviyo.list_size)) +
+            metricCard('Delivery Rate', fmtPct(klaviyo.delivery_rate)) +
+            metricCard('Spam Rate', fmtPct(klaviyo.spam_complaint_rate, 3), '',
+                'Target: < 0.1%') +
+            metricCard('Welcome Flow Rev', fmtMoney(klaviyo.welcome_flow_revenue)) +
+            '</div></div></div>';
+
+        // ── Tier 6: E-Commerce Detail (Shopify) ─────────────────────────
+        let topProductsHtml = '';
+        try {
+            const topProducts = typeof shopify.top_products_json === 'string' ?
+                JSON.parse(shopify.top_products_json) : (shopify.top_products_json || []);
+            if (topProducts.length > 0) {
+                let rows = '';
+                topProducts.slice(0, 5).forEach(function(p) {
+                    rows += '<tr><td>' + (p.name || '').substring(0, 40) + '</td>' +
+                        '<td class="text-right">' + fmtMoney(p.revenue) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.quantity) + '</td></tr>';
+                });
+                topProductsHtml = '<h3>Top 5 Products</h3>' +
+                    '<table class="data-table"><thead><tr><th>Product</th>' +
+                    '<th class="text-right">Revenue</th><th class="text-right">Qty</th></tr></thead>' +
+                    '<tbody>' + rows + '</tbody></table>';
             }
+        } catch(e) {}
+
+        html += '<div class="tier" id="tier6">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier6-body\')">' +
+            '<h2>&#9656; Tier 6: E-Commerce Detail (Shopify)</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier6-body">' +
+            '<div class="card-grid">' +
+            metricCard('Gross Revenue', fmtMoney(shopify.gross_revenue),
+                wowBadge(shopify.gross_revenue, prev_shopify.gross_revenue)) +
+            metricCard('Net Revenue', fmtMoney(shopify.net_revenue)) +
+            metricCard('Orders', fmtInt(shopify.order_count),
+                wowBadge(shopify.order_count, prev_shopify.order_count)) +
+            metricCard('AOV', fmtMoney(shopify.aov),
+                wowBadge(shopify.aov, prev_shopify.aov)) +
+            metricCard('New Customers', fmtInt(shopify.new_customers)) +
+            metricCard('Returning Customers', fmtInt(shopify.returning_customers)) +
+            metricCard('Conversion Rate', fmtPct(shopify.conversion_rate)) +
+            metricCard('Return Rate', fmtPct(shopify.return_rate), '',
+                'Target: < 5%') +
+            '</div>' +
+            topProductsHtml +
+            '</div></div>';
+
+        // ── Tier 7: Payments & Health (Stripe) ──────────────────────────
+        html += '<div class="tier" id="tier7">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier7-body\')">' +
+            '<h2>&#9656; Tier 7: Payments &amp; Health (Stripe)</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier7-body">' +
+            '<div class="card-grid">' +
+            metricCard('Gross Volume', fmtMoney(stripe_data.gross_payment_volume),
+                wowBadge(stripe_data.gross_payment_volume, prev_stripe.gross_payment_volume)) +
+            metricCard('Net Revenue', fmtMoney(stripe_data.net_revenue)) +
+            metricCard('Payment Success', fmtPct(stripe_data.payment_success_rate), '',
+                'Target: > 95%') +
+            metricCard('Dispute Rate', fmtPct(stripe_data.dispute_rate, 3), '',
+                'Target: < 0.5%') +
+            metricCard('Refund Rate', fmtPct(stripe_data.refund_rate)) +
+            metricCard('Refund Amount', fmtMoney(stripe_data.refund_amount)) +
+            metricCard('MRR', fmtMoney(stripe_data.mrr),
+                wowBadge(stripe_data.mrr, prev_stripe.mrr)) +
+            metricCard('Processing Fees', fmtMoney(stripe_data.processing_fees)) +
+            '</div></div></div>';
+
+        // ── Tier 8: Coaching Program ────────────────────────────────────
+        const mentorCost = (parseFloat(ghl.active_students) || 0) *
+            800 / 12 * (52/12);  // approximate monthly
+        html += '<div class="tier" id="tier8">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier8-body\')">' +
+            '<h2>&#9656; Tier 8: Coaching Program</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier8-body">' +
+            '<div class="card-grid">' +
+            metricCard('Active Students', fmtInt(ghl.active_students),
+                wowBadge(ghl.active_students, prev_ghl.active_students)) +
+            metricCard('Enrollment Growth', fmtPct(ghl.enrollment_growth_rate)) +
+            metricCard('Student Churn', fmtPct(ghl.student_churn_rate), '',
+                'Target: < 15%') +
+            metricCard('Rev per Student', fmtMoney(ghl.revenue_per_student)) +
+            metricCard('Rana Commission', fmtMoney(ranaCommission), '',
+                '10% of coaching revenue') +
+            metricCard('Mentor Cost (est.)', fmtMoney(FINANCIAL.mentor_monthly_est / 4.33), '',
+                '$800/student') +
+            '</div></div></div>';
+
+        // ── Tier 9: Social Media ────────────────────────────────────────
+        // YouTube - compute derived values like the original generator
+        const ytTotalViews = parseInt(social.yt_total_views) || 0;
+        const prevYtTotalViews = parseInt(prev_social.yt_total_views) || 0;
+        let ytWeeklyViews = prevYtTotalViews ? Math.max(0, ytTotalViews - prevYtTotalViews) : (parseInt(social.yt_views) || 0);
+        const ytAvgWatchMin = parseFloat(social.yt_avg_watch_min) || 0;
+        let ytWatchHours = parseFloat(social.yt_watch_hours) || 0;
+        if (ytWatchHours === 0 && ytWeeklyViews > 0 && ytAvgWatchMin > 0) {
+            ytWatchHours = Math.round(ytWeeklyViews * ytAvgWatchMin / 60 * 10) / 10;
+        }
+        const prevTotalComments = parseInt(prev_social.yt_total_comments) || 0;
+        const curTotalComments = parseInt(social.yt_total_comments) || 0;
+        const ytWeeklyComments = prevTotalComments ? Math.max(0, curTotalComments - prevTotalComments) : (parseInt(social.yt_comments) || 0);
+
+        // Recent videos table
+        let ytVideosHtml = '';
+        try {
+            const recentVideos = typeof social.yt_recent_videos_json === 'string' ?
+                JSON.parse(social.yt_recent_videos_json) : (social.yt_recent_videos_json || []);
+            if (recentVideos.length > 0) {
+                let vRows = '';
+                recentVideos.slice(0, 5).forEach(function(v) {
+                    vRows += '<tr><td>' + (v.title || '').substring(0, 50) + '</td>' +
+                        '<td>' + (v.published || '') + '</td>' +
+                        '<td class="text-right">' + fmtInt(v.views) + '</td>' +
+                        '<td class="text-right">' + fmtInt(v.likes) + '</td>' +
+                        '<td class="text-right">' + fmtInt(v.comments) + '</td>' +
+                        '<td class="text-right">' + fmtFloat(v.duration_min) + ' min</td></tr>';
+                });
+                ytVideosHtml = '<h4>Recent Videos</h4>' +
+                    '<table class="data-table"><thead><tr><th>Title</th><th>Published</th>' +
+                    '<th class="text-right">Views</th><th class="text-right">Likes</th>' +
+                    '<th class="text-right">Comments</th><th class="text-right">Duration</th></tr></thead>' +
+                    '<tbody>' + vRows + '</tbody></table>';
+            }
+        } catch(e) {}
+
+        // FB top posts
+        let fbPostsHtml = '';
+        try {
+            const fbPosts = typeof social.fb_top_posts_json === 'string' ?
+                JSON.parse(social.fb_top_posts_json) : (social.fb_top_posts_json || []);
+            if (fbPosts.length > 0) {
+                let fpRows = '';
+                fbPosts.slice(0, 5).forEach(function(p) {
+                    fpRows += '<tr><td>' + (p.message || '').substring(0, 50) + '</td>' +
+                        '<td>' + (p.created_time || '').substring(0, 10) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.likes) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.comments) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.shares) + '</td></tr>';
+                });
+                fbPostsHtml = '<h4>Top Facebook Posts This Week</h4>' +
+                    '<table class="data-table"><thead><tr><th>Post</th><th>Date</th>' +
+                    '<th class="text-right">Likes</th><th class="text-right">Comments</th>' +
+                    '<th class="text-right">Shares</th></tr></thead>' +
+                    '<tbody>' + fpRows + '</tbody></table>';
+            }
+        } catch(e) {}
+
+        // IG top posts
+        let igPostsHtml = '';
+        try {
+            const igPosts = typeof social.ig_top_posts_json === 'string' ?
+                JSON.parse(social.ig_top_posts_json) : (social.ig_top_posts_json || []);
+            if (igPosts.length > 0) {
+                let ipRows = '';
+                igPosts.slice(0, 5).forEach(function(p) {
+                    ipRows += '<tr><td>' + (p.caption || '').substring(0, 50) + '</td>' +
+                        '<td>' + (p.timestamp || '').substring(0, 10) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.likes) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.comments) + '</td>' +
+                        '<td class="text-right">' + fmtInt(p.total_engagement) + '</td></tr>';
+                });
+                igPostsHtml = '<h4>Top Instagram Posts This Week</h4>' +
+                    '<table class="data-table"><thead><tr><th>Caption</th><th>Date</th>' +
+                    '<th class="text-right">Likes</th><th class="text-right">Comments</th>' +
+                    '<th class="text-right">Total</th></tr></thead>' +
+                    '<tbody>' + ipRows + '</tbody></table>';
+            }
+        } catch(e) {}
+
+        html += '<div class="tier" id="tier9">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier9-body\')">' +
+            '<h2>&#9656; Tier 9: Social Media</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier9-body">' +
+            '<h3>YouTube</h3>' +
+            '<div class="card-grid">' +
+            metricCard('Subscribers', fmtInt(social.yt_subscribers),
+                wowBadge(social.yt_subscribers, prev_social.yt_subscribers)) +
+            metricCard('Total Views', fmtInt(ytTotalViews),
+                prevYtTotalViews ? wowBadge(ytTotalViews, prevYtTotalViews) : '') +
+            metricCard('Views This Week', fmtInt(ytWeeklyViews)) +
+            metricCard('Watch Hours (est.)', fmtFloat(ytWatchHours)) +
+            metricCard('New Videos', fmtInt(social.yt_new_videos)) +
+            metricCard('Comments', fmtInt(ytWeeklyComments)) +
+            '</div>' +
+            ytVideosHtml +
+            '<h3>Facebook</h3>' +
+            '<div class="card-grid">' +
+            metricCard('Followers', fmtInt(social.fb_followers),
+                wowBadge(social.fb_followers, prev_social.fb_followers)) +
+            metricCard('Reach', fmtInt(social.fb_reach)) +
+            metricCard('Engagement Rate', fmtPct(social.fb_engagement_rate)) +
+            metricCard('Likes', fmtInt(social.fb_week_likes)) +
+            metricCard('Comments', fmtInt(social.fb_week_comments)) +
+            metricCard('Shares', fmtInt(social.fb_week_shares)) +
+            '</div>' +
+            fbPostsHtml +
+            '<h3>Instagram</h3>' +
+            '<div class="card-grid">' +
+            metricCard('Followers', fmtInt(social.ig_followers),
+                wowBadge(social.ig_followers, prev_social.ig_followers)) +
+            metricCard('Engagement Rate', fmtPct(social.ig_engagement_rate)) +
+            metricCard('Likes', fmtInt(social.ig_week_likes)) +
+            metricCard('Comments', fmtInt(social.ig_week_comments)) +
+            '</div>' +
+            igPostsHtml +
+            '</div></div>';
+
+        // ── Tier 10: Trends ─────────────────────────────────────────────
+        const trendData = buildTrendData(history);
+        const hasTrends = trendData.labels && trendData.labels.length > 1;
+
+        if (hasTrends) {
+            html += '<div class="tier" id="tier10">' +
+                '<div class="tier-header" onclick="toggleTier(\'tier10-body\')">' +
+                '<h2>&#9656; Trends &amp; Year-over-Year</h2>' +
+                '<span class="tier-toggle">&#9660;</span></div>' +
+                '<div class="tier-body" id="tier10-body">' +
+                '<h3>Revenue Trends</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendRevenue" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendRevBySilo" height="280"></canvas></div></div>' +
+                '<h3>Financial Health Trends</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendNOI" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendPayroll" height="280"></canvas></div></div>' +
+                '<h3>Google Ads Trends</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendAdSpend" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendAdROAS" height="280"></canvas></div></div>' +
+                '<h3>Email Marketing Trends</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendEmailRev" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendEmailRates" height="280"></canvas></div></div>' +
+                '<h3>E-Commerce Trends</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendOrders" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendAOV" height="280"></canvas></div></div>' +
+                '<h3>Payments &amp; Subscriptions</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendMRR" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendStripeVol" height="280"></canvas></div></div>' +
+                '<h3>Social Media Growth</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendSocial" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendYT" height="280"></canvas></div></div>' +
+                '<h3>Sales Pipeline &amp; Coaching</h3>' +
+                '<div class="chart-row">' +
+                '<div class="chart-half"><canvas id="trendPipeline" height="280"></canvas></div>' +
+                '<div class="chart-half"><canvas id="trendStudents" height="280"></canvas></div></div>' +
+                '</div></div>';
+        }
+
+        // Insert HTML
+        document.getElementById('dashboard-container').innerHTML = html;
+
+        // ── Build chartData for Chart.js ────────────────────────────────
+        const chartData = {
+            revenue: {
+                ecommerce: parseFloat(cp.ecommerce_revenue) || 0,
+                coaching: parseFloat(cp.coaching_revenue) || 0,
+                courses: parseFloat(cp.course_revenue) || 0,
+            },
+            funnel: {
+                leads: parseInt(ghl.new_leads) || 0,
+                booked: parseInt(ghl.booked_appointments) || 0,
+                showed: parseInt(ghl.showed_appointments) || 0,
+                closed: parseInt(ghl.closed_deals) || 0,
+            },
+            expense: {
+                labels: categories.map(function(c) { return c[0]; }),
+                values: categories.map(function(c) { return c[1]; }),
+            },
+            ads: {
+                active: parseInt(google_ads.active_products) || 0,
+                disapproved: parseInt(google_ads.disapproved_products) || 0,
+                spend: gaSpend,
+                roas: gaRoas,
+            },
+            trends: trendData,
         };
 
-        function dollarAxis(axis) {
-            return { ...axis, ticks: { callback: v => '$' + v.toLocaleString() } };
-        }
-        function pctAxis(axis) {
-            return { ...axis, ticks: { callback: v => v + '%' } };
-        }
+        // ── Render Charts ───────────────────────────────────────────────
+        renderCharts(chartData);
+    }
 
-        // 1 ── Total Revenue
-        new Chart(document.getElementById('trendRevenue'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'Total Revenue',
-                    data: T.total_revenue,
-                    borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Weekly Total Revenue' } },
-                scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
-            }
-        });
+    // ── Chart Rendering (identical logic to original) ────────────────────
+    function renderCharts(chartData) {
 
-        // 2 ── Revenue by Silo
-        new Chart(document.getElementById('trendRevBySilo'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [
-                    { label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
-                    { label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', fill: false, borderWidth: 2 },
-                    { label: 'Courses', data: T.course_revenue, borderColor: '#e65100', fill: false, borderWidth: 2 },
-                ]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Revenue by Silo' } },
-                scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
-            }
-        });
-
-        // 3 ── NOI Trend
-        if (document.getElementById('trendNOI')) {
-            new Chart(document.getElementById('trendNOI'), {
-                ...lineDefaults,
+        // Revenue Doughnut Chart
+        var revCtx = document.getElementById('revenueChart');
+        if (revCtx) {
+            new Chart(revCtx, {
+                type: 'doughnut',
                 data: {
-                    labels: T.labels,
+                    labels: ['E-Commerce', 'Coaching', 'Courses'],
+                    datasets: [{
+                        data: [chartData.revenue.ecommerce, chartData.revenue.coaching, chartData.revenue.courses],
+                        backgroundColor: ['#2e7d32', '#1565c0', '#e65100'],
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right' },
+                        title: { display: true, text: 'Revenue by Silo' }
+                    }
+                }
+            });
+        }
+
+        // Expense Breakdown Pie Chart
+        var expCtx = document.getElementById('expenseChart');
+        if (expCtx) {
+            new Chart(expCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: chartData.expense.labels,
+                    datasets: [{
+                        data: chartData.expense.values,
+                        backgroundColor: [
+                            '#2e7d32', '#43a047', '#1565c0', '#e65100',
+                            '#6a1b9a', '#00838f', '#ef6c00', '#c62828'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { position: 'right', labels: { font: { size: 11 } } },
+                        title: { display: true, text: 'Monthly Expense Breakdown' }
+                    }
+                }
+            });
+        }
+
+        // Funnel Bar Chart
+        var funnelCtx = document.getElementById('funnelChart');
+        if (funnelCtx) {
+            new Chart(funnelCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['New Leads', 'Booked', 'Showed', 'Closed'],
+                    datasets: [{
+                        label: 'Count',
+                        data: [chartData.funnel.leads, chartData.funnel.booked, chartData.funnel.showed, chartData.funnel.closed],
+                        backgroundColor: ['#c8e6c9', '#81c784', '#4caf50', '#2e7d32'],
+                        borderRadius: 4,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { display: false },
+                        title: { display: true, text: 'Sales Funnel' }
+                    },
+                    scales: { y: { beginAtZero: true } }
+                }
+            });
+        }
+
+        // Google Ads: Spend vs ROAS
+        var adsSpendCtx = document.getElementById('adsSpendROAS');
+        if (adsSpendCtx && chartData.ads.spend > 0) {
+            new Chart(adsSpendCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['This Week'],
                     datasets: [
-                        { label: 'Revenue', data: T.total_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
-                        { label: 'Burn', data: T.weekly_burn, borderColor: '#c62828', borderDash: [5,5], fill: false, borderWidth: 2 },
-                        { label: 'NOI', data: T.noi_weekly, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)', fill: true, borderWidth: 2 },
+                        {
+                            label: 'Spend',
+                            data: [chartData.ads.spend],
+                            backgroundColor: '#1565c0',
+                            borderRadius: 4,
+                            yAxisID: 'y',
+                        },
+                        {
+                            label: 'Return',
+                            data: [chartData.ads.spend * chartData.ads.roas],
+                            backgroundColor: '#2e7d32',
+                            borderRadius: 4,
+                            yAxisID: 'y',
+                        }
                     ]
                 },
-                options: { ...lineDefaults.options,
-                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Revenue vs Burn vs NOI' } },
-                    scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Ad Spend vs Return' },
+                        legend: { position: 'bottom' }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: function(v) { return '$' + v.toLocaleString(); } } }
+                    }
                 }
             });
         }
 
-        // 4 ── Payroll % Trend
-        if (document.getElementById('trendPayroll')) {
-            new Chart(document.getElementById('trendPayroll'), {
-                ...lineDefaults,
+        // Google Ads: Product Health Doughnut
+        var adsHealthCtx = document.getElementById('adsProductHealth');
+        if (adsHealthCtx && (chartData.ads.active > 0 || chartData.ads.disapproved > 0)) {
+            new Chart(adsHealthCtx, {
+                type: 'doughnut',
                 data: {
-                    labels: T.labels,
+                    labels: ['Active', 'Disapproved'],
                     datasets: [{
-                        label: 'Payroll %',
-                        data: T.payroll_pct,
-                        borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
-                        fill: true, borderWidth: 2,
+                        data: [chartData.ads.active, chartData.ads.disapproved],
+                        backgroundColor: ['#2e7d32', '#c62828'],
+                        borderWidth: 2,
+                        borderColor: '#fff',
                     }]
                 },
-                options: { ...lineDefaults.options,
-                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Payroll as % of Revenue' } },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: { display: true, text: 'Shopping Product Status' },
+                        legend: { position: 'bottom' }
+                    }
+                }
+            });
+        }
+
+        // ── Trend Line Charts ───────────────────────────────────────────
+        var T = chartData.trends || {};
+        if (T.labels && T.labels.length > 1) {
+
+            var lineDefaults = {
+                type: 'line',
+                options: {
+                    responsive: true,
+                    interaction: { mode: 'index', intersect: false },
+                    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, padding: 8, font: { size: 11 } } } },
                     scales: {
-                        x: lineDefaults.options.scales.x,
-                        y: { ...pctAxis(lineDefaults.options.scales.y),
-                            suggestedMax: 40
+                        x: { grid: { display: false } },
+                        y: { beginAtZero: true }
+                    },
+                    elements: { point: { radius: 3, hoverRadius: 5 }, line: { tension: 0.3 } }
+                }
+            };
+
+            function dollarAxis(axis) {
+                return Object.assign({}, axis, { ticks: { callback: function(v) { return '$' + v.toLocaleString(); } } });
+            }
+            function pctAxis(axis) {
+                return Object.assign({}, axis, { ticks: { callback: function(v) { return v + '%'; } } });
+            }
+
+            // 1 - Total Revenue
+            if (document.getElementById('trendRevenue')) {
+                new Chart(document.getElementById('trendRevenue'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'Total Revenue',
+                            data: T.total_revenue,
+                            borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Weekly Total Revenue' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
+            }
+
+            // 2 - Revenue by Silo
+            if (document.getElementById('trendRevBySilo')) {
+                new Chart(document.getElementById('trendRevBySilo'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [
+                            { label: 'E-Commerce', data: T.ecommerce_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
+                            { label: 'Coaching', data: T.coaching_revenue, borderColor: '#1565c0', fill: false, borderWidth: 2 },
+                            { label: 'Courses', data: T.course_revenue, borderColor: '#e65100', fill: false, borderWidth: 2 },
+                        ]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Revenue by Silo' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
+            }
+
+            // 3 - NOI Trend
+            if (document.getElementById('trendNOI')) {
+                new Chart(document.getElementById('trendNOI'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [
+                            { label: 'Revenue', data: T.total_revenue, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
+                            { label: 'Burn', data: T.weekly_burn, borderColor: '#c62828', borderDash: [5,5], fill: false, borderWidth: 2 },
+                            { label: 'NOI', data: T.noi_weekly, borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)', fill: true, borderWidth: 2 },
+                        ]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Revenue vs Burn vs NOI' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
+            }
+
+            // 4 - Payroll % Trend
+            if (document.getElementById('trendPayroll')) {
+                new Chart(document.getElementById('trendPayroll'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'Payroll %',
+                            data: T.payroll_pct,
+                            borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Payroll as % of Revenue' } }),
+                        scales: {
+                            x: lineDefaults.options.scales.x,
+                            y: Object.assign({}, pctAxis(lineDefaults.options.scales.y), { suggestedMax: 40 })
                         }
-                    }
-                }
-            });
-        }
-
-        // 5 ── Ad Spend Trend
-        if (document.getElementById('trendAdSpend') && T.ad_spend) {
-            new Chart(document.getElementById('trendAdSpend'), {
-                ...lineDefaults,
-                data: {
-                    labels: T.labels,
-                    datasets: [{
-                        label: 'Ad Spend',
-                        data: T.ad_spend,
-                        borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
-                        fill: true, borderWidth: 2,
-                    }]
-                },
-                options: { ...lineDefaults.options,
-                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Weekly Ad Spend' } },
-                    scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
-                }
-            });
-        }
-
-        // 6 ── Ad ROAS Trend
-        if (document.getElementById('trendAdROAS') && T.ad_roas) {
-            new Chart(document.getElementById('trendAdROAS'), {
-                ...lineDefaults,
-                data: {
-                    labels: T.labels,
-                    datasets: [{
-                        label: 'ROAS',
-                        data: T.ad_roas,
-                        borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
-                        fill: true, borderWidth: 2,
-                    }]
-                },
-                options: { ...lineDefaults.options,
-                    plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Google Ads ROAS' } },
-                    scales: {
-                        x: lineDefaults.options.scales.x,
-                        y: { ...lineDefaults.options.scales.y, ticks: { callback: v => v + 'x' }, suggestedMin: 0 }
-                    }
-                }
-            });
-        }
-
-        // 7 ── Email Revenue
-        new Chart(document.getElementById('trendEmailRev'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'Email Revenue',
-                    data: T.email_revenue,
-                    borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Klaviyo Email Revenue' } },
-                scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
             }
-        });
 
-        // 8 ── Email Open & Click Rates
-        new Chart(document.getElementById('trendEmailRates'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [
-                    { label: 'Open Rate %', data: T.open_rate, borderColor: '#2e7d32', fill: false, borderWidth: 2, yAxisID: 'y' },
-                    { label: 'Click Rate %', data: T.click_rate, borderColor: '#e65100', fill: false, borderWidth: 2, yAxisID: 'y1' },
-                ]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Email Open & Click Rates' } },
-                scales: {
-                    x: lineDefaults.options.scales.x,
-                    y: { ...pctAxis(lineDefaults.options.scales.y), position: 'left', title: { display: true, text: 'Open Rate' } },
-                    y1: { ...pctAxis(lineDefaults.options.scales.y), position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Click Rate' } },
-                }
+            // 5 - Ad Spend Trend
+            if (document.getElementById('trendAdSpend') && T.ad_spend) {
+                new Chart(document.getElementById('trendAdSpend'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'Ad Spend',
+                            data: T.ad_spend,
+                            borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Weekly Ad Spend' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
             }
-        });
 
-        // 9 ── Orders
-        new Chart(document.getElementById('trendOrders'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [
-                    { label: 'Orders', data: T.order_count, borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)', fill: true, borderWidth: 2 },
-                    { label: 'New Customers', data: T.new_customers, borderColor: '#1565c0', fill: false, borderWidth: 2 },
-                ]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Orders & New Customers' } }
+            // 6 - Ad ROAS Trend
+            if (document.getElementById('trendAdROAS') && T.ad_roas) {
+                new Chart(document.getElementById('trendAdROAS'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'ROAS',
+                            data: T.ad_roas,
+                            borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Google Ads ROAS' } }),
+                        scales: {
+                            x: lineDefaults.options.scales.x,
+                            y: Object.assign({}, lineDefaults.options.scales.y, { ticks: { callback: function(v) { return v + 'x'; } }, suggestedMin: 0 })
+                        }
+                    })
+                });
             }
-        });
 
-        // 10 ── AOV
-        new Chart(document.getElementById('trendAOV'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'AOV',
-                    data: T.aov,
-                    borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Average Order Value' } },
-                scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+            // 7 - Email Revenue
+            if (document.getElementById('trendEmailRev')) {
+                new Chart(document.getElementById('trendEmailRev'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'Email Revenue',
+                            data: T.email_revenue,
+                            borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Klaviyo Email Revenue' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
             }
-        });
 
-        // 11 ── MRR
-        new Chart(document.getElementById('trendMRR'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'MRR',
-                    data: T.mrr,
-                    borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Monthly Recurring Revenue (MRR)' } },
-                scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+            // 8 - Email Open & Click Rates
+            if (document.getElementById('trendEmailRates')) {
+                new Chart(document.getElementById('trendEmailRates'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [
+                            { label: 'Open Rate %', data: T.open_rate, borderColor: '#2e7d32', fill: false, borderWidth: 2, yAxisID: 'y' },
+                            { label: 'Click Rate %', data: T.click_rate, borderColor: '#e65100', fill: false, borderWidth: 2, yAxisID: 'y1' },
+                        ]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Email Open & Click Rates' } }),
+                        scales: {
+                            x: lineDefaults.options.scales.x,
+                            y: Object.assign({}, pctAxis(lineDefaults.options.scales.y), { position: 'left', title: { display: true, text: 'Open Rate' } }),
+                            y1: Object.assign({}, pctAxis(lineDefaults.options.scales.y), { position: 'right', grid: { drawOnChartArea: false }, title: { display: true, text: 'Click Rate' } }),
+                        }
+                    })
+                });
             }
-        });
 
-        // 12 ── Stripe Volume
-        new Chart(document.getElementById('trendStripeVol'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'Gross Volume',
-                    data: T.gross_volume,
-                    borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Stripe Gross Volume' } },
-                scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+            // 9 - Orders
+            if (document.getElementById('trendOrders')) {
+                new Chart(document.getElementById('trendOrders'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [
+                            { label: 'Orders', data: T.order_count, borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)', fill: true, borderWidth: 2 },
+                            { label: 'New Customers', data: T.new_customers, borderColor: '#1565c0', fill: false, borderWidth: 2 },
+                        ]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Orders & New Customers' } })
+                    })
+                });
             }
-        });
 
-        // 13 ── Social: FB + IG
-        new Chart(document.getElementById('trendSocial'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [
-                    { label: 'FB Followers', data: T.fb_followers, borderColor: '#1565c0', fill: false, borderWidth: 2 },
-                    { label: 'IG Followers', data: T.ig_followers, borderColor: '#e65100', fill: false, borderWidth: 2 },
-                ]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Facebook & Instagram Followers' } }
+            // 10 - AOV
+            if (document.getElementById('trendAOV')) {
+                new Chart(document.getElementById('trendAOV'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'AOV',
+                            data: T.aov,
+                            borderColor: '#e65100', backgroundColor: 'rgba(230,81,0,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Average Order Value' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
             }
-        });
 
-        // 14 ── YouTube
-        new Chart(document.getElementById('trendYT'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'YT Subscribers',
-                    data: T.yt_subscribers,
-                    borderColor: '#c62828', backgroundColor: 'rgba(198,40,40,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'YouTube Subscribers' } }
+            // 11 - MRR
+            if (document.getElementById('trendMRR')) {
+                new Chart(document.getElementById('trendMRR'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'MRR',
+                            data: T.mrr,
+                            borderColor: '#1565c0', backgroundColor: 'rgba(21,101,192,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Monthly Recurring Revenue (MRR)' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
             }
-        });
 
-        // 15 ── Pipeline
-        new Chart(document.getElementById('trendPipeline'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [
-                    { label: 'New Leads', data: T.new_leads, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
-                    { label: 'Booked Calls', data: T.booked, borderColor: '#1565c0', fill: false, borderWidth: 2 },
-                ]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Sales Pipeline Activity' } }
+            // 12 - Stripe Volume
+            if (document.getElementById('trendStripeVol')) {
+                new Chart(document.getElementById('trendStripeVol'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'Gross Volume',
+                            data: T.gross_volume,
+                            borderColor: '#2e7d32', backgroundColor: 'rgba(46,125,50,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Stripe Gross Volume' } }),
+                        scales: { x: lineDefaults.options.scales.x, y: dollarAxis(lineDefaults.options.scales.y) }
+                    })
+                });
             }
-        });
 
-        // 16 ── Active Students
-        new Chart(document.getElementById('trendStudents'), {
-            ...lineDefaults,
-            data: {
-                labels: T.labels,
-                datasets: [{
-                    label: 'Active Students',
-                    data: T.active_students,
-                    borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
-                    fill: true, borderWidth: 2,
-                }]
-            },
-            options: { ...lineDefaults.options,
-                plugins: { ...lineDefaults.options.plugins, title: { display: true, text: 'Active Coaching Students' } }
+            // 13 - Social: FB + IG
+            if (document.getElementById('trendSocial')) {
+                new Chart(document.getElementById('trendSocial'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [
+                            { label: 'FB Followers', data: T.fb_followers, borderColor: '#1565c0', fill: false, borderWidth: 2 },
+                            { label: 'IG Followers', data: T.ig_followers, borderColor: '#e65100', fill: false, borderWidth: 2 },
+                        ]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Facebook & Instagram Followers' } })
+                    })
+                });
             }
-        });
 
-    } // end if trends
+            // 14 - YouTube
+            if (document.getElementById('trendYT')) {
+                new Chart(document.getElementById('trendYT'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'YT Subscribers',
+                            data: T.yt_subscribers,
+                            borderColor: '#c62828', backgroundColor: 'rgba(198,40,40,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'YouTube Subscribers' } })
+                    })
+                });
+            }
+
+            // 15 - Pipeline
+            if (document.getElementById('trendPipeline')) {
+                new Chart(document.getElementById('trendPipeline'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [
+                            { label: 'New Leads', data: T.new_leads, borderColor: '#2e7d32', fill: false, borderWidth: 2 },
+                            { label: 'Booked Calls', data: T.booked, borderColor: '#1565c0', fill: false, borderWidth: 2 },
+                        ]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Sales Pipeline Activity' } })
+                    })
+                });
+            }
+
+            // 16 - Active Students
+            if (document.getElementById('trendStudents')) {
+                new Chart(document.getElementById('trendStudents'), {
+                    type: 'line',
+                    data: {
+                        labels: T.labels,
+                        datasets: [{
+                            label: 'Active Students',
+                            data: T.active_students,
+                            borderColor: '#6a1b9a', backgroundColor: 'rgba(106,27,154,.1)',
+                            fill: true, borderWidth: 2,
+                        }]
+                    },
+                    options: Object.assign({}, lineDefaults.options, {
+                        plugins: Object.assign({}, lineDefaults.options.plugins, { title: { display: true, text: 'Active Coaching Students' } })
+                    })
+                });
+            }
+
+        } // end if trends
+    }
+
+    // ── Initialize ───────────────────────────────────────────────────────
+    loadAllData()
+        .then(function(data) {
+            renderDashboard(data.latest, data.previous, data.history);
+        })
+        .catch(function(err) {
+            console.error('Dashboard load error:', err);
+            document.getElementById('dashboard-container').innerHTML =
+                '<div class="error-banner">' +
+                '<h3>Error Loading Dashboard</h3>' +
+                '<p>' + err.message + '</p>' +
+                '<p>Make sure snapshots/manifest.json exists and snapshot files are accessible.</p>' +
+                '</div>';
+        });
     </script>
 </body>
 </html>

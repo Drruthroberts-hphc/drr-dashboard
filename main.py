@@ -55,6 +55,23 @@ def _load_snapshot_history():
     return snapshots
 
 
+def _update_snapshot_manifest(snapshot_dir):
+    """Regenerate snapshots/manifest.json listing all snapshot files sorted by date."""
+    filenames = sorted(
+        f for f in os.listdir(snapshot_dir)
+        if f.startswith('snapshot_') and f.endswith('.json')
+    )
+    manifest = {
+        'snapshots': filenames,
+        'latest': filenames[-1] if filenames else None,
+        'updated': datetime.utcnow().strftime('%Y-%m-%d'),
+    }
+    manifest_path = os.path.join(snapshot_dir, 'manifest.json')
+    with open(manifest_path, 'w') as f:
+        json.dump(manifest, f, indent=2)
+    logger.info(f"Snapshot manifest updated: {len(filenames)} snapshots listed")
+
+
 def _default_week_ending():
     """Return most recent Sunday as date object."""
     today = datetime.utcnow().date()
@@ -287,6 +304,12 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
         logger.info(f"Snapshot saved: {snapshot_path}")
     except Exception as e:
         logger.warning(f"Could not save snapshot: {e}")
+
+    # Regenerate manifest.json for dynamic dashboard loading
+    try:
+        _update_snapshot_manifest(snapshot_dir)
+    except Exception as e:
+        logger.warning(f"Could not update snapshot manifest: {e}")
 
     return {
         'week_ending_date': str(week_ending_date),
