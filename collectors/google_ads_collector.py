@@ -129,13 +129,19 @@ def _query_shopping_product_status(client, customer_id):
     disapproved = 0
     total = 0
 
+    # Google Ads ShoppingProductStatus enum values:
+    # 0=UNSPECIFIED, 1=UNKNOWN, 2=NOT_ELIGIBLE, 3=ELIGIBLE_LIMITED, 4=ELIGIBLE, 5=ACTIVE
+    # "Active" means serving; "Eligible" means approved but may not be serving
+    # We count ELIGIBLE_LIMITED(3), ELIGIBLE(4), ACTIVE(5) as approved
+    APPROVED_STATUSES = {3, 4, 5, 'ELIGIBLE_LIMITED', 'ELIGIBLE', 'ACTIVE',
+                         'APPROVED', 'APPROVED_LIMITED'}
+
     try:
         response = ga_service.search(customer_id=customer_id, query=query)
         for row in response:
             total += 1
             status = row.shopping_product.status
-            # Status enum: ELIGIBLE, NOT_ELIGIBLE, ACTIVE, etc.
-            if status in (2, 'ELIGIBLE', 'ACTIVE'):  # varies by API version
+            if status in APPROVED_STATUSES:
                 active += 1
             else:
                 disapproved += 1

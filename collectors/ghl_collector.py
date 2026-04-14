@@ -94,8 +94,99 @@ CHURNED_STAGES = {STAGE_PAST_MENTORING, STAGE_NOT_ELIGIBLE}
 GRADUATED_STAGES = {STAGE_GRADUATES, STAGE_RENEWED}
 
 
+V1_BASE_URL = 'https://rest.gohighlevel.com/v1'
+
+
+def _ghl_v1_get_all_opportunities(pipeline_id, max_pages=None):
+    """Fetch opportunities from a v1 pipeline, handling pagination.
+
+    v1 returns 20 per page with nextPageUrl containing startAfter/startAfterId.
+
+    Args:
+        pipeline_id: GHL pipeline ID
+        max_pages: Max pages to fetch (None = all). Use for large pipelines
+                   like Sales (15K+ records) where we only need recent data.
+    """
+    import time
+    all_opps = []
+    url = f"{V1_BASE_URL}/pipelines/{pipeline_id}/opportunities"
+    page_count = 0
+
+    while url:
+        page_count += 1
+
+        # Rate-limit: pause between pages to avoid 429s
+        if page_count > 1:
+            time.sleep(0.5)
+
+        req = urllib.request.Request(url, headers={
+            'Authorization': f'Bearer {GHL_API_KEY}',
+            'Accept': 'application/json',
+            'User-Agent': 'DRR-Dashboard/1.0',
+        })
+        try:
+            with urllib.request.urlopen(req, timeout=15) as resp:
+                data = json.loads(resp.read().decode('utf-8'))
+        except urllib.error.HTTPError as e:
+            body = e.read().decode('utf-8')[:200] if e.fp else 'no body'
+            logger.error(f"GHL v1 pagination error {e.code} on page {page_count}: {body}")
+            if e.code == 429:
+                logger.warning("Rate limited — returning what we have so far")
+            break
+        except Exception as e:
+            logger.error(f"GHL v1 request failed on page {page_count}: {e}")
+            break
+
+        opps = data.get('opportunities', [])
+        all_opps.extend(opps)
+
+        meta = data.get('meta', {})
+        total = meta.get('total', len(all_opps))
+        next_url = meta.get('nextPageUrl')
+
+        # v1 returns http:// URLs — upgrade to https://
+        if next_url:
+            url = next_url.replace('http://', 'https://')
+        else:
+            url = None
+
+        if not opps:
+            break
+
+        # Respect max_pages limit
+        if max_pages and page_count >= max_pages:
+            logger.info(f"Pipeline {pipeline_id}: stopped at {max_pages} pages "
+                        f"({len(all_opps)} of {total} total)")
+            break
+
+    logger.info(f"Pipeline {pipeline_id}: fetched {len(all_opps)} opportunities "
+                f"({page_count} pages)")
+    return all_opps
+
+
+def _ghl_v1_get(endpoint, params=None):
+    """Make an authenticated GET request to the GHL v1 API."""
+    url = f"{V1_BASE_URL}/{endpoint}"
+    if params:
+        url += '?' + urllib.parse.urlencode(params)
+
+    req = urllib.request.Request(url, headers={
+        'Authorization': f'Bearer {GHL_API_KEY}',
+        'Accept': 'application/json',
+        'User-Agent': 'DRR-Dashboard/1.0',
+    })
+
+    try:
+        with urllib.request.urlopen(req) as resp:
+            return json.loads(resp.read().decode('utf-8'))
+    except urllib.error.HTTPError as e:
+        body = e.read().decode('utf-8')[:300]
+        logger.error(f"GHL v1 API error {e.code} on {endpoint}: {body}")
+        return None
+
+
 def _ghl_get(endpoint, params=None):
-    """Make an authenticated GET request to the GHL API."""
+    """Make an authenticated GET request to the GHL API (v2 — may 401)."""
     url = f"{GHL_BASE_URL}/{endpoint}"
     if params:
         url += '?' + urllib.parse.urlencode(params)
@@ -232,13 +323,138 @@ def _load_from_cache(week_ending_date):
         return None
 
 
+def _collect_via_v1_api(week_ending_date):
+    """Collect GHL metrics using the v1 REST API (Location API key auth).
+
+    v1 endpoints used:
+      GET /v1/pipelines/                              → pipeline & stage IDs
+      GET /v1/pipelines/{id}/opportunities             → all opportunities
+      GET /v1/opportunities/{id}                       → individual opp details
+    """
+    start_date = week_ending_date - timedelta(days=6)
+
+    # ── Test connectivity ────────────────────────────────────────────────
+    pipelines = _ghl_v1_get('pipelines/')
+    if not pipelines:
+        return None
+
+    logger.info("GHL v1 API connected — fetching live data")
+
+    # ── Sales Pipeline opportunities (limited — 15K+ total, only need recent) ──
+    # Fetch first 10 pages (200 opps) — sorted by most recent, enough for weekly metrics
+    sales_opps = _ghl_v1_get_all_opportunities(SALES_PIPELINE_ID, max_pages=10)
+    logger.info(f"Sales pipeline: {len(sales_opps)} total opportunities")
+
+    # Filter by date for weekly metrics
+    weekly_new_leads = 0
+    weekly_booked = 0
+    weekly_showed = 0
+    weekly_closed = 0
+    weekly_closed_rana = 0
+    weekly_showed_rana = 0
+    pipeline_value = 0.0
+
+    start_str = str(start_date)
+    end_str = str(week_ending_date)
+
+    for opp in sales_opps:
+        stage_id = opp.get('pipelineStageId', '')
+        created = (opp.get('dateAdded') or opp.get('createdAt') or '')[:10]
+        last_stage = (opp.get('lastStageChangeAt') or '')[:10]
+        monetary = float(opp.get('monetaryValue') or 0)
+
+        # Count leads created this week
+        if created and start_str <= created <= end_str:
+            if stage_id in LEAD_STAGES:
+                weekly_new_leads += 1
+
+        # Count stage changes this week
+        if last_stage and start_str <= last_stage <= end_str:
+            if stage_id in BOOKED_STAGES:
+                weekly_booked += 1
+            elif stage_id in SHOWED_STAGES:
+                weekly_showed += 1
+                if _is_rana_opportunity(opp):
+                    weekly_showed_rana += 1
+            elif stage_id in CLOSED_STAGES:
+                weekly_closed += 1
+                pipeline_value += monetary
+                if _is_rana_opportunity(opp):
+                    weekly_closed_rana += 1
+
+    close_rate = weekly_closed / weekly_showed if weekly_showed > 0 else 0.0
+    close_rate_rana = weekly_closed_rana / weekly_showed_rana if weekly_showed_rana > 0 else 0.0
+    rev_per_call = pipeline_value / weekly_showed if weekly_showed > 0 else 0.0
+
+    # ── Student Success Pipeline (paginated, all pages — ~340 records) ──
+    student_opps = _ghl_v1_get_all_opportunities(STUDENT_PIPELINE_ID, max_pages=25)
+
+    active_students = 0
+    graduated = 0
+    churned = 0
+
+    for opp in student_opps:
+        stage_id = opp.get('pipelineStageId', '')
+        if stage_id in ACTIVE_STUDENT_STAGES:
+            active_students += 1
+        elif stage_id in GRADUATED_STAGES:
+            graduated += 1
+        elif stage_id in CHURNED_STAGES:
+            churned += 1
+
+    total_ever = active_students + graduated + churned
+    churn_rate = churned / total_ever if total_ever > 0 else 0.0
+
+    logger.info(f"Student pipeline: {active_students} active, {graduated} graduated, {churned} churned")
+
+    # ── Build result ─────────────────────────────────────────────────────
+    result = {
+        'week_ending_date': str(week_ending_date),
+        'new_leads': weekly_new_leads,
+        'booked_appointments': weekly_booked,
+        'showed_appointments': weekly_showed,
+        'closed_deals': weekly_closed,
+        'close_rate_overall': round(close_rate, 3),
+        'close_rate_rana': round(close_rate_rana, 3),
+        'pipeline_value': round(pipeline_value, 2),
+        'revenue_per_call': round(rev_per_call, 2),
+        'active_students': active_students,
+        'enrollment_growth_rate': 0.0,  # Need previous week to calculate
+        'student_churn_rate': round(churn_rate, 3),
+        'revenue_per_student': 0.0,  # Calculated in cross_platform
+    }
+
+    # ── Update cache with fresh data ─────────────────────────────────────
+    cache_data = {
+        'fetched_at': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'week_ending_date': str(week_ending_date),
+        'sales_pipeline_total_open': len(sales_opps),
+        'student_pipeline_total': len(student_opps),
+        'weekly_metrics': result,
+        'stage_breakdown': {
+            'student_active': active_students,
+            'student_graduated': graduated,
+            'student_churned': churned,
+        }
+    }
+    try:
+        with open(CACHE_FILE, 'w') as f:
+            json.dump(cache_data, f, indent=2)
+        logger.info("GHL cache updated with fresh API data")
+    except IOError as e:
+        logger.warning(f"Could not update GHL cache: {e}")
+
+    return result
+
+
 def collect_weekly_data(week_ending_date=None):
     """
     Collect all GHL metrics for a given week.
 
-    PRIMARY SOURCE: ghl_cache.json (populated via GHL MCP tools before each
-    pipeline run).  The GHL REST API token is a known issue (JWT expires
-    frequently), so we rely on MCP-queried data written to the cache instead.
+    Priority:
+    1. Live v1 API (Location API key — most reliable)
+    2. ghl_cache.json fallback (populated via MCP or previous API call)
+    3. Zeros with warning
 
     Returns:
         dict with all GHL weekly metrics
@@ -249,9 +465,18 @@ def collect_weekly_data(week_ending_date=None):
         week_ending_date = today - timedelta(days=days_since_sunday)
 
     logger.info(f"Collecting GHL data for week ending {week_ending_date}")
-    logger.info("Using MCP-populated cache as primary data source (GHL API token is unreliable)")
 
-    # ── Load from MCP-populated cache ────────────────────────────────────
+    # ── Try live v1 API first ────────────────────────────────────────────
+    if GHL_API_KEY:
+        live_data = _collect_via_v1_api(week_ending_date)
+        if live_data:
+            logger.info(f"GHL live: {live_data['new_leads']} leads, "
+                        f"{live_data['booked_appointments']} booked, "
+                        f"{live_data['active_students']} active students")
+            return live_data
+        logger.warning("GHL v1 API failed — falling back to cache")
+
+    # ── Fallback to MCP-populated cache ──────────────────────────────────
     cached = _load_from_cache(week_ending_date)
     if cached:
         logger.info(f"GHL cache loaded: {cached.get('new_leads', 0)} leads, "
@@ -259,9 +484,8 @@ def collect_weekly_data(week_ending_date=None):
                     f"{cached.get('active_students', 0)} active students")
         return cached
 
-    # ── No cache available — return zeros with warning ───────────────────
-    logger.error("No ghl_cache.json found! Please refresh the cache via MCP tools "
-                 "before running the pipeline.  Returning zeros for GHL metrics.")
+    # ── No data available ────────────────────────────────────────────────
+    logger.error("No GHL data available (API failed and no cache). Returning zeros.")
     return {
         'week_ending_date': str(week_ending_date),
         'new_leads': 0, 'booked_appointments': 0, 'showed_appointments': 0,
