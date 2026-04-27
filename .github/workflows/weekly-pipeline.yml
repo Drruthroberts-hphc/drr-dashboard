@@ -1,0 +1,122 @@
+name: Weekly Dashboard Pipeline
+
+# Runs every Monday at 6:00 AM Central (11:00 UTC during DST, 12:00 UTC standard)
+# Using 12:00 UTC = 7am Central during DST, 6am Central in winter — close enough.
+# Also allows manual trigger from the Actions tab.
+on:
+  schedule:
+    - cron: '0 11 * * 1'  # Mondays 11:00 UTC = 6:00 AM Central (during DST)
+  workflow_dispatch:  # Manual run button
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install \
+            requests \
+            stripe \
+            gspread \
+            google-auth \
+            google-auth-oauthlib \
+            google-api-python-client \
+            google-ads \
+            python-dotenv
+
+      - name: Reconstruct credentials.json from secret
+        env:
+          GOOGLE_SHEETS_CREDENTIALS_B64: ${{ secrets.GOOGLE_SHEETS_CREDENTIALS_B64 }}
+        run: |
+          echo "$GOOGLE_SHEETS_CREDENTIALS_B64" | base64 --decode > credentials.json
+
+      - name: Build .env file from secrets
+        env:
+          SHOPIFY_STORE: ${{ secrets.SHOPIFY_STORE }}
+          SHOPIFY_ACCESS_TOKEN: ${{ secrets.SHOPIFY_ACCESS_TOKEN }}
+          KLAVIYO_API_KEY: ${{ secrets.KLAVIYO_API_KEY }}
+          STRIPE_API_KEY: ${{ secrets.STRIPE_API_KEY }}
+          GHL_API_KEY: ${{ secrets.GHL_API_KEY }}
+          GHL_LOCATION_ID: ${{ secrets.GHL_LOCATION_ID }}
+          GOOGLE_SHEET_ID: ${{ secrets.GOOGLE_SHEET_ID }}
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          YOUTUBE_CHANNEL_ID: ${{ secrets.YOUTUBE_CHANNEL_ID }}
+          META_PAGE_ACCESS_TOKEN: ${{ secrets.META_PAGE_ACCESS_TOKEN }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          IG_ACCOUNT_ID: ${{ secrets.IG_ACCOUNT_ID }}
+          GOOGLE_ADS_DEVELOPER_TOKEN: ${{ secrets.GOOGLE_ADS_DEVELOPER_TOKEN }}
+          GOOGLE_ADS_CLIENT_ID: ${{ secrets.GOOGLE_ADS_CLIENT_ID }}
+          GOOGLE_ADS_CLIENT_SECRET: ${{ secrets.GOOGLE_ADS_CLIENT_SECRET }}
+          GOOGLE_ADS_REFRESH_TOKEN: ${{ secrets.GOOGLE_ADS_REFRESH_TOKEN }}
+          GOOGLE_ADS_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_CUSTOMER_ID }}
+          GOOGLE_ADS_LOGIN_CUSTOMER_ID: ${{ secrets.GOOGLE_ADS_LOGIN_CUSTOMER_ID }}
+          GMAIL_SENDER: ${{ secrets.GMAIL_SENDER }}
+          GMAIL_APP_PASSWORD: ${{ secrets.GMAIL_APP_PASSWORD }}
+        run: |
+          cat > .env <<EOF
+          SHOPIFY_STORE=$SHOPIFY_STORE
+          SHOPIFY_ACCESS_TOKEN=$SHOPIFY_ACCESS_TOKEN
+          KLAVIYO_API_KEY=$KLAVIYO_API_KEY
+          STRIPE_API_KEY=$STRIPE_API_KEY
+          GHL_API_KEY=$GHL_API_KEY
+          GHL_LOCATION_ID=$GHL_LOCATION_ID
+          GOOGLE_SHEETS_CREDENTIALS=credentials.json
+          GOOGLE_SHEET_ID=$GOOGLE_SHEET_ID
+          YOUTUBE_API_KEY=$YOUTUBE_API_KEY
+          YOUTUBE_CHANNEL_ID=$YOUTUBE_CHANNEL_ID
+          META_PAGE_ACCESS_TOKEN=$META_PAGE_ACCESS_TOKEN
+          FB_PAGE_ID=$FB_PAGE_ID
+          IG_ACCOUNT_ID=$IG_ACCOUNT_ID
+          GOOGLE_ADS_DEVELOPER_TOKEN=$GOOGLE_ADS_DEVELOPER_TOKEN
+          GOOGLE_ADS_CLIENT_ID=$GOOGLE_ADS_CLIENT_ID
+          GOOGLE_ADS_CLIENT_SECRET=$GOOGLE_ADS_CLIENT_SECRET
+          GOOGLE_ADS_REFRESH_TOKEN=$GOOGLE_ADS_REFRESH_TOKEN
+          GOOGLE_ADS_CUSTOMER_ID=$GOOGLE_ADS_CUSTOMER_ID
+          GOOGLE_ADS_LOGIN_CUSTOMER_ID=$GOOGLE_ADS_LOGIN_CUSTOMER_ID
+          GMAIL_SENDER=$GMAIL_SENDER
+          GMAIL_APP_PASSWORD=$GMAIL_APP_PASSWORD
+          EOF
+
+      - name: Run pipeline
+        run: python main.py
+
+      - name: Commit and push snapshot
+        run: |
+          # Find the latest snapshot
+          LATEST_SNAPSHOT=$(ls -1 snapshots/snapshot_*.json | sort | tail -1)
+
+          # Configure git
+          git config user.name "DRR Dashboard Bot"
+          git config user.email "dashboard-bot@drruthroberts.com"
+
+          # Stage and commit
+          git add snapshots/manifest.json "$LATEST_SNAPSHOT"
+
+          # Only commit if there are actual changes
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Weekly pipeline run $(date '+%Y-%m-%d')
+
+          Automated pipeline run via GitHub Actions."
+            git push
+          fi
+
+      - name: Clean up secrets
+        if: always()
+        run: |
+          rm -f credentials.json .env
