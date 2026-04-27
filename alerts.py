@@ -2,13 +2,18 @@
 Alert System
 =============
 Checks collected metrics against thresholds and sends email alerts.
-Uses Gmail API for sending via Dr. Ruth's account.
+
+Two send paths (in order):
+  1. SMTP via Gmail App Password (if GMAIL_APP_PASSWORD env var is set) — preferred,
+     never expires, works in unattended cron jobs.
+  2. Gmail API OAuth — fallback, but token expires every ~7 days for unverified apps.
 """
 
 import json
 import logging
 import os
 import base64
+import smtplib
 from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -23,6 +28,32 @@ from config import ALERT_THRESHOLDS, ALERT_EMAILS, GMAIL_CREDENTIALS, GMAIL_TOKE
 logger = logging.getLogger(__name__)
 
 GMAIL_SCOPES = ['https://www.googleapis.com/auth/gmail.send']
+
+# SMTP config (preferred path) — set GMAIL_APP_PASSWORD in .env
+GMAIL_SENDER = os.getenv('GMAIL_SENDER', 'dr.ruth.roberts4pets@gmail.com')
+GMAIL_APP_PASSWORD = os.getenv('GMAIL_APP_PASSWORD', '')
+
+
+def _send_via_smtp(recipient, subject, plain_text, html_body):
+    """Send email via Gmail SMTP using an app password. Returns True on success."""
+    if not GMAIL_APP_PASSWORD:
+        return False
+
+    msg = MIMEMultipart('alternative')
+    msg['From'] = GMAIL_SENDER
+    msg['To'] = recipient
+    msg['Subject'] = subject
+    msg.attach(MIMEText(plain_text, 'plain'))
+    msg.attach(MIMEText(html_body, 'html'))
+
+    try:
+        with smtplib.SMTP_SSL('smtp.gmail.com', 465, timeout=30) as server:
+            server.login(GMAIL_SENDER, GMAIL_APP_PASSWORD)
+            server.sendmail(GMAIL_SENDER, [recipient], msg.as_string())
+        return True
+    except Exception as e:
+        logger.error(f"SMTP send to {recipient} failed: {e}")
+        return False
 
 
 def _get_gmail_service():
@@ -171,32 +202,43 @@ def _format_alert_email(alerts, week_ending_date):
 
 
 def send_alert_email(alerts, week_ending_date):
-    """Send alert email via Gmail API."""
+    """Send alert email via SMTP (preferred) or Gmail API (fallback)."""
     if not alerts:
         logger.info("No alerts to send")
         return False
 
+    html_body = _format_alert_email(alerts, week_ending_date)
+    subject = f"DRR Dashboard Alert - {len(alerts)} threshold(s) breached - Week {week_ending_date}"
+
+    plain_lines = [f"DRR Dashboard Alert - Week ending {week_ending_date}", ""]
+    for a in alerts:
+        plain_lines.append(f"  {a['metric_name']}: {a['current_value']} ({a['direction']} {a['threshold']})")
+    plain_text = '\n'.join(plain_lines)
+
+    # ── Try SMTP first (no expiry) ──────────────────────────────────────
+    if GMAIL_APP_PASSWORD:
+        success = True
+        for recipient in ALERT_EMAILS:
+            if _send_via_smtp(recipient, subject, plain_text, html_body):
+                logger.info(f"Alert email sent via SMTP to {recipient}")
+            else:
+                success = False
+        if success:
+            return True
+        logger.warning("SMTP partially failed — falling back to OAuth")
+
+    # ── Fallback: Gmail API OAuth ────────────────────────────────────────
     try:
         service = _get_gmail_service()
     except Exception as e:
         logger.error(f"Could not authenticate Gmail: {e}")
         return False
 
-    html_body = _format_alert_email(alerts, week_ending_date)
-    subject = f"DRR Dashboard Alert - {len(alerts)} threshold(s) breached - Week {week_ending_date}"
-
-    # Plain text fallback
-    plain_lines = [f"DRR Dashboard Alert - Week ending {week_ending_date}", ""]
-    for a in alerts:
-        plain_lines.append(f"  {a['metric_name']}: {a['current_value']} ({a['direction']} {a['threshold']})")
-    plain_text = '\n'.join(plain_lines)
-
     success = True
     for recipient in ALERT_EMAILS:
         msg = MIMEMultipart('alternative')
         msg['To'] = recipient
         msg['Subject'] = subject
-
         msg.attach(MIMEText(plain_text, 'plain'))
         msg.attach(MIMEText(html_body, 'html'))
 
@@ -206,7 +248,7 @@ def send_alert_email(alerts, week_ending_date):
             service.users().messages().send(
                 userId='me', body={'raw': raw}
             ).execute()
-            logger.info(f"Alert email sent to {recipient}")
+            logger.info(f"Alert email sent via OAuth to {recipient}")
         except Exception as e:
             logger.error(f"Failed to send alert email to {recipient}: {e}")
             success = False
@@ -327,23 +369,36 @@ def _format_weekly_summary(all_data, alerts, week_ending_date):
 
 
 def send_weekly_summary(all_data, alerts, week_ending_date):
-    """Send the weekly summary email to all configured recipients."""
+    """Send weekly summary via SMTP (preferred) or Gmail API (fallback)."""
+    html_body = _format_weekly_summary(all_data, alerts, week_ending_date)
+    subject = f"DRR Weekly Dashboard Summary - Week ending {week_ending_date}"
+    plain_text = "Weekly dashboard summary - view in HTML-enabled email client."
+
+    # ── Try SMTP first (no expiry) ──────────────────────────────────────
+    if GMAIL_APP_PASSWORD:
+        success = True
+        for recipient in ALERT_EMAILS:
+            if _send_via_smtp(recipient, subject, plain_text, html_body):
+                logger.info(f"Weekly summary sent via SMTP to {recipient}")
+            else:
+                success = False
+        if success:
+            return True
+        logger.warning("SMTP partially failed — falling back to OAuth")
+
+    # ── Fallback: Gmail API OAuth ────────────────────────────────────────
     try:
         service = _get_gmail_service()
     except Exception as e:
         logger.error(f"Could not authenticate Gmail: {e}")
         return False
 
-    html_body = _format_weekly_summary(all_data, alerts, week_ending_date)
-    subject = f"DRR Weekly Dashboard Summary - Week ending {week_ending_date}"
-
     success = True
     for recipient in ALERT_EMAILS:
         msg = MIMEMultipart('alternative')
         msg['To'] = recipient
         msg['Subject'] = subject
-
-        msg.attach(MIMEText("Weekly dashboard summary - view in HTML-enabled email client.", 'plain'))
+        msg.attach(MIMEText(plain_text, 'plain'))
         msg.attach(MIMEText(html_body, 'html'))
 
         raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
@@ -352,7 +407,7 @@ def send_weekly_summary(all_data, alerts, week_ending_date):
             service.users().messages().send(
                 userId='me', body={'raw': raw}
             ).execute()
-            logger.info(f"Weekly summary sent to {recipient}")
+            logger.info(f"Weekly summary sent via OAuth to {recipient}")
         except Exception as e:
             logger.error(f"Failed to send weekly summary to {recipient}: {e}")
             success = False
