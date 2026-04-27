@@ -24,6 +24,7 @@ from collectors.stripe_collector import collect_weekly_data as collect_stripe
 from collectors.ghl_collector import collect_weekly_data as collect_ghl
 from collectors.social_collector import collect_weekly_data as collect_social
 from collectors.google_ads_collector import collect_weekly_data as collect_google_ads
+from collectors.coaching_pipeline_collector import collect_coaching_pipeline
 
 from cross_platform import calculate_cross_platform
 from sheets_writer import write_all_weekly_data, write_alert, get_previous_week_data
@@ -111,6 +112,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
         ('ghl', collect_ghl, 'GoHighLevel'),
         ('social', collect_social, 'Social Media'),
         ('google_ads', collect_google_ads, 'Google Ads'),
+        ('coaching_pipeline', collect_coaching_pipeline, 'Coaching Pipeline'),
     ]
 
     for key, collector_fn, display_name in collectors:

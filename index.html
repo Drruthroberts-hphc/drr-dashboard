@@ -638,6 +638,74 @@
                 '$800/student') +
             '</div></div></div>';
 
+        // ── Tier 8b: Coaching Pipeline (Application Funnel) ─────────────
+        const coaching = latest.coaching_pipeline || {};
+        const apps_4w = parseInt(coaching.applications_4w) || 0;
+        const apps_2w = parseInt(coaching.applications_2w) || 0;
+        const apps_1w = parseInt(coaching.applications_1w) || 0;
+        const enrollments_4w = parseInt(coaching.enrollments_4w) || 0;
+        const qualified = parseInt(coaching.qualified_count) || 0;
+        const not_qualified = parseInt(coaching.not_qualified_count) || 0;
+        const formLaunch = coaching.form_launch_date || '2026-04-24';
+
+        // Projected enrollments using historical close rates
+        // Funnel: applications → 75% show webinar → 65% book call → 60% close
+        const projectedEnrollments = (apps_4w * 0.75 * 0.65 * 0.60).toFixed(1);
+        const projectedRevLow = (parseFloat(projectedEnrollments) * 5000).toFixed(0);
+        const projectedRevHigh = (parseFloat(projectedEnrollments) * 15000).toFixed(0);
+
+        // Recent applicants table
+        let appRows = '';
+        try {
+            const recentApps = typeof coaching.recent_applicants_json === 'string' ?
+                JSON.parse(coaching.recent_applicants_json) : (coaching.recent_applicants_json || []);
+            if (recentApps.length > 0) {
+                recentApps.forEach(function(a) {
+                    let badge = '';
+                    if (a.is_enrolled) badge = '<span style="background:#1B5E20;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.75em;">ENROLLED</span>';
+                    else if (a.is_qualified) badge = '<span style="background:#0D47A1;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.75em;">QUALIFIED</span>';
+                    else if (a.is_disqualified) badge = '<span style="background:#999;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.75em;">DECLINED</span>';
+                    else badge = '<span style="background:#E65100;color:#fff;padding:2px 6px;border-radius:3px;font-size:0.75em;">PENDING</span>';
+                    appRows += '<tr><td>' + (a.date || '') + '</td>' +
+                        '<td>' + ((a.name || '').substring(0, 30)) + '</td>' +
+                        '<td>' + ((a.email || '').substring(0, 35)) + '</td>' +
+                        '<td>' + badge + '</td></tr>';
+                });
+            } else {
+                appRows = '<tr><td colspan="4" style="color:#888;text-align:center;padding:12px;">No applications yet (form launched ' + formLaunch + ')</td></tr>';
+            }
+        } catch(e) { appRows = '<tr><td colspan="4">Error loading applicants</td></tr>'; }
+
+        html += '<div class="tier" id="tier8b">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier8b-body\')">' +
+            '<h2>&#9656; Tier 8b: Coaching Application Pipeline</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier8b-body">' +
+            '<p style="color:#666;margin:8px 0;">Tracking the long-form application form launched on <strong>' + formLaunch + '</strong>. ' +
+            'Historical close rates: 75% webinar show → 65% book call → 60% close on call.</p>' +
+            '<div class="card-grid">' +
+            metricCard('Apps (last 7d)', fmtInt(apps_1w)) +
+            metricCard('Apps (last 14d)', fmtInt(apps_2w)) +
+            metricCard('Apps (last 28d)', fmtInt(apps_4w), '', 'Since form launch') +
+            metricCard('Qualified', fmtInt(qualified), '', 'Approved by team') +
+            metricCard('Declined', fmtInt(not_qualified), '', 'Not a fit') +
+            metricCard('Enrollments (4w)', fmtInt(enrollments_4w),
+                '', 'Closed deals from this funnel') +
+            metricCard('Projected Closes', projectedEnrollments,
+                '', '4w apps × 0.75 × 0.65 × 0.60') +
+            metricCard('Projected Revenue', '$' + fmtInt(projectedRevLow) + ' - $' + fmtInt(projectedRevHigh),
+                '', 'At $5K-$15K per coaching package') +
+            '</div>' +
+            '<h3 style="margin-top:20px;">Recent Applicants</h3>' +
+            '<table style="width:100%;margin-top:10px;border-collapse:collapse;">' +
+            '<thead><tr style="background:#f0f0f0;">' +
+            '<th style="padding:8px;text-align:left;">Date</th>' +
+            '<th style="padding:8px;text-align:left;">Name</th>' +
+            '<th style="padding:8px;text-align:left;">Email</th>' +
+            '<th style="padding:8px;text-align:left;">Status</th></tr></thead>' +
+            '<tbody>' + appRows + '</tbody></table>' +
+            '</div></div>';
+
         // ── Tier 9: Social Media ────────────────────────────────────────
         // YouTube - compute derived values like the original generator
         const ytTotalViews = parseInt(social.yt_total_views) || 0;

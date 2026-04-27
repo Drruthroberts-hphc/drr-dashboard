@@ -26,7 +26,7 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5114,
+      "open_rate": 0.5119,
       "click_rate": 0.0073,
       "ctor": 0.0142,
       "list_size": 15727,
@@ -44,7 +44,7 @@
       "dispute_rate": 0.0,
       "refund_rate": 0.0,
       "refund_amount": 0.0,
-      "mrr": 0.0,
+      "mrr": 2247.23,
       "processing_fees": 7.4
     },
     "ghl": {
@@ -114,6 +114,23 @@
       "google_ads_roas": 2.05,
       "google_ads_weekly_spend": 452.15
     },
+    "coaching_pipeline": {
+      "week_ending_date": "2026-04-26",
+      "form_launch_date": "2026-04-24",
+      "applications_total": 2,
+      "applications_since_launch": 2,
+      "applications_4w": 2,
+      "applications_2w": 2,
+      "applications_1w": 2,
+      "qualified_count": 0,
+      "not_qualified_count": 0,
+      "qualification_rate": 0.0,
+      "enrollments_total": 0,
+      "enrollments_4w": 0,
+      "webinar_registrants": 0,
+      "recent_applicants_json": "[{\"date\": \"2026-04-26\", \"name\": \"sharon c\", \"email\": \"misssaigon@aol.com\", \"tags\": [\"application form submitted\", \"booked discovery call\", \"ready to invest\", \"eng-clicked in last 00-07 days\", \"eng-engaged in last 000-007 days\", \"domain-aol\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-04-26\", \"name\": \"larisa grujic\", \"email\": \"larisagrujic@gmail.com\", \"tags\": [\"application form submitted\", \"booked discovery call\", \"ready to invest\", \"eng-engaged in last 000-007 days\", \"eng-never clicked\", \"domain-gmail\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}]",
+      "recent_enrollments_json": "[]"
+    },
     "cross_platform": {
       "week_ending_date": "2026-04-26",
       "total_revenue": 9015.31,
@@ -181,7 +198,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-04-27T12:06:20.377803",
+      "timestamp": "2026-04-27T12:47:37.450530",
       "metric_name": "Student Churn Rate",
       "current_value": 0.342,
       "threshold": 0.15,
@@ -191,7 +208,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-04-27T12:06:20.377890",
+      "timestamp": "2026-04-27T12:47:37.450582",
       "metric_name": "Google Ads ROAS",
       "current_value": 2.05,
       "threshold": 2.5,
@@ -201,7 +218,7 @@
       "platform": "Google Ads"
     },
     {
-      "timestamp": "2026-04-27T12:06:20.377935",
+      "timestamp": "2026-04-27T12:47:37.450611",
       "metric_name": "Payroll % of Revenue",
       "current_value": 0.3622,
       "threshold": 0.3,
@@ -211,7 +228,7 @@
       "platform": "Financial"
     },
     {
-      "timestamp": "2026-04-27T12:06:20.377970",
+      "timestamp": "2026-04-27T12:47:37.450638",
       "metric_name": "Burn > Revenue (Weekly)",
       "current_value": 1.0884,
       "threshold": 1.0,
