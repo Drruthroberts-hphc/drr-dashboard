@@ -1433,13 +1433,16 @@ def generate_dashboard(all_data, cross_data, alerts, previous_data=None, week_en
 
 
 def save_dashboard(html, output_path='dashboard/index.html'):
-    """Save the dashboard HTML to a file and copy to repo root for GitHub Pages."""
+    """Save the static dashboard HTML to dashboard/ for backup viewing.
+
+    The repo root index.html is the DYNAMIC dashboard (loads from
+    snapshots/manifest.json) and is NEVER overwritten by this function.
+    GitHub Pages serves the dynamic version from root, which auto-updates
+    whenever a new snapshot is added to manifest.json.
+    """
     import os
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, 'w', encoding='utf-8') as f:
         f.write(html)
-    logger.info(f"Dashboard saved to {output_path}")
-    # Also write to repo root so GitHub Pages serves the latest version
-    with open('index.html', 'w', encoding='utf-8') as f:
-        f.write(html)
-    logger.info("Dashboard also saved to index.html (GitHub Pages root)")
+    logger.info(f"Static dashboard saved to {output_path}")
+    logger.info("Root index.html is dynamic — not overwritten")

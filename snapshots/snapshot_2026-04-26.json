@@ -26,13 +26,13 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5119,
+      "open_rate": 0.5121,
       "click_rate": 0.0073,
-      "ctor": 0.0142,
+      "ctor": 0.0143,
       "list_size": 15727,
       "list_growth_rate": 0.0,
       "spam_complaint_rate": 5.3e-05,
-      "delivery_rate": 0.9926,
+      "delivery_rate": 0.9925,
       "abandon_cart_recovery_rate": 0.0,
       "abandon_cart_recovery_revenue": 0.0
     },
@@ -198,7 +198,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-04-27T12:47:37.450530",
+      "timestamp": "2026-04-27T13:06:13.327480",
       "metric_name": "Student Churn Rate",
       "current_value": 0.342,
       "threshold": 0.15,
@@ -208,7 +208,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-04-27T12:47:37.450582",
+      "timestamp": "2026-04-27T13:06:13.327526",
       "metric_name": "Google Ads ROAS",
       "current_value": 2.05,
       "threshold": 2.5,
@@ -218,7 +218,7 @@
       "platform": "Google Ads"
     },
     {
-      "timestamp": "2026-04-27T12:47:37.450611",
+      "timestamp": "2026-04-27T13:06:13.327554",
       "metric_name": "Payroll % of Revenue",
       "current_value": 0.3622,
       "threshold": 0.3,
@@ -228,7 +228,7 @@
       "platform": "Financial"
     },
     {
-      "timestamp": "2026-04-27T12:47:37.450638",
+      "timestamp": "2026-04-27T13:06:13.327592",
       "metric_name": "Burn > Revenue (Weekly)",
       "current_value": 1.0884,
       "threshold": 1.0,
