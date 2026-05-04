@@ -33,9 +33,18 @@ def calculate_cross_platform(all_data, previous_week_data=None):
     google_ads = all_data.get('google_ads') or {}
 
     # ── Revenue Totals ────────────────────────────────────────────────────
+    # Shopify-attributed revenue by silo
     ecommerce_revenue = float(shopify.get('ecommerce_revenue', 0))
     coaching_revenue = float(shopify.get('coaching_revenue', 0))
     course_revenue = float(shopify.get('course_revenue', 0))
+
+    # Stripe direct charges = coaching/certification programs paid via invoice
+    # (Shopify Payments do NOT route through this — verified May 2026: 0 overlap).
+    # All Stripe charges here are coaching-program payments and should be
+    # added to coaching revenue + total revenue.
+    stripe_coaching_revenue = float(stripe_data.get('gross_payment_volume', 0))
+    coaching_revenue += stripe_coaching_revenue
+
     total_revenue = ecommerce_revenue + coaching_revenue + course_revenue
 
     # Email-attributed revenue (from Klaviyo) — informational, not additive
