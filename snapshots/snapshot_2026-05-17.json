@@ -57,9 +57,9 @@
       "close_rate_rana": 0.0,
       "pipeline_value": 0.0,
       "revenue_per_call": 0.0,
-      "active_students": 51,
+      "active_students": 34,
       "enrollment_growth_rate": 0.0,
-      "student_churn_rate": 0.26,
+      "student_churn_rate": 0.075,
       "revenue_per_student": 0.0
     },
     "social": {
@@ -100,19 +100,19 @@
     },
     "google_ads": {
       "week_ending_date": "2026-05-17",
-      "ad_spend": 0,
-      "conversions": 0,
-      "conversion_value": 0,
-      "roas": 0,
-      "cpa": 0,
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "active_products": 0,
-      "disapproved_products": 0,
-      "disapproval_rate": 0,
-      "google_ads_roas": 0,
-      "google_ads_weekly_spend": 0
+      "ad_spend": 711.65,
+      "conversions": 27.0,
+      "conversion_value": 2675.79,
+      "roas": 3.76,
+      "cpa": 26.36,
+      "clicks": 5010,
+      "impressions": 68443,
+      "ctr": 0.0732,
+      "active_products": 68,
+      "disapproved_products": 14,
+      "disapproval_rate": 0.1707,
+      "google_ads_roas": 3.76,
+      "google_ads_weekly_spend": 711.65
     },
     "coaching_pipeline": {
       "week_ending_date": "2026-05-17",
@@ -157,8 +157,8 @@
       "debt_remaining": 250000,
       "monthly_debt_service": 20000,
       "months_to_debt_free": 2.9,
-      "ad_spend_weekly": 0.0,
-      "ad_roas": 0.0,
+      "ad_spend_weekly": 711.65,
+      "ad_roas": 3.76,
       "burn_rate_exceeds_revenue": 0.2849,
       "burn_rate": 9812.01,
       "net_profit_loss": 24632.85
@@ -190,32 +190,11 @@
     "debt_remaining": 250000,
     "monthly_debt_service": 20000,
     "months_to_debt_free": 2.9,
-    "ad_spend_weekly": 0.0,
-    "ad_roas": 0.0,
+    "ad_spend_weekly": 711.65,
+    "ad_roas": 3.76,
     "burn_rate_exceeds_revenue": 0.2849,
     "burn_rate": 9812.01,
     "net_profit_loss": 24632.85
   },
-  "alerts": [
-    {
-      "timestamp": "2026-05-19T13:21:44.097187",
-      "metric_name": "Student Churn Rate",
-      "current_value": 0.26,
-      "threshold": 0.15,
-      "direction": "above",
-      "status": "TRIGGERED",
-      "notified": "pending",
-      "platform": "TBD"
-    },
-    {
-      "timestamp": "2026-05-19T13:21:44.097261",
-      "metric_name": "Google Ads ROAS",
-      "current_value": 0.0,
-      "threshold": 2.5,
-      "direction": "below",
-      "status": "TRIGGERED",
-      "notified": "pending",
-      "platform": "Google Ads"
-    }
-  ]
+  "alerts": []
 }
