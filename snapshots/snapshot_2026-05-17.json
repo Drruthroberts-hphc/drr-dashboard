@@ -26,7 +26,7 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.4677,
+      "open_rate": 0.4678,
       "click_rate": 0.0084,
       "ctor": 0.0179,
       "list_size": 6560,
@@ -44,7 +44,7 @@
       "dispute_rate": 0.0,
       "refund_rate": 0.0,
       "refund_amount": 0.0,
-      "mrr": 0.0,
+      "mrr": 5604.71,
       "processing_fees": 112.22
     },
     "ghl": {
@@ -59,7 +59,7 @@
       "revenue_per_call": 0.0,
       "active_students": 51,
       "enrollment_growth_rate": 0.0,
-      "student_churn_rate": 0.3,
+      "student_churn_rate": 0.26,
       "revenue_per_student": 0.0
     },
     "social": {
@@ -198,9 +198,9 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-05-19T13:02:16.580357",
+      "timestamp": "2026-05-19T13:21:44.097187",
       "metric_name": "Student Churn Rate",
-      "current_value": 0.3,
+      "current_value": 0.26,
       "threshold": 0.15,
       "direction": "above",
       "status": "TRIGGERED",
@@ -208,7 +208,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-05-19T13:02:16.580406",
+      "timestamp": "2026-05-19T13:21:44.097261",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
