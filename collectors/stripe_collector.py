@@ -128,19 +128,37 @@ def collect_weekly_data(week_ending_date=None):
     # ── MRR (Monthly Recurring Revenue) ──────────────────────────────────
     mrr = 0.0
 
+    def _safe_get(obj, key, default=None):
+        """Safely .get() from StripeObject/dict/None — newer SDK versions
+        return None instead of {} for missing fields, which breaks chained .get()."""
+        if obj is None:
+            return default
+        if isinstance(obj, dict):
+            v = obj.get(key, default)
+        else:
+            # StripeObject — try attribute then dict-style access
+            v = getattr(obj, key, None)
+            if v is None and hasattr(obj, '__getitem__'):
+                try:
+                    v = obj[key]
+                except (KeyError, AttributeError, TypeError):
+                    v = default
+        return v if v is not None else default
+
     try:
-        subscriptions = stripe.Subscription.list(
-            status='active',
-            limit=100,
-        )
+        subscriptions = stripe.Subscription.list(status='active', limit=100)
 
         for sub in subscriptions.auto_paging_iter():
-            for item in sub.get('items', {}).get('data', []):
-                price = item.get('price', {})
-                amount = (price.get('unit_amount', 0) or 0) / 100.0
-                interval = price.get('recurring', {}).get('interval', 'month')
-                interval_count = price.get('recurring', {}).get('interval_count', 1)
-                quantity = item.get('quantity', 1)
+            items_obj = _safe_get(sub, 'items', {})
+            items_data = _safe_get(items_obj, 'data', []) or []
+
+            for item in items_data:
+                price = _safe_get(item, 'price', {})
+                amount = (_safe_get(price, 'unit_amount', 0) or 0) / 100.0
+                recurring = _safe_get(price, 'recurring', {})
+                interval = _safe_get(recurring, 'interval', 'month') or 'month'
+                interval_count = _safe_get(recurring, 'interval_count', 1) or 1
+                quantity = _safe_get(item, 'quantity', 1) or 1
 
                 # Normalize to monthly
                 if interval == 'year':
@@ -157,7 +175,9 @@ def collect_weekly_data(week_ending_date=None):
                 mrr += monthly
 
     except Exception as e:
-        logger.error(f"Error calculating MRR: {e}")
+        import traceback
+        logger.error(f"Error calculating MRR: {type(e).__name__}: {e}")
+        logger.debug(traceback.format_exc())
 
     # ── Assemble results ─────────────────────────────────────────────────
     result = {
