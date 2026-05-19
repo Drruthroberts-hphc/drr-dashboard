@@ -109,32 +109,49 @@ def _ghl_v1_get_all_opportunities(pipeline_id, max_pages=None):
     """
     import time
     all_opps = []
-    url = f"{V1_BASE_URL}/pipelines/{pipeline_id}/opportunities"
+    # GHL requires explicit limit param for large pipelines (Sales = 15K+ opps)
+    # — without it, the endpoint returns 404
+    url = f"{V1_BASE_URL}/pipelines/{pipeline_id}/opportunities?limit=20"
     page_count = 0
 
     while url:
         page_count += 1
 
-        # Rate-limit: pause between pages to avoid 429s
+        # Rate-limit: pause between pages to avoid 429s and Cloudflare blocks
+        # GHL's Cloudflare WAF is aggressive — longer delays are safer.
         if page_count > 1:
-            time.sleep(0.5)
+            time.sleep(1.5)
 
-        req = urllib.request.Request(url, headers={
-            'Authorization': f'Bearer {GHL_API_KEY}',
-            'Accept': 'application/json',
-            'User-Agent': 'DRR-Dashboard/1.0',
-        })
-        try:
-            with urllib.request.urlopen(req, timeout=15) as resp:
-                data = json.loads(resp.read().decode('utf-8'))
-        except urllib.error.HTTPError as e:
-            body = e.read().decode('utf-8')[:200] if e.fp else 'no body'
-            logger.error(f"GHL v1 pagination error {e.code} on page {page_count}: {body}")
-            if e.code == 429:
-                logger.warning("Rate limited — returning what we have so far")
-            break
-        except Exception as e:
-            logger.error(f"GHL v1 request failed on page {page_count}: {e}")
+        # Retry with exponential backoff on transient errors
+        data = None
+        last_error = None
+        for attempt in range(3):
+            req = urllib.request.Request(url, headers={
+                'Authorization': f'Bearer {GHL_API_KEY}',
+                'Accept': 'application/json',
+                # Use a browser-like UA — GHL's Cloudflare WAF blocks generic UAs
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+                              'AppleWebKit/537.36 (KHTML, like Gecko) '
+                              'Chrome/120.0.0.0 Safari/537.36',
+            })
+            try:
+                with urllib.request.urlopen(req, timeout=20) as resp:
+                    data = json.loads(resp.read().decode('utf-8'))
+                break
+            except urllib.error.HTTPError as e:
+                body = e.read().decode('utf-8')[:200] if e.fp else 'no body'
+                last_error = f"HTTP {e.code}: {body}"
+                # 404/429/5xx are retryable; 401/403 are not
+                if e.code in (401, 403):
+                    break
+                # Exponential backoff: 2s, 4s, 8s
+                time.sleep(2 ** (attempt + 1))
+            except Exception as e:
+                last_error = str(e)
+                time.sleep(2 ** (attempt + 1))
+
+        if data is None:
+            logger.error(f"GHL v1 page {page_count} failed after 3 retries: {last_error}")
             break
 
         opps = data.get('opportunities', [])
@@ -142,11 +159,15 @@ def _ghl_v1_get_all_opportunities(pipeline_id, max_pages=None):
 
         meta = data.get('meta', {})
         total = meta.get('total', len(all_opps))
-        next_url = meta.get('nextPageUrl')
 
-        # v1 returns http:// URLs — upgrade to https://
-        if next_url:
-            url = next_url.replace('http://', 'https://')
+        # Construct next URL ourselves to GUARANTEE limit=20 is included.
+        # (Following nextPageUrl directly sometimes drops the limit param,
+        # which makes GHL's v1 API return 404 on large pipelines.)
+        start_after = meta.get('startAfter')
+        start_after_id = meta.get('startAfterId')
+        if start_after and start_after_id and meta.get('nextPageUrl'):
+            url = (f"{V1_BASE_URL}/pipelines/{pipeline_id}/opportunities"
+                   f"?limit=20&startAfter={start_after}&startAfterId={start_after_id}")
         else:
             url = None
 
@@ -173,7 +194,10 @@ def _ghl_v1_get(endpoint, params=None):
     req = urllib.request.Request(url, headers={
         'Authorization': f'Bearer {GHL_API_KEY}',
         'Accept': 'application/json',
-        'User-Agent': 'DRR-Dashboard/1.0',
+        # Browser-like UA — GHL's Cloudflare WAF blocks generic UAs
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
+                      'AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/120.0.0.0 Safari/537.36',
     })
 
     try:
@@ -340,10 +364,15 @@ def _collect_via_v1_api(week_ending_date):
 
     logger.info("GHL v1 API connected — fetching live data")
 
+    import time as _time
+
     # ── Sales Pipeline opportunities (limited — 15K+ total, only need recent) ──
     # Fetch first 10 pages (200 opps) — sorted by most recent, enough for weekly metrics
     sales_opps = _ghl_v1_get_all_opportunities(SALES_PIPELINE_ID, max_pages=10)
     logger.info(f"Sales pipeline: {len(sales_opps)} total opportunities")
+
+    # Pause between pipelines to avoid Cloudflare rate-limit cascade
+    _time.sleep(8)
 
     # Filter by date for weekly metrics
     weekly_new_leads = 0
