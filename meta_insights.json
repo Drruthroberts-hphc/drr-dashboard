@@ -45,8 +45,24 @@
     "messaging_contacts_change_pct": -16.7
   },
   "linkedin": {
-    "_note": "Coming shortly per Ruth's note May 27 2026",
-    "lifetime_followers": null
+    "_note": "Source: linkedin.com/analytics/creator — captured May 28, 2026",
+    "lifetime_followers": 1725,
+    "follower_growth_pct": 0.3,
+    "new_followers_28d": 9,
+    "impressions": 961,
+    "impressions_change_pct": -23.6,
+    "members_reached": 289,
+    "members_reached_change_pct": -28.0,
+    "top_demographics": {
+      "experience_senior_pct": 30,
+      "location_charleston_sc_pct": 25,
+      "company_size_1_10_pct": 21
+    },
+    "top_posts_28d": [
+      {"rank": 1, "title": "Every 'online pet certification' feels thin. (I built one that doesn't.)", "age": "3w", "impressions": 180, "likes": 3, "comments": 2, "type": "differentiator"},
+      {"rank": 2, "title": "150 coaches trained. (One pattern in the ones who thrive.)", "age": "2w", "impressions": 139, "likes": 6, "comments": 0, "type": "authority + storytelling"},
+      {"rank": 3, "title": "I built the original Holistic Pet Health Coach certification. (After 150+ graduates, here's what predicts success.)", "age": "6d", "impressions": 128, "likes": 10, "comments": 0, "type": "founder narrative"}
+    ]
   },
   "facebook_content_formats": [
     {"format": "Text",        "published": 16,    "views": 91841, "interactions": 536,  "views_per_post": 5740},
@@ -66,9 +82,12 @@
   "insights": [
     "FB algorithm reach collapse — views down 75% in 28 days while content quality held",
     "Text posts dominate FB: 2.3x more reach per post than photos",
-    "Co-hosted content (Judy Morgan) is #1 performer — schedule more collabs",
+    "Co-hosted content (Judy Morgan) is #1 FB performer — schedule more collabs",
     "Instagram content interactions UP 10.9% — content works for the audience that sees it",
     "Stories underperform on both platforms — 28 FB stories produced only 3.3K views",
-    "Both platforms show flat/negative engaged followers — audience is largely inactive lifetime followers"
+    "LinkedIn reach also down (-23.6% impressions, -28% members reached) — but smaller absolute decline",
+    "LinkedIn top 3 posts are ALL about HPHC certification + 150 coach narrative — that authority story is what LinkedIn audience responds to",
+    "LinkedIn audience is well-targeted: 30% Senior level + 21% small-company solopreneurs = ideal coach prospects",
+    "Charleston SC dominates LinkedIn geo (25%) — concentrated home market, less geographic spread than FB"
   ]
 }

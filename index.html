@@ -1445,10 +1445,53 @@
             metricCard('Messaging Contacts', fmtNum(ig.messaging_contacts), chip(ig.messaging_contacts_change_pct)) +
             '</div>';
 
-        // LinkedIn placeholder
+        // LinkedIn
         if (li.lifetime_followers === null || li.lifetime_followers === undefined) {
             html += '<h3 style="color:#0A66C2;margin-top:20px;">LinkedIn</h3>' +
-                '<p style="color:#888;">Coming shortly — placeholder section. Update meta_insights.json when LinkedIn data is added.</p>';
+                '<p style="color:#888;">No LinkedIn data yet — update meta_insights.json when ready.</p>';
+        } else {
+            html += '<h3 style="color:#0A66C2;margin-top:20px;">LinkedIn (' + fmtNum(li.lifetime_followers) + ' total followers)</h3>' +
+                '<div class="card-grid">' +
+                metricCard('LI Impressions (28d)', fmtNum(li.impressions), chip(li.impressions_change_pct)) +
+                metricCard('Members Reached', fmtNum(li.members_reached), chip(li.members_reached_change_pct)) +
+                metricCard('New Followers (28d)', fmtNum(li.new_followers_28d), chip(li.follower_growth_pct)) +
+                '</div>';
+
+            // Top demographics
+            if (li.top_demographics) {
+                const td = li.top_demographics;
+                html += '<p style="margin-top:10px;font-size:13px;color:#444;">' +
+                    '<strong>Top demographics:</strong> ' +
+                    td.experience_senior_pct + '% Senior level &middot; ' +
+                    td.location_charleston_sc_pct + '% Charleston SC Metro &middot; ' +
+                    td.company_size_1_10_pct + '% at 1-10 employee companies' +
+                    '</p>';
+            }
+
+            // LinkedIn top posts
+            if (li.top_posts_28d && li.top_posts_28d.length) {
+                html += '<h4 style="margin-top:14px;color:#0A66C2;">Top LinkedIn Posts (28d)</h4>' +
+                    '<table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+                    '<thead><tr style="background:#f0f0f0;">' +
+                    '<th style="padding:8px;text-align:left;">#</th>' +
+                    '<th style="padding:8px;text-align:left;">Post</th>' +
+                    '<th style="padding:8px;text-align:left;">Age</th>' +
+                    '<th style="padding:8px;text-align:right;">Impressions</th>' +
+                    '<th style="padding:8px;text-align:right;">Likes</th>' +
+                    '<th style="padding:8px;text-align:right;">Comments</th>' +
+                    '<th style="padding:8px;text-align:left;">Type</th></tr></thead><tbody>';
+                li.top_posts_28d.forEach(function(p) {
+                    html += '<tr>' +
+                        '<td style="padding:8px;font-weight:700;">' + p.rank + '</td>' +
+                        '<td style="padding:8px;">' + (p.title || '').substring(0, 80) + '</td>' +
+                        '<td style="padding:8px;">' + (p.age || '') + '</td>' +
+                        '<td style="padding:8px;text-align:right;">' + fmtNum(p.impressions) + '</td>' +
+                        '<td style="padding:8px;text-align:right;">' + fmtNum(p.likes) + '</td>' +
+                        '<td style="padding:8px;text-align:right;">' + fmtNum(p.comments) + '</td>' +
+                        '<td style="padding:8px;"><span style="font-size:11px;color:#666;">' + (p.type || '') + '</span></td></tr>';
+                });
+                html += '</tbody></table>';
+            }
         }
 
         // Content format breakdown
