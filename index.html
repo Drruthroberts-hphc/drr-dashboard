@@ -238,7 +238,14 @@
         const latest = allSnapshots[allSnapshots.length - 1];
         const previous = allSnapshots.length >= 2 ? allSnapshots[allSnapshots.length - 2] : null;
 
-        return { latest: latest, previous: previous, history: allSnapshots };
+        // Also load Meta Insights manual data (optional)
+        let metaInsights = null;
+        try {
+            const r = await fetch('meta_insights.json');
+            if (r.ok) metaInsights = await r.json();
+        } catch (e) { /* optional file */ }
+
+        return { latest: latest, previous: previous, history: allSnapshots, metaInsights: metaInsights };
     }
 
     // ── Build Trend Data from All Snapshots ──────────────────────────────
@@ -1387,10 +1394,132 @@
         } // end if trends
     }
 
+    // ── Meta Insights Tile (28-day rolling, manually updated) ────────────
+    function renderMetaInsights(mi) {
+        const c = document.getElementById('dashboard-container');
+        if (!c) return;
+        const fb = mi.facebook || {};
+        const ig = mi.instagram || {};
+        const li = mi.linkedin || {};
+
+        function chip(v) {
+            if (v === null || v === undefined) return '';
+            const cls = v >= 0 ? 'badge badge-green' : 'badge badge-red';
+            const arrow = v >= 0 ? '&#9650;' : '&#9660;';
+            return '<span class="' + cls + '">' + arrow + ' ' + Math.abs(v).toFixed(1) + '%</span>';
+        }
+        function fmtNum(n) {
+            if (n === null || n === undefined) return '—';
+            return Number(n).toLocaleString();
+        }
+
+        let html = '<div class="tier" id="tier9b">' +
+            '<div class="tier-header" onclick="toggleTier(\'tier9b-body\')">' +
+            '<h2>&#9656; Tier 9b: Meta Insights (28-day rolling)</h2>' +
+            '<span class="tier-toggle">&#9660;</span></div>' +
+            '<div class="tier-body" id="tier9b-body">' +
+            '<p style="color:#666;font-size:13px;margin-bottom:12px;">Period ending: <strong>' + (mi.period_end || 'unknown') +
+            '</strong> &middot; Source: business.facebook.com/latest/insights ' +
+            '&middot; <em>Manually updated monthly from meta_insights.json</em></p>';
+
+        // Facebook
+        html += '<h3 style="color:#1877F2;margin-top:12px;">Facebook (' + fmtNum(fb.lifetime_followers) + ' lifetime followers)</h3>' +
+            '<div class="card-grid">' +
+            metricCard('FB Views (28d)', fmtNum(fb.views), chip(fb.views_change_pct)) +
+            metricCard('FB Viewers', fmtNum(fb.viewers), chip(fb.viewers_change_pct)) +
+            metricCard('FB Visits', fmtNum(fb.visits), chip(fb.visits_change_pct)) +
+            metricCard('Content Interactions', fmtNum(fb.content_interactions), chip(fb.content_interactions_change_pct)) +
+            metricCard('Link Clicks', fmtNum(fb.link_clicks), chip(fb.link_clicks_change_pct)) +
+            metricCard('Net New Followers', fmtNum(fb.net_follows), chip(fb.net_follows_change_pct)) +
+            metricCard('Messaging Contacts', fmtNum(fb.messaging_contacts), chip(fb.messaging_contacts_change_pct), 'Hidden lead signal') +
+            '</div>';
+
+        // Instagram
+        html += '<h3 style="color:#E1306C;margin-top:20px;">Instagram (' + fmtNum(ig.lifetime_followers) + ' lifetime followers)</h3>' +
+            '<div class="card-grid">' +
+            metricCard('IG Views (28d)', fmtNum(ig.views), chip(ig.views_change_pct)) +
+            metricCard('IG Reach', fmtNum(ig.reach), chip(ig.reach_change_pct)) +
+            metricCard('IG Visits', fmtNum(ig.visits), chip(ig.visits_change_pct)) +
+            metricCard('Content Interactions', fmtNum(ig.content_interactions), chip(ig.content_interactions_change_pct)) +
+            metricCard('Net New Followers', fmtNum(ig.net_follows), '') +
+            metricCard('Messaging Contacts', fmtNum(ig.messaging_contacts), chip(ig.messaging_contacts_change_pct)) +
+            '</div>';
+
+        // LinkedIn placeholder
+        if (li.lifetime_followers === null || li.lifetime_followers === undefined) {
+            html += '<h3 style="color:#0A66C2;margin-top:20px;">LinkedIn</h3>' +
+                '<p style="color:#888;">Coming shortly — placeholder section. Update meta_insights.json when LinkedIn data is added.</p>';
+        }
+
+        // Content format breakdown
+        const formats = mi.facebook_content_formats || [];
+        if (formats.length) {
+            html += '<h3 style="margin-top:20px;">FB Content Format Performance</h3>' +
+                '<table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+                '<thead><tr style="background:#f0f0f0;">' +
+                '<th style="padding:8px;text-align:left;">Format</th>' +
+                '<th style="padding:8px;text-align:right;">Published</th>' +
+                '<th style="padding:8px;text-align:right;">Views</th>' +
+                '<th style="padding:8px;text-align:right;">Interactions</th>' +
+                '<th style="padding:8px;text-align:right;">Views/Post</th></tr></thead><tbody>';
+            formats.forEach(function(f) {
+                const isWinner = f.format === 'Text';
+                const style = isWinner ? 'background:#E8F5E9;font-weight:600;' : '';
+                html += '<tr style="' + style + '">' +
+                    '<td style="padding:8px;">' + f.format + (isWinner ? ' 🏆' : '') + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + (f.published !== null ? fmtNum(f.published) : '—') + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + fmtNum(f.views) + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + (f.interactions !== null ? fmtNum(f.interactions) : '—') + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + (f.views_per_post !== null ? fmtNum(f.views_per_post) : '—') + '</td></tr>';
+            });
+            html += '</tbody></table>';
+        }
+
+        // Top posts
+        const top = mi.top_posts_28d || [];
+        if (top.length) {
+            html += '<h3 style="margin-top:20px;">Top 5 FB Posts (28d)</h3>' +
+                '<table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+                '<thead><tr style="background:#f0f0f0;">' +
+                '<th style="padding:8px;text-align:left;">#</th>' +
+                '<th style="padding:8px;text-align:left;">Post</th>' +
+                '<th style="padding:8px;text-align:left;">Date</th>' +
+                '<th style="padding:8px;text-align:right;">Views</th>' +
+                '<th style="padding:8px;text-align:right;">Likes</th>' +
+                '<th style="padding:8px;text-align:right;">Comments</th>' +
+                '<th style="padding:8px;text-align:left;">Type</th></tr></thead><tbody>';
+            top.forEach(function(p) {
+                html += '<tr>' +
+                    '<td style="padding:8px;font-weight:700;">' + p.rank + '</td>' +
+                    '<td style="padding:8px;">' + (p.title || '').substring(0, 70) + '</td>' +
+                    '<td style="padding:8px;">' + (p.date || '') + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + fmtNum(p.views) + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + fmtNum(p.likes) + '</td>' +
+                    '<td style="padding:8px;text-align:right;">' + fmtNum(p.comments) + '</td>' +
+                    '<td style="padding:8px;"><span style="font-size:11px;color:#666;">' + (p.type || '') + '</span></td></tr>';
+            });
+            html += '</tbody></table>';
+        }
+
+        // Insights bullet list
+        const insights = mi.insights || [];
+        if (insights.length) {
+            html += '<h3 style="margin-top:20px;">Key Observations</h3><ul style="margin:8px 0 0 20px;">';
+            insights.forEach(function(s) { html += '<li style="margin:6px 0;">' + s + '</li>'; });
+            html += '</ul>';
+        }
+
+        html += '</div></div>';
+
+        // Append after the main dashboard content
+        c.insertAdjacentHTML('beforeend', html);
+    }
+
     // ── Initialize ───────────────────────────────────────────────────────
     loadAllData()
         .then(function(data) {
             renderDashboard(data.latest, data.previous, data.history);
+            if (data.metaInsights) renderMetaInsights(data.metaInsights);
         })
         .catch(function(err) {
             console.error('Dashboard load error:', err);

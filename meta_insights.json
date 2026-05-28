@@ -1,0 +1,74 @@
+{
+  "_comment": "Manual Meta Business Suite Insights data — update monthly from business.facebook.com/latest/insights/results. Last screenshot date: May 27, 2026.",
+  "period": "28-day rolling",
+  "period_end": "2026-05-27",
+  "facebook": {
+    "lifetime_followers": 87428,
+    "views": 131000,
+    "views_change_pct": -75.1,
+    "viewers": 39900,
+    "viewers_change_pct": -84.6,
+    "visits": 2700,
+    "visits_change_pct": -58.0,
+    "content_interactions": 1100,
+    "content_interactions_change_pct": -52.9,
+    "link_clicks": 7,
+    "link_clicks_change_pct": 40.0,
+    "follows_new": 139,
+    "follows_change_pct": -73.3,
+    "unfollows": 60,
+    "unfollows_change_pct": -34.1,
+    "net_follows": 79,
+    "net_follows_change_pct": -81.6,
+    "messaging_contacts": 29,
+    "messaging_contacts_change_pct": -29.3,
+    "engaged_followers": 0
+  },
+  "instagram": {
+    "lifetime_followers": 9636,
+    "views": 23268,
+    "views_change_pct": 3.6,
+    "reach": 4000,
+    "reach_change_pct": -3.2,
+    "content_interactions": 1100,
+    "content_interactions_change_pct": 10.9,
+    "link_clicks": 0,
+    "visits": 317,
+    "visits_change_pct": -35.6,
+    "follows_new": 76,
+    "follows_change_pct": -58.2,
+    "unfollows": 76,
+    "unfollows_change_pct": 49.0,
+    "net_follows": 0,
+    "engaged_followers": 0,
+    "messaging_contacts": 10,
+    "messaging_contacts_change_pct": -16.7
+  },
+  "linkedin": {
+    "_note": "Coming shortly per Ruth's note May 27 2026",
+    "lifetime_followers": null
+  },
+  "facebook_content_formats": [
+    {"format": "Text",        "published": 16,    "views": 91841, "interactions": 536,  "views_per_post": 5740},
+    {"format": "Photos",      "published": 12,    "views": 29737, "interactions": 351,  "views_per_post": 2478},
+    {"format": "Multi photo", "published": null,  "views": 3396,  "interactions": 72,   "views_per_post": null},
+    {"format": "Stories",     "published": 28,    "views": 3349,  "interactions": 49,   "views_per_post": 120},
+    {"format": "Reels",       "published": null,  "views": 2573,  "interactions": 44,   "views_per_post": null},
+    {"format": "Links",       "published": null,  "views": 80,    "interactions": null, "views_per_post": null}
+  ],
+  "top_posts_28d": [
+    {"rank": 1, "title": "Two vets. 70+ years between us. One conversation. (Judy Morgan cohost)", "date": "2026-05-15", "views": 12200, "likes": 72, "comments": 68, "shares": 12, "type": "cohost"},
+    {"rank": 2, "title": "After 35 years as a veterinarian, here are...", "date": "2026-05-14", "views": 11600, "likes": 27, "comments": 7, "shares": 8, "type": "authority"},
+    {"rank": 3, "title": "Today is one of the higher-risk days of the year", "date": "2026-05-25", "views": 9900, "likes": 11, "comments": 9, "shares": 11, "type": "urgency"},
+    {"rank": 4, "title": "I run a private community for pet parents", "date": "2026-05-21", "views": 9800, "likes": 50, "comments": 37, "shares": 2, "type": "community"},
+    {"rank": 5, "title": "5 things in your pet's bowl that quietly fuel...", "date": "2026-05-18", "views": 9200, "likes": 31, "comments": 21, "shares": 5, "type": "listicle"}
+  ],
+  "insights": [
+    "FB algorithm reach collapse — views down 75% in 28 days while content quality held",
+    "Text posts dominate FB: 2.3x more reach per post than photos",
+    "Co-hosted content (Judy Morgan) is #1 performer — schedule more collabs",
+    "Instagram content interactions UP 10.9% — content works for the audience that sees it",
+    "Stories underperform on both platforms — 28 FB stories produced only 3.3K views",
+    "Both platforms show flat/negative engaged followers — audience is largely inactive lifetime followers"
+  ]
+}
