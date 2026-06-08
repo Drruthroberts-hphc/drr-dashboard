@@ -21,8 +21,9 @@
     "snapshot_2026-05-10.json",
     "snapshot_2026-05-17.json",
     "snapshot_2026-05-24.json",
-    "snapshot_2026-05-31.json"
+    "snapshot_2026-05-31.json",
+    "snapshot_2026-06-07.json"
   ],
-  "latest": "snapshot_2026-05-31.json",
-  "updated": "2026-06-01"
+  "latest": "snapshot_2026-06-07.json",
+  "updated": "2026-06-08"
 }
