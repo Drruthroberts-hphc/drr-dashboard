@@ -17,7 +17,8 @@
       "checkout_abandonment_rate": 87.5,
       "return_rate": 1.0,
       "discount_rate_pct": 6.68,
-      "top_products_json": "[{\"name\": \"Holistic Pet Health Coach\\u2122 Certification Program\", \"revenue\": 5150.0, \"quantity\": 1}, {\"name\": \"Holistic Total Body Support \\u2014 Daily Multivitamin & Pasture-Raised Glandular Blend for Dogs & Cats\", \"revenue\": 2689.48, \"quantity\": 46}, {\"name\": \"Hista Paws \\u2013 with Quercetin for Dogs and Cats\", \"revenue\": 1407.24, \"quantity\": 29}, {\"name\": \"Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats\", \"revenue\": 684.42, \"quantity\": 18}, {\"name\": \"The Original Crockpet Diet\\u2122 Ebook and Recipes\", \"revenue\": 361.25, \"quantity\": 10}, {\"name\": \"Dog - Comprehensive Gut Check for Dogs\", \"revenue\": 299.0, \"quantity\": 1}, {\"name\": \"Yunnan Baiyao Capsules \\u2013 Healing Support for Bleeding and Recovery\", \"revenue\": 280.0, \"quantity\": 20}, {\"name\": \"Glacier Peak Pet Intolerance Test (Pet Wellness Life Stress Scan Kit)\", \"revenue\": 259.9, \"quantity\": 2}, {\"name\": \"Canine Thyroid Support, 3.5 oz (100 g)\", \"revenue\": 222.3, \"quantity\": 3}, {\"name\": \"Zypan\\u00ae, 330 Tablets\", \"revenue\": 217.8, \"quantity\": 3}]"
+      "top_products_json": "[{\"name\": \"Holistic Pet Health Coach\\u2122 Certification Program\", \"revenue\": 5150.0, \"quantity\": 1}, {\"name\": \"Holistic Total Body Support \\u2014 Daily Multivitamin & Pasture-Raised Glandular Blend for Dogs & Cats\", \"revenue\": 2689.48, \"quantity\": 46}, {\"name\": \"Hista Paws \\u2013 with Quercetin for Dogs and Cats\", \"revenue\": 1407.24, \"quantity\": 29}, {\"name\": \"Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats\", \"revenue\": 684.42, \"quantity\": 18}, {\"name\": \"The Original Crockpet Diet\\u2122 Ebook and Recipes\", \"revenue\": 361.25, \"quantity\": 10}, {\"name\": \"Dog - Comprehensive Gut Check for Dogs\", \"revenue\": 299.0, \"quantity\": 1}, {\"name\": \"Yunnan Baiyao Capsules \\u2013 Healing Support for Bleeding and Recovery\", \"revenue\": 280.0, \"quantity\": 20}, {\"name\": \"Glacier Peak Pet Intolerance Test (Pet Wellness Life Stress Scan Kit)\", \"revenue\": 259.9, \"quantity\": 2}, {\"name\": \"Canine Thyroid Support, 3.5 oz (100 g)\", \"revenue\": 222.3, \"quantity\": 3}, {\"name\": \"Zypan\\u00ae, 330 Tablets\", \"revenue\": 217.8, \"quantity\": 3}]",
+      "_annotation": "Ecommerce revenue softened ($9,127 vs $12,467 prior week) due to Shopify platform outage during major update. Site downtime impacted both organic + paid conversions."
     },
     "klaviyo": {
       "week_ending_date": "2026-06-07",
@@ -112,7 +113,9 @@
       "disapproved_products": 0,
       "disapproval_rate": 0,
       "google_ads_roas": 0,
-      "google_ads_weekly_spend": 0
+      "google_ads_weekly_spend": 0,
+      "_annotation": "Zero values caused by Shopify platform outage during their major update \u2014 Merchant Center feed failed validation, PMax + Shopping campaigns paused serving. Not a campaign performance issue. Expected to recover next week once feed re-syncs.",
+      "_data_quality": "ENVIRONMENTAL_OUTAGE"
     },
     "coaching_pipeline": {
       "week_ending_date": "2026-06-07",
@@ -216,6 +219,17 @@
       "status": "TRIGGERED",
       "notified": "pending",
       "platform": "Google Ads"
+    },
+    {
+      "timestamp": "2026-06-08T22:00:00",
+      "metric_name": "Google Ads ROAS \u2014 RESOLVED CAUSE",
+      "current_value": "Shopify outage",
+      "threshold": "n/a",
+      "direction": "context",
+      "status": "ACKNOWLEDGED",
+      "notified": "context-noted",
+      "platform": "Google Ads",
+      "_note": "Per Dr. Ruth: Google Ads went to zero this week due to Shopify being down during their big platform update. Merchant Center feed validation failed, campaigns paused. Expected to recover by next snapshot. Not an OAuth or campaign issue."
     }
   ]
 }
