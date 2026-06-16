@@ -24,3 +24,6 @@ Thumbs.db
 # Alerts temp
 alerts/
 get_shopify_token.py
+
+# Contains hardcoded Shopify secret — keep local only
+get_new_token.py

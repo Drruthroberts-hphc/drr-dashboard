@@ -1,0 +1,919 @@
+/Users/ruthroberts/Library/Python/3.9/lib/python/site-packages/google/auth/__init__.py:54: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/ruthroberts/Library/Python/3.9/lib/python/site-packages/google/oauth2/__init__.py:40: FutureWarning: You are using a Python version 3.9 past its end of life. Google will update google-auth with critical bug fixes on a best-effort basis, but not with any other fixes or features. Please upgrade your Python version, and then update google-auth.
+  warnings.warn(eol_message.format("3.9"), FutureWarning)
+/Users/ruthroberts/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+/Users/ruthroberts/Library/Python/3.9/lib/python/site-packages/google/api_core/_python_version_support.py:246: FutureWarning: You are using a non-supported Python version (3.9.6). Google will not post any further updates to google.api_core supporting this Python version. Please upgrade to the latest Python version, or at least Python 3.10, and then update google.api_core.
+  warnings.warn(message, FutureWarning)
+2026-03-10 10:56:32 INFO     __main__             ============================================================
+2026-03-10 10:56:32 INFO     __main__             DRR Dashboard Backfill
+2026-03-10 10:56:32 INFO     __main__               Range: 2026-01-01 to 2026-03-08
+2026-03-10 10:56:32 INFO     __main__               Weeks to process: 10
+2026-03-10 10:56:32 INFO     __main__               First week ending: 2026-01-04
+2026-03-10 10:56:32 INFO     __main__               Last week ending:  2026-03-08
+2026-03-10 10:56:32 INFO     __main__               Dry run: False
+2026-03-10 10:56:32 INFO     __main__               Send emails: False
+2026-03-10 10:56:32 INFO     __main__             ============================================================
+2026-03-10 10:56:32 INFO     __main__             
+============================================================
+2026-03-10 10:56:32 INFO     __main__             [1/10] Processing week ending 2026-01-04
+2026-03-10 10:56:32 INFO     __main__             ============================================================
+2026-03-10 10:56:32 INFO     main                 ============================================================
+2026-03-10 10:56:32 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-01-04
+2026-03-10 10:56:32 INFO     main                 ============================================================
+2026-03-10 10:56:32 INFO     main                 --- Collecting Shopify ---
+2026-03-10 10:56:32 INFO     collectors.shopify_collector Collecting Shopify data for week 2025-12-29 to 2026-01-04
+2026-03-10 10:56:32 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 10:56:34 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 10:56:36 INFO     collectors.shopify_collector Shopify collection complete: $0.00 gross, 0 orders, AOV $0.00
+2026-03-10 10:56:36 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 10:56:36 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 10:56:36 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2025-12-29 to 2026-01-04
+2026-03-10 10:56:37 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 10:56:38 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $20862.14
+2026-03-10 10:56:51 INFO     collectors.klaviyo_collector Klaviyo collection complete: $20862.14 email revenue, list size 15774, open rate 63.7%
+2026-03-10 10:56:51 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 10:56:51 INFO     main                 --- Collecting Stripe ---
+2026-03-10 10:56:51 INFO     collectors.stripe_collector Collecting Stripe data for week 2025-12-29 to 2026-01-04
+2026-03-10 10:56:51 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1766991600&created[lte]=1767596399&limit=100
+2026-03-10 10:56:52 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1766991600&created[lte]=1767596399&limit=100 response_code=200
+2026-03-10 10:56:52 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Sjv91QRR9OYtipu0iPQZqdc
+2026-03-10 10:56:52 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Sjv91QRR9OYtipu0iPQZqdc response_code=200
+2026-03-10 10:56:52 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1766991600&created[lte]=1767596399&limit=100
+2026-03-10 10:56:53 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1766991600&created[lte]=1767596399&limit=100 response_code=200
+2026-03-10 10:56:53 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1766991600&created[lte]=1767596399&limit=100
+2026-03-10 10:56:53 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1766991600&created[lte]=1767596399&limit=100 response_code=200
+2026-03-10 10:56:53 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 10:56:54 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 10:56:54 INFO     collectors.stripe_collector Stripe collection complete: $99.00 gross, 1 successful charges, MRR $2518.83
+2026-03-10 10:56:54 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 10:56:54 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 10:56:54 INFO     collectors.ghl_collector Collecting GHL data for week 2025-12-29 to 2026-01-04
+2026-03-10 10:56:54 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 10:56:54 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 10:56:54 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 10:56:54 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 10:56:54 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 10:56:54 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 10:56:54 INFO     main                 --- Collecting Social Media ---
+2026-03-10 10:56:54 INFO     collectors.social_collector Collecting social media data for week 2025-12-29 to 2026-01-04
+2026-03-10 10:56:55 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 0 new videos, 0 views
+2026-03-10 10:56:55 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 10:56:57 INFO     main                 No previous week data found (first run or new sheet)
+2026-03-10 10:56:57 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 10:56:57 INFO     cross_platform       Cross-platform: total $0.00, WoW +0.0%, net $-3.67
+2026-03-10 10:56:57 INFO     main                 Total revenue: $0.00
+2026-03-10 10:56:57 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 10:56:57 INFO     main                 No alerts triggered
+2026-03-10 10:56:57 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 10:56:59 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-01-04
+2026-03-10 10:57:00 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-01-04
+2026-03-10 10:57:02 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-01-04
+2026-03-10 10:57:04 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-01-04
+2026-03-10 10:57:05 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-01-04
+2026-03-10 10:57:07 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-01-04
+2026-03-10 10:57:07 INFO     main                   Shopify_Weekly: written
+2026-03-10 10:57:07 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 10:57:07 INFO     main                   GHL_Weekly: written
+2026-03-10 10:57:07 INFO     main                   Stripe_Weekly: written
+2026-03-10 10:57:07 INFO     main                   Social_Weekly: written
+2026-03-10 10:57:07 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 10:57:07 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 10:57:07 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 10:57:13 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 10:57:13 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 10:57:13 INFO     main                 ============================================================
+2026-03-10 10:57:13 INFO     main                 Pipeline complete!
+2026-03-10 10:57:13 INFO     main                   Week ending: 2026-01-04
+2026-03-10 10:57:13 INFO     main                   Total revenue: $0.00
+2026-03-10 10:57:13 INFO     main                   Alerts: 0
+2026-03-10 10:57:13 INFO     main                   Dry run: False
+2026-03-10 10:57:13 INFO     main                 ============================================================
+2026-03-10 10:57:13 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-01-04.json
+2026-03-10 10:57:13 INFO     __main__             ✓ Week 2026-01-04: $0.00 revenue, 0 alerts
+2026-03-10 10:57:13 INFO     __main__             Waiting 3s before next week...
+2026-03-10 10:57:16 INFO     __main__             
+============================================================
+2026-03-10 10:57:16 INFO     __main__             [2/10] Processing week ending 2026-01-11
+2026-03-10 10:57:16 INFO     __main__             ============================================================
+2026-03-10 10:57:16 INFO     main                 ============================================================
+2026-03-10 10:57:16 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-01-11
+2026-03-10 10:57:16 INFO     main                 ============================================================
+2026-03-10 10:57:16 INFO     main                 --- Collecting Shopify ---
+2026-03-10 10:57:16 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-01-05 to 2026-01-11
+2026-03-10 10:57:16 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 10:57:18 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 10:57:21 INFO     collectors.shopify_collector Shopify collection complete: $2930.50 gross, 30 orders, AOV $97.68
+2026-03-10 10:57:21 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 10:57:21 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 10:57:21 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-01-05 to 2026-01-11
+2026-03-10 10:57:22 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 10:57:23 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $19895.09
+2026-03-10 10:57:36 INFO     collectors.klaviyo_collector Klaviyo collection complete: $19895.09 email revenue, list size 15774, open rate 61.8%
+2026-03-10 10:57:36 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 10:57:36 INFO     main                 --- Collecting Stripe ---
+2026-03-10 10:57:36 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-01-05 to 2026-01-11
+2026-03-10 10:57:36 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1767596400&created[lte]=1768201199&limit=100
+2026-03-10 10:57:37 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1767596400&created[lte]=1768201199&limit=100 response_code=200
+2026-03-10 10:57:37 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SnlTiQRR9OYtipu0UaMnrzs
+2026-03-10 10:57:37 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SnlTiQRR9OYtipu0UaMnrzs response_code=200
+2026-03-10 10:57:37 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SnMoPQRR9OYtipu1b7hRMJc
+2026-03-10 10:57:37 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SnMoPQRR9OYtipu1b7hRMJc response_code=200
+2026-03-10 10:57:37 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SmN3eQRR9OYtipu0uZgFg75
+2026-03-10 10:57:37 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SmN3eQRR9OYtipu0uZgFg75 response_code=200
+2026-03-10 10:57:37 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SmJbOQRR9OYtipu1oH6tTyH
+2026-03-10 10:57:38 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SmJbOQRR9OYtipu1oH6tTyH response_code=200
+2026-03-10 10:57:38 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1767596400&created[lte]=1768201199&limit=100
+2026-03-10 10:57:38 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1767596400&created[lte]=1768201199&limit=100 response_code=200
+2026-03-10 10:57:38 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1767596400&created[lte]=1768201199&limit=100
+2026-03-10 10:57:38 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1767596400&created[lte]=1768201199&limit=100 response_code=200
+2026-03-10 10:57:38 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 10:57:39 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 10:57:39 INFO     collectors.stripe_collector Stripe collection complete: $742.44 gross, 4 successful charges, MRR $2518.83
+2026-03-10 10:57:39 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 10:57:39 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 10:57:39 INFO     collectors.ghl_collector Collecting GHL data for week 2026-01-05 to 2026-01-11
+2026-03-10 10:57:39 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 10:57:39 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 10:57:39 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 10:57:39 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 10:57:39 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 10:57:39 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 10:57:39 INFO     main                 --- Collecting Social Media ---
+2026-03-10 10:57:39 INFO     collectors.social_collector Collecting social media data for week 2026-01-05 to 2026-01-11
+2026-03-10 10:57:40 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 2 new videos, 2177 views
+2026-03-10 10:57:40 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 10:57:42 INFO     main                 Previous week data found: $0
+2026-03-10 10:57:42 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 10:57:42 INFO     cross_platform       Cross-platform: total $2,893.95, WoW +0.0%, net $2,868.00
+2026-03-10 10:57:42 INFO     main                 Total revenue: $2,893.95
+2026-03-10 10:57:42 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 10:57:42 WARNING  alerts               ALERT: Payment Success Rate = 0.8 (threshold: below 0.95)
+2026-03-10 10:57:42 WARNING  main                 1 alert(s) triggered!
+2026-03-10 10:57:42 WARNING  main                   - Payment Success Rate: 0.8
+2026-03-10 10:57:42 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 10:57:43 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-01-11
+2026-03-10 10:57:45 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-01-11
+2026-03-10 10:57:46 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-01-11
+2026-03-10 10:57:47 ERROR    sheets_writer        Error writing to Stripe_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:48 ERROR    sheets_writer        Error writing to Social_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:48 ERROR    sheets_writer        Error writing to CrossPlatform_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:48 INFO     main                   Shopify_Weekly: written
+2026-03-10 10:57:48 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 10:57:48 INFO     main                   GHL_Weekly: written
+2026-03-10 10:57:48 INFO     main                   Stripe_Weekly: error: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:48 INFO     main                   Social_Weekly: error: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:48 INFO     main                   CrossPlatform_Weekly: error: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:49 ERROR    sheets_writer        Error writing alert: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:49 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 10:57:49 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 10:57:50 ERROR    sheets_writer        Error fetching previous week data from Shopify_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:50 ERROR    sheets_writer        Error fetching previous week data from Klaviyo_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:51 ERROR    sheets_writer        Error fetching previous week data from Stripe_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:52 ERROR    sheets_writer        Error fetching previous week data from GHL_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:52 ERROR    sheets_writer        Error fetching previous week data from Social_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 10:57:52 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 10:57:52 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 10:57:52 INFO     main                 ============================================================
+2026-03-10 10:57:52 INFO     main                 Pipeline complete!
+2026-03-10 10:57:52 INFO     main                   Week ending: 2026-01-11
+2026-03-10 10:57:52 INFO     main                   Total revenue: $2,893.95
+2026-03-10 10:57:52 INFO     main                   Alerts: 1
+2026-03-10 10:57:52 INFO     main                   Dry run: False
+2026-03-10 10:57:52 INFO     main                 ============================================================
+2026-03-10 10:57:52 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-01-11.json
+2026-03-10 10:57:52 INFO     __main__             ✓ Week 2026-01-11: $2,893.95 revenue, 1 alerts
+2026-03-10 10:57:52 INFO     __main__             Waiting 3s before next week...
+2026-03-10 10:57:55 INFO     __main__             
+============================================================
+2026-03-10 10:57:55 INFO     __main__             [3/10] Processing week ending 2026-01-18
+2026-03-10 10:57:55 INFO     __main__             ============================================================
+2026-03-10 10:57:55 INFO     main                 ============================================================
+2026-03-10 10:57:55 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-01-18
+2026-03-10 10:57:55 INFO     main                 ============================================================
+2026-03-10 10:57:55 INFO     main                 --- Collecting Shopify ---
+2026-03-10 10:57:55 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-01-12 to 2026-01-18
+2026-03-10 10:57:55 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 10:57:57 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 10:58:03 INFO     collectors.shopify_collector Shopify collection complete: $10603.77 gross, 113 orders, AOV $93.84
+2026-03-10 10:58:03 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 10:58:03 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 10:58:03 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-01-12 to 2026-01-18
+2026-03-10 10:58:04 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 10:58:05 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $10771.67
+2026-03-10 10:58:13 WARNING  collectors.klaviyo_collector Klaviyo rate limited on lists/Rhz48R, waiting 2s...
+2026-03-10 10:58:16 WARNING  collectors.klaviyo_collector Klaviyo rate limited on lists/Rhz48R, waiting 1s...
+2026-03-10 10:58:22 INFO     collectors.klaviyo_collector Klaviyo collection complete: $10771.67 email revenue, list size 15774, open rate 62.8%
+2026-03-10 10:58:22 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 10:58:22 INFO     main                 --- Collecting Stripe ---
+2026-03-10 10:58:22 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-01-12 to 2026-01-18
+2026-03-10 10:58:22 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1768201200&created[lte]=1768805999&limit=100
+2026-03-10 10:58:23 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1768201200&created[lte]=1768805999&limit=100 response_code=200
+2026-03-10 10:58:23 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SqZxyQRR9OYtipu1jcZikNy
+2026-03-10 10:58:23 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SqZxyQRR9OYtipu1jcZikNy response_code=200
+2026-03-10 10:58:23 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SqRWtQRR9OYtipu1APt5wpz
+2026-03-10 10:58:23 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SqRWtQRR9OYtipu1APt5wpz response_code=200
+2026-03-10 10:58:23 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SpugFQRR9OYtipu0Nhz0L55
+2026-03-10 10:58:23 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SpugFQRR9OYtipu0Nhz0L55 response_code=200
+2026-03-10 10:58:23 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SpaIMQRR9OYtipu13xPsPEz
+2026-03-10 10:58:24 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SpaIMQRR9OYtipu13xPsPEz response_code=200
+2026-03-10 10:58:24 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SpUocQRR9OYtipu0M4YUb9P
+2026-03-10 10:58:24 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SpUocQRR9OYtipu0M4YUb9P response_code=200
+2026-03-10 10:58:24 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SpIHxQRR9OYtipu0cG8bBDP
+2026-03-10 10:58:24 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SpIHxQRR9OYtipu0cG8bBDP response_code=200
+2026-03-10 10:58:24 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SpFBTQRR9OYtipu0bV9xH6o
+2026-03-10 10:58:24 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SpFBTQRR9OYtipu0bV9xH6o response_code=200
+2026-03-10 10:58:24 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SpDDGQRR9OYtipu0z0vd6tB
+2026-03-10 10:58:25 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SpDDGQRR9OYtipu0z0vd6tB response_code=200
+2026-03-10 10:58:25 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1768201200&created[lte]=1768805999&limit=100
+2026-03-10 10:58:25 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1768201200&created[lte]=1768805999&limit=100 response_code=200
+2026-03-10 10:58:25 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1768201200&created[lte]=1768805999&limit=100
+2026-03-10 10:58:25 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1768201200&created[lte]=1768805999&limit=100 response_code=200
+2026-03-10 10:58:25 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 10:58:26 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 10:58:26 INFO     collectors.stripe_collector Stripe collection complete: $2132.00 gross, 8 successful charges, MRR $2518.83
+2026-03-10 10:58:26 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 10:58:26 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 10:58:26 INFO     collectors.ghl_collector Collecting GHL data for week 2026-01-12 to 2026-01-18
+2026-03-10 10:58:26 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 10:58:26 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 10:58:26 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 10:58:26 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 10:58:26 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 10:58:26 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 10:58:26 INFO     main                 --- Collecting Social Media ---
+2026-03-10 10:58:26 INFO     collectors.social_collector Collecting social media data for week 2026-01-12 to 2026-01-18
+2026-03-10 10:58:27 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 1 new videos, 499 views
+2026-03-10 10:58:27 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 10:58:29 INFO     main                 Previous week data found: $0
+2026-03-10 10:58:29 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 10:58:29 INFO     cross_platform       Cross-platform: total $10,874.54, WoW +0.0%, net $10,792.76
+2026-03-10 10:58:29 INFO     main                 Total revenue: $10,874.54
+2026-03-10 10:58:29 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 10:58:29 INFO     main                 No alerts triggered
+2026-03-10 10:58:29 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 10:58:30 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-01-18
+2026-03-10 10:58:32 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-01-18
+2026-03-10 10:58:33 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-01-18
+2026-03-10 10:58:35 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-01-18
+2026-03-10 10:58:37 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-01-18
+2026-03-10 10:58:38 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-01-18
+2026-03-10 10:58:38 INFO     main                   Shopify_Weekly: written
+2026-03-10 10:58:38 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 10:58:38 INFO     main                   GHL_Weekly: written
+2026-03-10 10:58:38 INFO     main                   Stripe_Weekly: written
+2026-03-10 10:58:38 INFO     main                   Social_Weekly: written
+2026-03-10 10:58:38 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 10:58:38 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 10:58:38 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 10:58:45 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 10:58:45 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 10:58:45 INFO     main                 ============================================================
+2026-03-10 10:58:45 INFO     main                 Pipeline complete!
+2026-03-10 10:58:45 INFO     main                   Week ending: 2026-01-18
+2026-03-10 10:58:45 INFO     main                   Total revenue: $10,874.54
+2026-03-10 10:58:45 INFO     main                   Alerts: 0
+2026-03-10 10:58:45 INFO     main                   Dry run: False
+2026-03-10 10:58:45 INFO     main                 ============================================================
+2026-03-10 10:58:45 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-01-18.json
+2026-03-10 10:58:45 INFO     __main__             ✓ Week 2026-01-18: $10,874.54 revenue, 0 alerts
+2026-03-10 10:58:45 INFO     __main__             Waiting 3s before next week...
+2026-03-10 10:58:48 INFO     __main__             
+============================================================
+2026-03-10 10:58:48 INFO     __main__             [4/10] Processing week ending 2026-01-25
+2026-03-10 10:58:48 INFO     __main__             ============================================================
+2026-03-10 10:58:48 INFO     main                 ============================================================
+2026-03-10 10:58:48 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-01-25
+2026-03-10 10:58:48 INFO     main                 ============================================================
+2026-03-10 10:58:48 INFO     main                 --- Collecting Shopify ---
+2026-03-10 10:58:48 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-01-19 to 2026-01-25
+2026-03-10 10:58:48 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 10:58:50 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 10:58:54 INFO     collectors.shopify_collector Shopify collection complete: $22922.33 gross, 86 orders, AOV $266.54
+2026-03-10 10:58:54 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 10:58:54 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 10:58:54 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-01-19 to 2026-01-25
+2026-03-10 10:59:02 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 10:59:03 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $23286.10
+2026-03-10 10:59:14 INFO     collectors.klaviyo_collector Klaviyo collection complete: $23286.10 email revenue, list size 15774, open rate 63.2%
+2026-03-10 10:59:14 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 10:59:14 INFO     main                 --- Collecting Stripe ---
+2026-03-10 10:59:14 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-01-19 to 2026-01-25
+2026-03-10 10:59:14 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1768806000&created[lte]=1769410799&limit=100
+2026-03-10 10:59:15 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1768806000&created[lte]=1769410799&limit=100 response_code=200
+2026-03-10 10:59:15 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3StBoXQRR9OYtipu0ox0jc0O
+2026-03-10 10:59:15 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3StBoXQRR9OYtipu0ox0jc0O response_code=200
+2026-03-10 10:59:15 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Ssp7NQRR9OYtipu0vj1iLxj
+2026-03-10 10:59:16 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Ssp7NQRR9OYtipu0vj1iLxj response_code=200
+2026-03-10 10:59:16 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SslEYQRR9OYtipu1vu2DObl
+2026-03-10 10:59:16 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SslEYQRR9OYtipu1vu2DObl response_code=200
+2026-03-10 10:59:16 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Ss78HQRR9OYtipu0o7BiRD8
+2026-03-10 10:59:16 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Ss78HQRR9OYtipu0o7BiRD8 response_code=200
+2026-03-10 10:59:16 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SrgbNQRR9OYtipu1TbCDtQe
+2026-03-10 10:59:16 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SrgbNQRR9OYtipu1TbCDtQe response_code=200
+2026-03-10 10:59:16 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SrPd0QRR9OYtipu0pygOlOv
+2026-03-10 10:59:17 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SrPd0QRR9OYtipu0pygOlOv response_code=200
+2026-03-10 10:59:17 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SrMxmQRR9OYtipu1AlRBeOZ
+2026-03-10 10:59:17 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SrMxmQRR9OYtipu1AlRBeOZ response_code=200
+2026-03-10 10:59:17 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1768806000&created[lte]=1769410799&limit=100
+2026-03-10 10:59:17 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1768806000&created[lte]=1769410799&limit=100 response_code=200
+2026-03-10 10:59:17 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1768806000&created[lte]=1769410799&limit=100
+2026-03-10 10:59:17 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1768806000&created[lte]=1769410799&limit=100 response_code=200
+2026-03-10 10:59:17 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 10:59:18 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 10:59:18 INFO     collectors.stripe_collector Stripe collection complete: $2915.00 gross, 7 successful charges, MRR $2518.83
+2026-03-10 10:59:18 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 10:59:18 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 10:59:18 INFO     collectors.ghl_collector Collecting GHL data for week 2026-01-19 to 2026-01-25
+2026-03-10 10:59:18 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 10:59:18 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 10:59:18 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 10:59:18 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 10:59:18 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 10:59:18 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 10:59:18 INFO     main                 --- Collecting Social Media ---
+2026-03-10 10:59:18 INFO     collectors.social_collector Collecting social media data for week 2026-01-19 to 2026-01-25
+2026-03-10 10:59:20 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 1 new videos, 186 views
+2026-03-10 10:59:20 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 10:59:21 INFO     main                 Previous week data found: $10874.54
+2026-03-10 10:59:21 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 10:59:21 INFO     cross_platform       Cross-platform: total $22,822.38, WoW +109.9%, net $22,622.14
+2026-03-10 10:59:21 INFO     main                 Total revenue: $22,822.38
+2026-03-10 10:59:21 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 10:59:21 WARNING  alerts               ALERT: Payment Success Rate = 0.6364 (threshold: below 0.95)
+2026-03-10 10:59:21 WARNING  main                 1 alert(s) triggered!
+2026-03-10 10:59:21 WARNING  main                   - Payment Success Rate: 0.6364
+2026-03-10 10:59:21 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 10:59:22 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-01-25
+2026-03-10 10:59:24 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-01-25
+2026-03-10 10:59:25 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-01-25
+2026-03-10 10:59:27 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-01-25
+2026-03-10 10:59:29 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-01-25
+2026-03-10 10:59:30 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-01-25
+2026-03-10 10:59:30 INFO     main                   Shopify_Weekly: written
+2026-03-10 10:59:30 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 10:59:30 INFO     main                   GHL_Weekly: written
+2026-03-10 10:59:30 INFO     main                   Stripe_Weekly: written
+2026-03-10 10:59:30 INFO     main                   Social_Weekly: written
+2026-03-10 10:59:30 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 10:59:31 INFO     sheets_writer        Creating new tab: Alerts_Log
+2026-03-10 10:59:32 INFO     sheets_writer        Appended new row to Alerts_Log for 
+2026-03-10 10:59:32 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 10:59:32 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 10:59:41 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 10:59:41 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 10:59:41 INFO     main                 ============================================================
+2026-03-10 10:59:41 INFO     main                 Pipeline complete!
+2026-03-10 10:59:41 INFO     main                   Week ending: 2026-01-25
+2026-03-10 10:59:41 INFO     main                   Total revenue: $22,822.38
+2026-03-10 10:59:41 INFO     main                   Alerts: 1
+2026-03-10 10:59:41 INFO     main                   Dry run: False
+2026-03-10 10:59:41 INFO     main                 ============================================================
+2026-03-10 10:59:41 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-01-25.json
+2026-03-10 10:59:41 INFO     __main__             ✓ Week 2026-01-25: $22,822.38 revenue, 1 alerts
+2026-03-10 10:59:41 INFO     __main__             Waiting 3s before next week...
+2026-03-10 10:59:44 INFO     __main__             
+============================================================
+2026-03-10 10:59:44 INFO     __main__             [5/10] Processing week ending 2026-02-01
+2026-03-10 10:59:44 INFO     __main__             ============================================================
+2026-03-10 10:59:44 INFO     main                 ============================================================
+2026-03-10 10:59:44 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-02-01
+2026-03-10 10:59:44 INFO     main                 ============================================================
+2026-03-10 10:59:44 INFO     main                 --- Collecting Shopify ---
+2026-03-10 10:59:44 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-01-26 to 2026-02-01
+2026-03-10 10:59:44 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 10:59:46 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 10:59:51 INFO     collectors.shopify_collector Shopify collection complete: $21637.40 gross, 117 orders, AOV $184.94
+2026-03-10 10:59:51 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 10:59:51 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 10:59:51 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-01-26 to 2026-02-01
+2026-03-10 10:59:52 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 10:59:54 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $21693.00
+2026-03-10 11:00:07 INFO     collectors.klaviyo_collector Klaviyo collection complete: $21693.00 email revenue, list size 15774, open rate 64.9%
+2026-03-10 11:00:07 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 11:00:07 INFO     main                 --- Collecting Stripe ---
+2026-03-10 11:00:07 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-01-26 to 2026-02-01
+2026-03-10 11:00:07 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1769410800&created[lte]=1770015599&limit=100
+2026-03-10 11:00:07 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1769410800&created[lte]=1770015599&limit=100 response_code=200
+2026-03-10 11:00:07 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SvTqgQRR9OYtipu19vWsqTv
+2026-03-10 11:00:08 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SvTqgQRR9OYtipu19vWsqTv response_code=200
+2026-03-10 11:00:08 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Sv5QcQRR9OYtipu1aTlGQqM
+2026-03-10 11:00:08 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Sv5QcQRR9OYtipu1aTlGQqM response_code=200
+2026-03-10 11:00:08 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SuHQpQRR9OYtipu1Wj31jPL
+2026-03-10 11:00:08 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SuHQpQRR9OYtipu1Wj31jPL response_code=200
+2026-03-10 11:00:08 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Strf9QRR9OYtipu1XB8iJ4l
+2026-03-10 11:00:09 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Strf9QRR9OYtipu1XB8iJ4l response_code=200
+2026-03-10 11:00:09 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3StrMjQRR9OYtipu03RpnnIR
+2026-03-10 11:00:09 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3StrMjQRR9OYtipu03RpnnIR response_code=200
+2026-03-10 11:00:09 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1769410800&created[lte]=1770015599&limit=100
+2026-03-10 11:00:09 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1769410800&created[lte]=1770015599&limit=100 response_code=200
+2026-03-10 11:00:09 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1769410800&created[lte]=1770015599&limit=100
+2026-03-10 11:00:10 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1769410800&created[lte]=1770015599&limit=100 response_code=200
+2026-03-10 11:00:10 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 11:00:10 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 11:00:10 INFO     collectors.stripe_collector Stripe collection complete: $5581.00 gross, 5 successful charges, MRR $2518.83
+2026-03-10 11:00:10 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 11:00:10 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 11:00:10 INFO     collectors.ghl_collector Collecting GHL data for week 2026-01-26 to 2026-02-01
+2026-03-10 11:00:10 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 11:00:11 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 11:00:11 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 11:00:11 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 11:00:11 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 11:00:11 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 11:00:11 INFO     main                 --- Collecting Social Media ---
+2026-03-10 11:00:11 INFO     collectors.social_collector Collecting social media data for week 2026-01-26 to 2026-02-01
+2026-03-10 11:00:12 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 1 new videos, 105 views
+2026-03-10 11:00:12 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 11:00:13 INFO     main                 Previous week data found: $22822.38
+2026-03-10 11:00:13 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 11:00:13 INFO     cross_platform       Cross-platform: total $21,945.77, WoW -3.8%, net $20,413.33
+2026-03-10 11:00:13 INFO     main                 Total revenue: $21,945.77
+2026-03-10 11:00:13 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 11:00:13 WARNING  alerts               ALERT: Payment Success Rate = 0.8333 (threshold: below 0.95)
+2026-03-10 11:00:13 WARNING  main                 1 alert(s) triggered!
+2026-03-10 11:00:13 WARNING  main                   - Payment Success Rate: 0.8333
+2026-03-10 11:00:13 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 11:00:15 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-02-01
+2026-03-10 11:00:17 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-02-01
+2026-03-10 11:00:18 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-02-01
+2026-03-10 11:00:20 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-02-01
+2026-03-10 11:00:21 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-02-01
+2026-03-10 11:00:23 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-02-01
+2026-03-10 11:00:23 INFO     main                   Shopify_Weekly: written
+2026-03-10 11:00:23 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 11:00:23 INFO     main                   GHL_Weekly: written
+2026-03-10 11:00:23 INFO     main                   Stripe_Weekly: written
+2026-03-10 11:00:23 INFO     main                   Social_Weekly: written
+2026-03-10 11:00:23 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 11:00:24 INFO     sheets_writer        Appended new row to Alerts_Log for 
+2026-03-10 11:00:24 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 11:00:24 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 11:00:31 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 11:00:31 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 11:00:31 INFO     main                 ============================================================
+2026-03-10 11:00:31 INFO     main                 Pipeline complete!
+2026-03-10 11:00:31 INFO     main                   Week ending: 2026-02-01
+2026-03-10 11:00:31 INFO     main                   Total revenue: $21,945.77
+2026-03-10 11:00:31 INFO     main                   Alerts: 1
+2026-03-10 11:00:31 INFO     main                   Dry run: False
+2026-03-10 11:00:31 INFO     main                 ============================================================
+2026-03-10 11:00:31 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-02-01.json
+2026-03-10 11:00:31 INFO     __main__             ✓ Week 2026-02-01: $21,945.77 revenue, 1 alerts
+2026-03-10 11:00:31 INFO     __main__             Waiting 3s before next week...
+2026-03-10 11:00:34 INFO     __main__             
+============================================================
+2026-03-10 11:00:34 INFO     __main__             [6/10] Processing week ending 2026-02-08
+2026-03-10 11:00:34 INFO     __main__             ============================================================
+2026-03-10 11:00:34 INFO     main                 ============================================================
+2026-03-10 11:00:34 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-02-08
+2026-03-10 11:00:34 INFO     main                 ============================================================
+2026-03-10 11:00:34 INFO     main                 --- Collecting Shopify ---
+2026-03-10 11:00:34 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-02-02 to 2026-02-08
+2026-03-10 11:00:34 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 11:00:36 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 11:00:40 INFO     collectors.shopify_collector Shopify collection complete: $8796.00 gross, 86 orders, AOV $102.28
+2026-03-10 11:00:40 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 11:00:40 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 11:00:40 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-02-02 to 2026-02-08
+2026-03-10 11:00:41 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 11:00:43 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $9278.58
+2026-03-10 11:00:56 INFO     collectors.klaviyo_collector Klaviyo collection complete: $9278.58 email revenue, list size 15774, open rate 62.8%
+2026-03-10 11:00:56 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 11:00:56 INFO     main                 --- Collecting Stripe ---
+2026-03-10 11:00:56 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-02-02 to 2026-02-08
+2026-03-10 11:00:56 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1770015600&created[lte]=1770620399&limit=100
+2026-03-10 11:00:56 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1770015600&created[lte]=1770620399&limit=100 response_code=200
+2026-03-10 11:00:56 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Sxup6QRR9OYtipu1Cu4d6Jl
+2026-03-10 11:00:57 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Sxup6QRR9OYtipu1Cu4d6Jl response_code=200
+2026-03-10 11:00:57 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SxsDhQRR9OYtipu14OyLEHt
+2026-03-10 11:00:57 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SxsDhQRR9OYtipu14OyLEHt response_code=200
+2026-03-10 11:00:57 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SxYLAQRR9OYtipu1GtNAckZ
+2026-03-10 11:00:57 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SxYLAQRR9OYtipu1GtNAckZ response_code=200
+2026-03-10 11:00:57 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3Sx9UiQRR9OYtipu0Wwk4KOo
+2026-03-10 11:00:57 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3Sx9UiQRR9OYtipu0Wwk4KOo response_code=200
+2026-03-10 11:00:57 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1770015600&created[lte]=1770620399&limit=100
+2026-03-10 11:00:58 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1770015600&created[lte]=1770620399&limit=100 response_code=200
+2026-03-10 11:00:58 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1770015600&created[lte]=1770620399&limit=100
+2026-03-10 11:00:58 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1770015600&created[lte]=1770620399&limit=100 response_code=200
+2026-03-10 11:00:58 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 11:00:58 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 11:00:59 INFO     collectors.stripe_collector Stripe collection complete: $615.00 gross, 4 successful charges, MRR $2518.83
+2026-03-10 11:00:59 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 11:00:59 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 11:00:59 INFO     collectors.ghl_collector Collecting GHL data for week 2026-02-02 to 2026-02-08
+2026-03-10 11:00:59 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 11:00:59 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 11:00:59 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 11:00:59 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 11:00:59 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 11:00:59 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 11:00:59 INFO     main                 --- Collecting Social Media ---
+2026-03-10 11:00:59 INFO     collectors.social_collector Collecting social media data for week 2026-02-02 to 2026-02-08
+2026-03-10 11:01:00 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 1 new videos, 88 views
+2026-03-10 11:01:00 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 11:01:01 INFO     main                 Previous week data found: $21945.77
+2026-03-10 11:01:01 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 11:01:01 INFO     cross_platform       Cross-platform: total $8,804.68, WoW -59.9%, net $8,683.56
+2026-03-10 11:01:01 INFO     main                 Total revenue: $8,804.68
+2026-03-10 11:01:01 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 11:01:01 WARNING  alerts               ALERT: Revenue WoW Change = -0.5988 (threshold: below -0.25)
+2026-03-10 11:01:01 WARNING  main                 1 alert(s) triggered!
+2026-03-10 11:01:01 WARNING  main                   - Revenue WoW Change: -0.5988
+2026-03-10 11:01:01 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 11:01:03 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-02-08
+2026-03-10 11:01:04 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-02-08
+2026-03-10 11:01:06 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-02-08
+2026-03-10 11:01:07 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-02-08
+2026-03-10 11:01:09 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-02-08
+2026-03-10 11:01:10 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-02-08
+2026-03-10 11:01:10 INFO     main                   Shopify_Weekly: written
+2026-03-10 11:01:10 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 11:01:10 INFO     main                   GHL_Weekly: written
+2026-03-10 11:01:10 INFO     main                   Stripe_Weekly: written
+2026-03-10 11:01:10 INFO     main                   Social_Weekly: written
+2026-03-10 11:01:10 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 11:01:12 INFO     sheets_writer        Appended new row to Alerts_Log for 
+2026-03-10 11:01:12 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 11:01:12 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 11:01:18 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 11:01:18 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 11:01:18 INFO     main                 ============================================================
+2026-03-10 11:01:18 INFO     main                 Pipeline complete!
+2026-03-10 11:01:18 INFO     main                   Week ending: 2026-02-08
+2026-03-10 11:01:18 INFO     main                   Total revenue: $8,804.68
+2026-03-10 11:01:18 INFO     main                   Alerts: 1
+2026-03-10 11:01:18 INFO     main                   Dry run: False
+2026-03-10 11:01:18 INFO     main                 ============================================================
+2026-03-10 11:01:18 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-02-08.json
+2026-03-10 11:01:18 INFO     __main__             ✓ Week 2026-02-08: $8,804.68 revenue, 1 alerts
+2026-03-10 11:01:18 INFO     __main__             Waiting 3s before next week...
+2026-03-10 11:01:21 INFO     __main__             
+============================================================
+2026-03-10 11:01:21 INFO     __main__             [7/10] Processing week ending 2026-02-15
+2026-03-10 11:01:21 INFO     __main__             ============================================================
+2026-03-10 11:01:21 INFO     main                 ============================================================
+2026-03-10 11:01:21 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-02-15
+2026-03-10 11:01:21 INFO     main                 ============================================================
+2026-03-10 11:01:21 INFO     main                 --- Collecting Shopify ---
+2026-03-10 11:01:21 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-02-09 to 2026-02-15
+2026-03-10 11:01:21 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 11:01:24 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 11:01:29 INFO     collectors.shopify_collector Shopify collection complete: $10143.14 gross, 115 orders, AOV $88.20
+2026-03-10 11:01:29 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 11:01:29 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 11:01:29 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-02-09 to 2026-02-15
+2026-03-10 11:01:31 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 11:01:33 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $10083.23
+2026-03-10 11:01:46 INFO     collectors.klaviyo_collector Klaviyo collection complete: $10083.23 email revenue, list size 15774, open rate 64.8%
+2026-03-10 11:01:46 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 11:01:46 INFO     main                 --- Collecting Stripe ---
+2026-03-10 11:01:46 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-02-09 to 2026-02-15
+2026-03-10 11:01:46 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1770620400&created[lte]=1771225199&limit=100
+2026-03-10 11:01:47 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1770620400&created[lte]=1771225199&limit=100 response_code=200
+2026-03-10 11:01:47 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T0U7iQRR9OYtipu1viIBps4
+2026-03-10 11:01:47 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T0U7iQRR9OYtipu1viIBps4 response_code=200
+2026-03-10 11:01:47 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T0qAYQRR9OYtipu0lBgrYnS
+2026-03-10 11:01:47 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T0qAYQRR9OYtipu0lBgrYnS response_code=200
+2026-03-10 11:01:47 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T0nTeQRR9OYtipu1bbut4Ml
+2026-03-10 11:01:47 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T0nTeQRR9OYtipu1bbut4Ml response_code=200
+2026-03-10 11:01:47 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T0MkeQRR9OYtipu0QJZlisr
+2026-03-10 11:01:48 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T0MkeQRR9OYtipu0QJZlisr response_code=200
+2026-03-10 11:01:48 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3SyzVNQRR9OYtipu0FuxKBQh
+2026-03-10 11:01:48 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3SyzVNQRR9OYtipu0FuxKBQh response_code=200
+2026-03-10 11:01:48 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1770620400&created[lte]=1771225199&limit=100
+2026-03-10 11:01:48 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1770620400&created[lte]=1771225199&limit=100 response_code=200
+2026-03-10 11:01:48 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1770620400&created[lte]=1771225199&limit=100
+2026-03-10 11:01:48 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1770620400&created[lte]=1771225199&limit=100 response_code=200
+2026-03-10 11:01:48 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 11:01:49 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 11:01:49 INFO     collectors.stripe_collector Stripe collection complete: $2491.00 gross, 5 successful charges, MRR $2518.83
+2026-03-10 11:01:49 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 11:01:49 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 11:01:49 INFO     collectors.ghl_collector Collecting GHL data for week 2026-02-09 to 2026-02-15
+2026-03-10 11:01:49 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 11:01:50 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 11:01:50 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 11:01:50 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 11:01:50 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 11:01:50 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 11:01:50 INFO     main                 --- Collecting Social Media ---
+2026-03-10 11:01:50 INFO     collectors.social_collector Collecting social media data for week 2026-02-09 to 2026-02-15
+2026-03-10 11:01:50 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 0 new videos, 0 views
+2026-03-10 11:01:50 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 11:01:52 INFO     main                 Previous week data found: $8804.68
+2026-03-10 11:01:52 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 11:01:52 INFO     cross_platform       Cross-platform: total $10,898.15, WoW +23.8%, net $9,686.07
+2026-03-10 11:01:52 INFO     main                 Total revenue: $10,898.15
+2026-03-10 11:01:52 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 11:01:52 WARNING  alerts               ALERT: Payment Success Rate = 0.5556 (threshold: below 0.95)
+2026-03-10 11:01:52 WARNING  main                 1 alert(s) triggered!
+2026-03-10 11:01:52 WARNING  main                   - Payment Success Rate: 0.5556
+2026-03-10 11:01:52 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 11:01:53 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-02-15
+2026-03-10 11:01:55 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-02-15
+2026-03-10 11:01:55 ERROR    sheets_writer        Error writing to GHL_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:01:57 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-02-15
+2026-03-10 11:01:59 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-02-15
+2026-03-10 11:02:00 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-02-15
+2026-03-10 11:02:00 INFO     main                   Shopify_Weekly: written
+2026-03-10 11:02:00 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 11:02:00 INFO     main                   GHL_Weekly: error: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:00 INFO     main                   Stripe_Weekly: written
+2026-03-10 11:02:00 INFO     main                   Social_Weekly: written
+2026-03-10 11:02:00 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 11:02:02 INFO     sheets_writer        Appended new row to Alerts_Log for 
+2026-03-10 11:02:02 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 11:02:02 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 11:02:08 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 11:02:08 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 11:02:08 INFO     main                 ============================================================
+2026-03-10 11:02:08 INFO     main                 Pipeline complete!
+2026-03-10 11:02:08 INFO     main                   Week ending: 2026-02-15
+2026-03-10 11:02:08 INFO     main                   Total revenue: $10,898.15
+2026-03-10 11:02:08 INFO     main                   Alerts: 1
+2026-03-10 11:02:08 INFO     main                   Dry run: False
+2026-03-10 11:02:08 INFO     main                 ============================================================
+2026-03-10 11:02:08 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-02-15.json
+2026-03-10 11:02:08 INFO     __main__             ✓ Week 2026-02-15: $10,898.15 revenue, 1 alerts
+2026-03-10 11:02:08 INFO     __main__             Waiting 3s before next week...
+2026-03-10 11:02:11 INFO     __main__             
+============================================================
+2026-03-10 11:02:11 INFO     __main__             [8/10] Processing week ending 2026-02-22
+2026-03-10 11:02:11 INFO     __main__             ============================================================
+2026-03-10 11:02:11 INFO     main                 ============================================================
+2026-03-10 11:02:11 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-02-22
+2026-03-10 11:02:11 INFO     main                 ============================================================
+2026-03-10 11:02:11 INFO     main                 --- Collecting Shopify ---
+2026-03-10 11:02:11 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-02-16 to 2026-02-22
+2026-03-10 11:02:11 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 11:02:13 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 11:02:18 INFO     collectors.shopify_collector Shopify collection complete: $17178.73 gross, 81 orders, AOV $212.08
+2026-03-10 11:02:18 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 11:02:18 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 11:02:18 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-02-16 to 2026-02-22
+2026-03-10 11:02:19 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 11:02:20 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $18242.80
+2026-03-10 11:02:32 INFO     collectors.klaviyo_collector Klaviyo collection complete: $18242.80 email revenue, list size 15774, open rate 65.4%
+2026-03-10 11:02:32 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 11:02:32 INFO     main                 --- Collecting Stripe ---
+2026-03-10 11:02:32 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-02-16 to 2026-02-22
+2026-03-10 11:02:32 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1771225200&created[lte]=1771829999&limit=100
+2026-03-10 11:02:33 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1771225200&created[lte]=1771829999&limit=100 response_code=200
+2026-03-10 11:02:33 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T2p6HQRR9OYtipu1Aq3ujr9
+2026-03-10 11:02:33 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T2p6HQRR9OYtipu1Aq3ujr9 response_code=200
+2026-03-10 11:02:33 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T2fTgQRR9OYtipu1zckcPDv
+2026-03-10 11:02:33 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T2fTgQRR9OYtipu1zckcPDv response_code=200
+2026-03-10 11:02:33 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1771225200&created[lte]=1771829999&limit=100
+2026-03-10 11:02:34 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1771225200&created[lte]=1771829999&limit=100 response_code=200
+2026-03-10 11:02:34 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1771225200&created[lte]=1771829999&limit=100
+2026-03-10 11:02:34 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1771225200&created[lte]=1771829999&limit=100 response_code=200
+2026-03-10 11:02:34 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 11:02:35 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 11:02:35 INFO     collectors.stripe_collector Stripe collection complete: $200.00 gross, 2 successful charges, MRR $2518.83
+2026-03-10 11:02:35 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 11:02:35 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 11:02:35 INFO     collectors.ghl_collector Collecting GHL data for week 2026-02-16 to 2026-02-22
+2026-03-10 11:02:35 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 11:02:35 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 11:02:35 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 11:02:35 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 11:02:35 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 11:02:35 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 11:02:35 INFO     main                 --- Collecting Social Media ---
+2026-03-10 11:02:35 INFO     collectors.social_collector Collecting social media data for week 2026-02-16 to 2026-02-22
+2026-03-10 11:02:36 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 0 new videos, 0 views
+2026-03-10 11:02:36 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 11:02:37 INFO     main                 Previous week data found: $10898.15
+2026-03-10 11:02:37 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 11:02:37 INFO     cross_platform       Cross-platform: total $17,376.01, WoW +59.4%, net $17,368.61
+2026-03-10 11:02:37 INFO     main                 Total revenue: $17,376.01
+2026-03-10 11:02:37 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 11:02:37 WARNING  alerts               ALERT: Payment Success Rate = 0.5 (threshold: below 0.95)
+2026-03-10 11:02:37 WARNING  main                 1 alert(s) triggered!
+2026-03-10 11:02:37 WARNING  main                   - Payment Success Rate: 0.5
+2026-03-10 11:02:37 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 11:02:39 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-02-22
+2026-03-10 11:02:40 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-02-22
+2026-03-10 11:02:42 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-02-22
+2026-03-10 11:02:43 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-02-22
+2026-03-10 11:02:45 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-02-22
+2026-03-10 11:02:46 ERROR    sheets_writer        Error writing to CrossPlatform_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:46 INFO     main                   Shopify_Weekly: written
+2026-03-10 11:02:46 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 11:02:46 INFO     main                   GHL_Weekly: written
+2026-03-10 11:02:46 INFO     main                   Stripe_Weekly: written
+2026-03-10 11:02:46 INFO     main                   Social_Weekly: written
+2026-03-10 11:02:46 INFO     main                   CrossPlatform_Weekly: error: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:47 ERROR    sheets_writer        Error writing alert: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:47 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 11:02:47 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 11:02:47 ERROR    sheets_writer        Error fetching previous week data from Shopify_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:48 ERROR    sheets_writer        Error fetching previous week data from Klaviyo_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:49 ERROR    sheets_writer        Error fetching previous week data from Stripe_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:49 ERROR    sheets_writer        Error fetching previous week data from GHL_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:50 ERROR    sheets_writer        Error fetching previous week data from Social_Weekly: APIError: [429]: Quota exceeded for quota metric 'Read requests' and limit 'Read requests per minute per user' of service 'sheets.googleapis.com' for consumer 'project_number:1079438584660'.
+2026-03-10 11:02:50 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 11:02:50 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 11:02:50 INFO     main                 ============================================================
+2026-03-10 11:02:50 INFO     main                 Pipeline complete!
+2026-03-10 11:02:50 INFO     main                   Week ending: 2026-02-22
+2026-03-10 11:02:50 INFO     main                   Total revenue: $17,376.01
+2026-03-10 11:02:50 INFO     main                   Alerts: 1
+2026-03-10 11:02:50 INFO     main                   Dry run: False
+2026-03-10 11:02:50 INFO     main                 ============================================================
+2026-03-10 11:02:50 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-02-22.json
+2026-03-10 11:02:50 INFO     __main__             ✓ Week 2026-02-22: $17,376.01 revenue, 1 alerts
+2026-03-10 11:02:50 INFO     __main__             Waiting 3s before next week...
+2026-03-10 11:02:53 INFO     __main__             
+============================================================
+2026-03-10 11:02:53 INFO     __main__             [9/10] Processing week ending 2026-03-01
+2026-03-10 11:02:53 INFO     __main__             ============================================================
+2026-03-10 11:02:53 INFO     main                 ============================================================
+2026-03-10 11:02:53 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-03-01
+2026-03-10 11:02:53 INFO     main                 ============================================================
+2026-03-10 11:02:53 INFO     main                 --- Collecting Shopify ---
+2026-03-10 11:02:53 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-02-23 to 2026-03-01
+2026-03-10 11:02:53 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 11:02:55 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 11:02:59 INFO     collectors.shopify_collector Shopify collection complete: $18659.43 gross, 112 orders, AOV $166.60
+2026-03-10 11:02:59 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 11:02:59 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 11:02:59 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-02-23 to 2026-03-01
+2026-03-10 11:03:01 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 11:03:01 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $18598.63
+2026-03-10 11:03:07 WARNING  collectors.klaviyo_collector Klaviyo rate limited on lists/Rhr5Qh, waiting 1s...
+2026-03-10 11:03:09 WARNING  collectors.klaviyo_collector Klaviyo rate limited on lists/Rhr5Qh, waiting 6s...
+2026-03-10 11:03:15 ERROR    collectors.klaviyo_collector Klaviyo API error 429 on lists/Rhr5Qh: {"errors":[{"id":"38e89cc0-6c85-4761-acfc-59b450739644","status":429,"code":"throttled","title":"Request was throttled.","detail":"Request was throttled. Expected available in 1 second.","source":{"pointer":"/data"},"links":{"type":"https://developers.klaviyo.com/en/docs/rate_limits_and_error_handli
+2026-03-10 11:03:20 INFO     collectors.klaviyo_collector Klaviyo collection complete: $18598.63 email revenue, list size 15246, open rate 65.3%
+2026-03-10 11:03:20 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 11:03:20 INFO     main                 --- Collecting Stripe ---
+2026-03-10 11:03:20 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-02-23 to 2026-03-01
+2026-03-10 11:03:20 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1771830000&created[lte]=1772434799&limit=100
+2026-03-10 11:03:21 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1771830000&created[lte]=1772434799&limit=100 response_code=200
+2026-03-10 11:03:21 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T5CleQRR9OYtipu1nLof39j
+2026-03-10 11:03:21 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T5CleQRR9OYtipu1nLof39j response_code=200
+2026-03-10 11:03:21 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T4571QRR9OYtipu0A0QHC5q
+2026-03-10 11:03:21 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T4571QRR9OYtipu0A0QHC5q response_code=200
+2026-03-10 11:03:21 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1771830000&created[lte]=1772434799&limit=100
+2026-03-10 11:03:22 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1771830000&created[lte]=1772434799&limit=100 response_code=200
+2026-03-10 11:03:22 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1771830000&created[lte]=1772434799&limit=100
+2026-03-10 11:03:22 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1771830000&created[lte]=1772434799&limit=100 response_code=200
+2026-03-10 11:03:22 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 11:03:23 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 11:03:23 INFO     collectors.stripe_collector Stripe collection complete: $133.00 gross, 2 successful charges, MRR $2518.83
+2026-03-10 11:03:23 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 11:03:23 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 11:03:23 INFO     collectors.ghl_collector Collecting GHL data for week 2026-02-23 to 2026-03-01
+2026-03-10 11:03:23 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 11:03:23 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 11:03:23 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 11:03:23 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 11:03:23 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 11:03:23 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 11:03:23 INFO     main                 --- Collecting Social Media ---
+2026-03-10 11:03:23 INFO     collectors.social_collector Collecting social media data for week 2026-02-23 to 2026-03-01
+2026-03-10 11:03:24 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 0 new videos, 0 views
+2026-03-10 11:03:24 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 11:03:25 INFO     main                 Previous week data found: $10898.15
+2026-03-10 11:03:25 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 11:03:25 INFO     cross_platform       Cross-platform: total $20,159.41, WoW +85.0%, net $20,154.28
+2026-03-10 11:03:25 INFO     main                 Total revenue: $20,159.41
+2026-03-10 11:03:25 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 11:03:25 INFO     main                 No alerts triggered
+2026-03-10 11:03:25 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 11:03:27 INFO     sheets_writer        Appended new row to Shopify_Weekly for 2026-03-01
+2026-03-10 11:03:28 INFO     sheets_writer        Appended new row to Klaviyo_Weekly for 2026-03-01
+2026-03-10 11:03:30 INFO     sheets_writer        Appended new row to GHL_Weekly for 2026-03-01
+2026-03-10 11:03:31 INFO     sheets_writer        Appended new row to Stripe_Weekly for 2026-03-01
+2026-03-10 11:03:33 INFO     sheets_writer        Appended new row to Social_Weekly for 2026-03-01
+2026-03-10 11:03:34 INFO     sheets_writer        Appended new row to CrossPlatform_Weekly for 2026-03-01
+2026-03-10 11:03:34 INFO     main                   Shopify_Weekly: written
+2026-03-10 11:03:34 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 11:03:34 INFO     main                   GHL_Weekly: written
+2026-03-10 11:03:34 INFO     main                   Stripe_Weekly: written
+2026-03-10 11:03:34 INFO     main                   Social_Weekly: written
+2026-03-10 11:03:34 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 11:03:34 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 11:03:34 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 11:03:41 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 11:03:41 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 11:03:41 INFO     main                 ============================================================
+2026-03-10 11:03:41 INFO     main                 Pipeline complete!
+2026-03-10 11:03:41 INFO     main                   Week ending: 2026-03-01
+2026-03-10 11:03:41 INFO     main                   Total revenue: $20,159.41
+2026-03-10 11:03:41 INFO     main                   Alerts: 0
+2026-03-10 11:03:41 INFO     main                   Dry run: False
+2026-03-10 11:03:41 INFO     main                 ============================================================
+2026-03-10 11:03:41 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-03-01.json
+2026-03-10 11:03:41 INFO     __main__             ✓ Week 2026-03-01: $20,159.41 revenue, 0 alerts
+2026-03-10 11:03:41 INFO     __main__             Waiting 3s before next week...
+2026-03-10 11:03:44 INFO     __main__             
+============================================================
+2026-03-10 11:03:44 INFO     __main__             [10/10] Processing week ending 2026-03-08
+2026-03-10 11:03:44 INFO     __main__             ============================================================
+2026-03-10 11:03:44 INFO     main                 ============================================================
+2026-03-10 11:03:44 INFO     main                 DRR Dashboard Pipeline - Week ending 2026-03-08
+2026-03-10 11:03:44 INFO     main                 ============================================================
+2026-03-10 11:03:44 INFO     main                 --- Collecting Shopify ---
+2026-03-10 11:03:44 INFO     collectors.shopify_collector Collecting Shopify data for week 2026-03-02 to 2026-03-08
+2026-03-10 11:03:44 INFO     collectors.shopify_collector Building product silo map from Shopify products...
+2026-03-10 11:03:46 INFO     collectors.shopify_collector Product silo map: {'E-Commerce': 566, 'Coaching': 100, 'Courses': 24} (690 total products)
+2026-03-10 11:03:51 INFO     collectors.shopify_collector Shopify collection complete: $9798.60 gross, 95 orders, AOV $103.14
+2026-03-10 11:03:51 INFO     main                 Shopify: OK (16 metrics)
+2026-03-10 11:03:51 INFO     main                 --- Collecting Klaviyo ---
+2026-03-10 11:03:51 INFO     collectors.klaviyo_collector Collecting Klaviyo data for week 2026-03-02 to 2026-03-08
+2026-03-10 11:03:51 INFO     collectors.klaviyo_collector Placed Order metric ID: TFTkTF
+2026-03-10 11:03:52 INFO     collectors.klaviyo_collector Total flow-attributed revenue: $9880.77
+2026-03-10 11:04:05 INFO     collectors.klaviyo_collector Klaviyo collection complete: $9880.77 email revenue, list size 15774, open rate 63.2%
+2026-03-10 11:04:05 INFO     main                 Klaviyo: OK (14 metrics)
+2026-03-10 11:04:05 INFO     main                 --- Collecting Stripe ---
+2026-03-10 11:04:05 INFO     collectors.stripe_collector Collecting Stripe data for week 2026-03-02 to 2026-03-08
+2026-03-10 11:04:05 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/charges?created[gte]=1772434800&created[lte]=1773039599&limit=100
+2026-03-10 11:04:05 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/charges?created[gte]=1772434800&created[lte]=1773039599&limit=100 response_code=200
+2026-03-10 11:04:05 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/balance_transactions/txn_3T82WcQRR9OYtipu0GoEf5Pk
+2026-03-10 11:04:05 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/balance_transactions/txn_3T82WcQRR9OYtipu0GoEf5Pk response_code=200
+2026-03-10 11:04:05 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/refunds?created[gte]=1772434800&created[lte]=1773039599&limit=100
+2026-03-10 11:04:06 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/refunds?created[gte]=1772434800&created[lte]=1773039599&limit=100 response_code=200
+2026-03-10 11:04:06 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/disputes?created[gte]=1772434800&created[lte]=1773039599&limit=100
+2026-03-10 11:04:06 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/disputes?created[gte]=1772434800&created[lte]=1773039599&limit=100 response_code=200
+2026-03-10 11:04:06 INFO     stripe               message='Request to Stripe api' method=get url=https://api.stripe.com/v1/subscriptions?status=active&limit=100
+2026-03-10 11:04:07 INFO     stripe               message='Stripe API response' path=https://api.stripe.com/v1/subscriptions?status=active&limit=100 response_code=200
+2026-03-10 11:04:07 INFO     collectors.stripe_collector Stripe collection complete: $100.00 gross, 1 successful charges, MRR $2518.83
+2026-03-10 11:04:07 INFO     main                 Stripe: OK (9 metrics)
+2026-03-10 11:04:07 INFO     main                 --- Collecting GoHighLevel ---
+2026-03-10 11:04:07 INFO     collectors.ghl_collector Collecting GHL data for week 2026-03-02 to 2026-03-08
+2026-03-10 11:04:07 INFO     collectors.ghl_collector Fetching sales pipeline opportunities...
+2026-03-10 11:04:07 ERROR    collectors.ghl_collector GHL API error 401 on opportunities/search: {"statusCode":401,"message":"Invalid JWT"}
+2026-03-10 11:04:07 WARNING  collectors.ghl_collector GHL API returned no data (likely auth error). Trying cache fallback...
+2026-03-10 11:04:07 INFO     collectors.ghl_collector Loaded GHL data from cache (fetched: 2026-03-09T00:00:00Z)
+2026-03-10 11:04:07 INFO     collectors.ghl_collector Using cached GHL data: 3 leads, 80 active students
+2026-03-10 11:04:07 INFO     main                 GoHighLevel: OK (13 metrics)
+2026-03-10 11:04:07 INFO     main                 --- Collecting Social Media ---
+2026-03-10 11:04:07 INFO     collectors.social_collector Collecting social media data for week 2026-03-02 to 2026-03-08
+2026-03-10 11:04:08 INFO     collectors.social_collector Social collection complete: 7060 YT subs, 0 new videos, 0 views
+2026-03-10 11:04:08 INFO     main                 Social Media: OK (17 metrics)
+2026-03-10 11:04:09 INFO     main                 Previous week data found: $20159.41
+2026-03-10 11:04:09 INFO     main                 --- Calculating cross-platform metrics ---
+2026-03-10 11:04:09 INFO     cross_platform       Cross-platform: total $10,008.87, WoW -50.4%, net $10,005.17
+2026-03-10 11:04:09 INFO     main                 Total revenue: $10,008.87
+2026-03-10 11:04:09 INFO     main                 --- Checking alert thresholds ---
+2026-03-10 11:04:09 WARNING  alerts               ALERT: Revenue WoW Change = -0.5035 (threshold: below -0.25)
+2026-03-10 11:04:09 WARNING  main                 1 alert(s) triggered!
+2026-03-10 11:04:09 WARNING  main                   - Revenue WoW Change: -0.5035
+2026-03-10 11:04:09 INFO     main                 --- Writing to Google Sheets ---
+2026-03-10 11:04:10 WARNING  sheets_writer        Data for 2026-03-08 already exists in row 2
+2026-03-10 11:04:10 INFO     sheets_writer        Updated Shopify_Weekly row 2 for 2026-03-08
+2026-03-10 11:04:12 WARNING  sheets_writer        Data for 2026-03-08 already exists in row 2
+2026-03-10 11:04:12 INFO     sheets_writer        Updated Klaviyo_Weekly row 2 for 2026-03-08
+2026-03-10 11:04:13 WARNING  sheets_writer        Data for 2026-03-08 already exists in row 2
+2026-03-10 11:04:13 INFO     sheets_writer        Updated GHL_Weekly row 2 for 2026-03-08
+2026-03-10 11:04:15 WARNING  sheets_writer        Data for 2026-03-08 already exists in row 2
+2026-03-10 11:04:15 INFO     sheets_writer        Updated Stripe_Weekly row 2 for 2026-03-08
+2026-03-10 11:04:16 WARNING  sheets_writer        Data for 2026-03-08 already exists in row 2
+2026-03-10 11:04:16 INFO     sheets_writer        Updated Social_Weekly row 2 for 2026-03-08
+2026-03-10 11:04:18 WARNING  sheets_writer        Data for 2026-03-08 already exists in row 2
+2026-03-10 11:04:18 INFO     sheets_writer        Updated CrossPlatform_Weekly row 2 for 2026-03-08
+2026-03-10 11:04:18 INFO     main                   Shopify_Weekly: written
+2026-03-10 11:04:18 INFO     main                   Klaviyo_Weekly: written
+2026-03-10 11:04:18 INFO     main                   GHL_Weekly: written
+2026-03-10 11:04:18 INFO     main                   Stripe_Weekly: written
+2026-03-10 11:04:18 INFO     main                   Social_Weekly: written
+2026-03-10 11:04:18 INFO     main                   CrossPlatform_Weekly: written
+2026-03-10 11:04:19 INFO     sheets_writer        Appended new row to Alerts_Log for 
+2026-03-10 11:04:19 INFO     main                 --- Skipping email sends (backfill mode) ---
+2026-03-10 11:04:19 INFO     main                 --- Generating HTML dashboard ---
+2026-03-10 11:04:26 INFO     dashboard_generator  Dashboard saved to dashboard/index.html
+2026-03-10 11:04:26 INFO     main                 Dashboard saved to dashboard/index.html
+2026-03-10 11:04:26 INFO     main                 ============================================================
+2026-03-10 11:04:26 INFO     main                 Pipeline complete!
+2026-03-10 11:04:26 INFO     main                   Week ending: 2026-03-08
+2026-03-10 11:04:26 INFO     main                   Total revenue: $10,008.87
+2026-03-10 11:04:26 INFO     main                   Alerts: 1
+2026-03-10 11:04:26 INFO     main                   Dry run: False
+2026-03-10 11:04:26 INFO     main                 ============================================================
+2026-03-10 11:04:26 INFO     main                 Snapshot saved: /Users/ruthroberts/Desktop/Code output/drr-dashboard/snapshots/snapshot_2026-03-08.json
+2026-03-10 11:04:26 INFO     __main__             ✓ Week 2026-03-08: $10,008.87 revenue, 1 alerts
+2026-03-10 11:04:26 INFO     __main__             
+============================================================
+2026-03-10 11:04:26 INFO     __main__             BACKFILL COMPLETE
+2026-03-10 11:04:26 INFO     __main__             ============================================================
+2026-03-10 11:04:26 INFO     __main__               Weeks processed: 10
+2026-03-10 11:04:26 INFO     __main__               Successful: 10
+2026-03-10 11:04:26 INFO     __main__               Failed: 0
+2026-03-10 11:04:26 INFO     __main__             
+Weekly summary:
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-01-04: $0.00
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-01-11: $2,893.95
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-01-18: $10,874.54
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-01-25: $22,822.38
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-02-01: $21,945.77
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-02-08: $8,804.68
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-02-15: $10,898.15
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-02-22: $17,376.01
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-03-01: $20,159.41
+2026-03-10 11:04:26 INFO     __main__               ✓ 2026-03-08: $10,008.87
+2026-03-10 11:04:26 INFO     __main__             
+  Total revenue across all weeks: $125,783.76
+2026-03-10 11:04:26 INFO     __main__             ============================================================

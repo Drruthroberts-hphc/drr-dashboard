@@ -1,0 +1,401 @@
+{
+  "shop": "drruthroberts-com.myshopify.com",
+  "source": "rest",
+  "products_scanned": 691,
+  "targets": [
+    {
+      "key": "HTBS",
+      "canonical": "HTBS (Holistic Total Body Support)",
+      "found": true,
+      "shopify_title": "Holistic Total Body Support \u2013 Multivitamin & Glandular Support for Dogs and Cats",
+      "handle": "holistic-total-body-support-for-cats-and-dogs",
+      "product_id": 4418056945729,
+      "product_status": "active",
+      "total_inventory": 400,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_eefe6b06-9d80-4c98-8517-4d57f9ede831.png?v=1773756278",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_eefe6b06-9d80-4c98-8517-4d57f9ede831.png?v=1773756278",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_front.png?v=1773743863",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_10.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_9.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_7.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_5.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_8.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_3.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/11_eb994f88-8a77-4f60-8755-1dc9567d4773.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/12_6b3cd4e8-43ac-4a42-b29c-8f32927f88c9.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_2_b8eb353a-9a65-4dbf-907d-8b9799f00a7b.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/13_f5a2bf67-34ea-42a3-aed6-9a3e2e597c45.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_12.png?v=1773743931",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_11.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_ingredients.png?v=1773743863",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Holistic_Total_Body_Support_back.png?v=1773743863",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/HTBS.jpg?v=1773743863"
+      ],
+      "variants": [
+        {
+          "id": 31608302731329,
+          "title": "Default Title",
+          "sku": "HTBSDC",
+          "price": "64.00",
+          "inventory_quantity": 400
+        }
+      ]
+    },
+    {
+      "key": "HTBS",
+      "canonical": "HTBS (Holistic Total Body Support)",
+      "found": true,
+      "shopify_title": "The Original Crockpet Diet + Holistic Total Body Support Multivitamins",
+      "handle": "the-original-crockpet-diet-holistic-total-body-support-multivitamins-1",
+      "product_id": 4592139010113,
+      "product_status": "draft",
+      "total_inventory": 0,
+      "stock_status": "OUT_OF_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_2.png?v=1729802576",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_2.png?v=1729802576",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_5.png?v=1729806340",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_4.png?v=1729804333",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_1.png?v=1729802576",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_3.png?v=1729802576",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo.png?v=1729802575",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_diet_recipe_1.png?v=1729805573",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/25_85b344a7-8c79-47ee-bc02-f86ac5cb54d5.png?v=1729796664",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/13_d05890cc-2445-4ab6-aa98-cc28a1593a9e.png?v=1729796664",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/4_f8cd188d-8d61-4bb2-8db3-8436f462f56b.png?v=1773756278",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/2_3e6ce0e5-d4bc-417b-bfbb-d7a7d6fa1a3e.png?v=1729796665",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/21_8996718d-1594-4add-84d0-a4d677862dca.png?v=1729796665",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/24_997b709b-f11c-43c2-a5b5-962fa1c4ca55.png?v=1729796666",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/3_0964decd-afde-4cae-9b8c-e2e9ae7d6e57.png?v=1729796665"
+      ],
+      "variants": [
+        {
+          "id": 32229315084353,
+          "title": "Default Title",
+          "sku": "TOCPDDHT",
+          "price": "99.00",
+          "inventory_quantity": 0
+        }
+      ]
+    },
+    {
+      "key": "HTBS",
+      "canonical": "HTBS (Holistic Total Body Support)",
+      "found": true,
+      "shopify_title": "The Original Crockpet Diet + Holistic Total Body Support Multivitamins",
+      "handle": "the-original-crockpet-diet-holistic-total-body-support-multivitamins",
+      "product_id": 7544626675777,
+      "product_status": "active",
+      "total_inventory": 400,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_diet_recipe_fbf20c95-02fe-4879-bb2b-232b4bbca1d1.png?v=1773756278",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_diet_recipe_fbf20c95-02fe-4879-bb2b-232b4bbca1d1.png?v=1773756278",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_5_e2b111cb-819d-4f82-bb45-7a9c673379bc.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_4_c5472244-7c27-4837-a2c1-d367e0b9cc6e.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_HTBS_combo_3_38f6d5ac-bf7d-46af-a442-ba4a55de5a4b.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_diet_recipe_1_1.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_diet_recipe_2_8f3d2685-931c-451d-be73-19aec7cf84c4.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/25_3ebb0d5b-446f-447a-a1ba-a40c40b0b9ed.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Crockpet_diet_recipe_1_8f5d413d-da1f-4191-b232-3d06791d3d54.png?v=1773756278",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/13_19788d73-edc4-4af3-a58a-e93297f7c545.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/4_f8cd188d-8d61-4bb2-8db3-8436f462f56b_1.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/2_caa2aaa7-e101-4b28-bc76-582f8482a562.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/21_8996718d-1594-4add-84d0-a4d677862dca_1.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/24_997b709b-f11c-43c2-a5b5-962fa1c4ca55_1.png?v=1773756197",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/3_95b15084-6f0a-4736-b6d4-84b95b6511f6.png?v=1773756197"
+      ],
+      "variants": [
+        {
+          "id": 42096517513281,
+          "title": "Default Title",
+          "sku": "TOCPDDHT",
+          "price": "99.00",
+          "inventory_quantity": 400
+        }
+      ]
+    },
+    {
+      "key": "DAILY_WELLNESS",
+      "canonical": "Pet's Daily Wellness Formula",
+      "found": true,
+      "shopify_title": "Pet's Daily Wellness Formula - Exp March",
+      "handle": "pets-daily-wellness-formula-exp-march",
+      "product_id": 7792299507777,
+      "product_status": "draft",
+      "total_inventory": 238,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pets_Daily_wellness_formula.png?v=1773744308",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pets_Daily_wellness_formula.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_24812a1d-f56b-4abb-86d1-a0f9b3acd51d.png?v=1773744166",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_3_087ab863-6ba4-45e7-9ad9-31f68c0b2b83.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_5_f035380b-5362-49c6-886a-a8c83e773685.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_14a7cb4c-8861-4044-aa02-800904ac061c.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_2_b193c113-4d8c-481b-8968-2707a9d5736b.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_4_3b3c0f91-be8e-41cf-8534-b834cf3c2170.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/PDWF.jpg?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_2.png?v=1773744308"
+      ],
+      "variants": [
+        {
+          "id": 43558089850945,
+          "title": "Default Title",
+          "sku": "PDWF1",
+          "price": "0.00",
+          "inventory_quantity": 238
+        }
+      ]
+    },
+    {
+      "key": "DAILY_WELLNESS",
+      "canonical": "Pet's Daily Wellness Formula",
+      "found": true,
+      "shopify_title": "Pet's Daily Wellness Formula - For Pets With Pork/Beef Allergy",
+      "handle": "pets-daily-wellness-formula-for-pets-with-pork-beef-allergy",
+      "product_id": 7074053554241,
+      "product_status": "active",
+      "total_inventory": 83,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pets_Daily_wellness_formula.png?v=1773744308",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pets_Daily_wellness_formula.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_front.webp?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_4_3b3c0f91-be8e-41cf-8534-b834cf3c2170.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_2_b193c113-4d8c-481b-8968-2707a9d5736b.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_3_087ab863-6ba4-45e7-9ad9-31f68c0b2b83.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_5_f035380b-5362-49c6-886a-a8c83e773685.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_2.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Daily_wellness_formula_14a7cb4c-8861-4044-aa02-800904ac061c.png?v=1773744308",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/PDWF.jpg?v=1773744308"
+      ],
+      "variants": [
+        {
+          "id": 40786138726465,
+          "title": "Default Title",
+          "sku": "PDWF",
+          "price": "54.00",
+          "inventory_quantity": 83
+        }
+      ]
+    },
+    {
+      "key": "DAILY_WELLNESS",
+      "canonical": "Pet's Daily Wellness Formula",
+      "found": true,
+      "shopify_title": "Pet's Daily Wellness Formula - For Pets With Pork/Beef Allergy -Bundle Creation",
+      "handle": "pets-daily-wellness-formula-for-pets-with-pork-beef-allergy-bundle-creation",
+      "product_id": 7313954537537,
+      "product_status": "draft",
+      "total_inventory": 0,
+      "stock_status": "OUT_OF_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Dailywellnessformula_1.png?v=1763725275",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Dailywellnessformula_1.png?v=1763725275",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/dailywellnessformula.jpg?v=1745940782",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_sdailywellnessFormula.Bestsupplementforpetswithallergytobeeforpork.jpg?v=1768308343"
+      ],
+      "variants": [
+        {
+          "id": 41409659863105,
+          "title": "Single Container - Daily Wellness Formula",
+          "sku": "PDWF-1",
+          "price": "64.00",
+          "inventory_quantity": 0
+        },
+        {
+          "id": 41409659895873,
+          "title": "3 Containers - Daily Wellness Formula - Save $19.20",
+          "sku": "PDWF-3",
+          "price": "172.80",
+          "inventory_quantity": 0
+        },
+        {
+          "id": 41409659928641,
+          "title": "6 Containers - Daily Wellness Formula -  Save $76.80",
+          "sku": "PDWF-6",
+          "price": "307.20",
+          "inventory_quantity": 0
+        }
+      ]
+    },
+    {
+      "key": "ARTHRIPAWZ",
+      "canonical": "ArthriPawz",
+      "found": true,
+      "shopify_title": "Arthri-Pawz \u2013 with Glucosamine for Cats and Dogs",
+      "handle": "best-joint-supplement-for-dogs-and-cats",
+      "product_id": 3738144505921,
+      "product_status": "active",
+      "total_inventory": 160,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz.png?v=1773750718",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz.png?v=1773750718",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz_8.png?v=1776768410",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthri_pawz_front.png?v=1776768410",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz_2.png?v=1776768410",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/arthri-2_4.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/arthri-2_1.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/arthri-2_2.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz_7.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz_6.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/arthri-2_3.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz_5.png?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/ARTHRI.jpg?v=1773752510",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Arthripawz_side.png?v=1773752510"
+      ],
+      "variants": [
+        {
+          "id": 28749221560385,
+          "title": "Default Title",
+          "sku": "ARTHRPWZ",
+          "price": "49.99",
+          "inventory_quantity": 160
+        }
+      ]
+    },
+    {
+      "key": "OMEGAPAWZ",
+      "canonical": "OmegaPawz",
+      "found": true,
+      "shopify_title": "Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats",
+      "handle": "omega-pawz-omega-3-oil-for-dogs-cats",
+      "product_id": 6941149036609,
+      "product_status": "active",
+      "total_inventory": 195,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega.png?v=1773755452",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_front.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_d181a7a8-82e0-4f9f-9c4a-feb56f68b772.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_6.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_2_06535025-4f54-4398-99da-1c2b9a92bb47.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_3.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_4.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_5.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_7.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_side.png?v=1773750580",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/OMEGA.jpg?v=1773750580"
+      ],
+      "variants": [
+        {
+          "id": 40366889992257,
+          "title": "Default Title",
+          "sku": "OAM8OZ",
+          "price": "39.00",
+          "inventory_quantity": 195
+        }
+      ]
+    },
+    {
+      "key": "OMEGAPAWZ",
+      "canonical": "OmegaPawz",
+      "found": true,
+      "shopify_title": "Pet Allergy Relief Duo: Hista Paws + Omega Pawz",
+      "handle": "pet-allergy-relief-duo-hista-paws-omega-pawz",
+      "product_id": 7513680740417,
+      "product_status": "active",
+      "total_inventory": -4,
+      "stock_status": "OUT_OF_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_2ca1fd5f-3ec6-45fb-a31e-3b1a8e76ef1f.png?v=1773754527",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_2ca1fd5f-3ec6-45fb-a31e-3b1a8e76ef1f.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_4.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_1_589594db-16ad-47ea-82e4-ce8d5d06d827.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_2_438f6297-4992-4bad-ad97-37eef811c57b.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_rev1.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_rev1.png2.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_7.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paws-2.png?v=1773751190"
+      ],
+      "variants": [
+        {
+          "id": 42006594879553,
+          "title": "Default Title",
+          "sku": "PAR-DUO",
+          "price": "84.54",
+          "inventory_quantity": -4
+        }
+      ]
+    },
+    {
+      "key": "HISTAPAWZ",
+      "canonical": "HistaPawz",
+      "found": true,
+      "shopify_title": "Hista Paws \u2013 with Quercetin for Dogs and Cats",
+      "handle": "herbal-allergy-support-for-cats-and-dogs",
+      "product_id": 3738152075329,
+      "product_status": "active",
+      "total_inventory": 186,
+      "stock_status": "IN_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/HISTA.png?v=1773751190",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/HISTA.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paw.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Dr.Ruth_Hista-paws.jpg?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paws-4.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/5_7e57c51b-a6f6-40a4-a453-519abd55d604.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paws-1.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/1_4f73cbe0-555a-4bf7-a206-ce76a1905769.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/products/6_f398202e-1507-4d13-8d6c-19403dd16f0e.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/6_9c33dd97-0249-4584-937a-08584135408e.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paws-2.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paws-3.png?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/HISTA.jpg?v=1773751190",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paw_2.png?v=1773751190"
+      ],
+      "variants": [
+        {
+          "id": 28749261570113,
+          "title": "Default Title",
+          "sku": "QN90",
+          "price": "49.99",
+          "inventory_quantity": 186
+        }
+      ]
+    },
+    {
+      "key": "HISTAPAWZ",
+      "canonical": "HistaPawz",
+      "found": true,
+      "shopify_title": "Pet Allergy Relief Duo: Hista Paws + Omega Pawz",
+      "handle": "pet-allergy-relief-duo-hista-paws-omega-pawz",
+      "product_id": 7513680740417,
+      "product_status": "active",
+      "total_inventory": -4,
+      "stock_status": "OUT_OF_STOCK",
+      "featured_image": "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_2ca1fd5f-3ec6-45fb-a31e-3b1a8e76ef1f.png?v=1773754527",
+      "images": [
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_2ca1fd5f-3ec6-45fb-a31e-3b1a8e76ef1f.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_4.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_1_589594db-16ad-47ea-82e4-ce8d5d06d827.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Pet_Allergy_Relief_Duo_Hista_Paws_Omega_Pawz_2_438f6297-4992-4bad-ad97-37eef811c57b.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_rev1.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_rev1.png2.png?v=1773754527",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Omega_Pawz_7.png?v=1773755452",
+        "https://cdn.shopify.com/s/files/1/0017/5443/1553/files/Hista_Paws-2.png?v=1773751190"
+      ],
+      "variants": [
+        {
+          "id": 42006594879553,
+          "title": "Default Title",
+          "sku": "PAR-DUO",
+          "price": "84.54",
+          "inventory_quantity": -4
+        }
+      ]
+    }
+  ],
+  "blockers": [
+    "HTBS (Holistic Total Body Support) (OUT_OF_STOCK, product_status=draft)",
+    "Pet's Daily Wellness Formula (IN_STOCK, product_status=draft)",
+    "Pet's Daily Wellness Formula (OUT_OF_STOCK, product_status=draft)",
+    "OmegaPawz (OUT_OF_STOCK, product_status=active)",
+    "HistaPawz (OUT_OF_STOCK, product_status=active)"
+  ],
+  "verdict": "NOT_SAFE"
+}

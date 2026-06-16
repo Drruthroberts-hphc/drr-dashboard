@@ -1,0 +1,8 @@
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: Operation not permitted
+/bin/bash: /Users/ruthroberts/Desktop/Code output/drr-dashboard/run_pipeline.sh: Operation not permitted
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: Operation not permitted
+/bin/bash: /Users/ruthroberts/Desktop/Code output/drr-dashboard/run_pipeline.sh: Operation not permitted
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: Operation not permitted
+/bin/bash: /Users/ruthroberts/Desktop/Code output/drr-dashboard/run_pipeline.sh: Operation not permitted
+shell-init: error retrieving current directory: getcwd: cannot access parent directories: Operation not permitted
+/bin/bash: /Users/ruthroberts/Desktop/Code output/drr-dashboard/run_pipeline.sh: Operation not permitted
