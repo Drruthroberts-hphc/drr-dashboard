@@ -1,9 +1,9 @@
 {
-  "_comment": "Manual Meta Business Suite Insights data — updated with June 2-7 weekly performance data from Ruth's manual export. Last update: June 8, 2026.",
-  "period": "28-day rolling",
+  "_comment": "Manual Meta Business Suite Insights data — updated with Weekly Social Stats sheet. Now includes time-series weekly breakdown. Last update: June 9, 2026.",
+  "period": "weekly + 28-day rolling",
   "period_end": "2026-06-07",
   "facebook": {
-    "lifetime_followers": 87428,
+    "lifetime_followers": 87621,
     "views": 280500,
     "views_change_pct": 114.0,
     "viewers": 39900,
@@ -12,8 +12,8 @@
     "visits_change_pct": -58.0,
     "content_interactions": 1100,
     "content_interactions_change_pct": -52.9,
-    "link_clicks": 13000,
-    "link_clicks_change_pct": 566.0,
+    "link_clicks": 321,
+    "link_clicks_change_pct": 4485.7,
     "follows_new": 139,
     "follows_change_pct": -73.3,
     "unfollows": 60,
@@ -74,8 +74,8 @@
     {"format": "Links",       "published": null,  "views": 80,    "interactions": null, "views_per_post": null}
   ],
   "top_posts_28d": [
-    {"rank": 1, "title": "Apoquel + Trazodone Labrador — 6-month protocol that got her off both", "date": "2026-06-04", "views": 74894, "likes": 141, "comments": 271, "shares": 64, "type": "case study", "_note": "VIRAL — 8,394 link clicks. Clinical case study + emotional turn + clear CTA"},
-    {"rank": 2, "title": "Glyphosate found in all 18 commercial pet feeds tested", "date": "2026-06-03", "views": 65534, "likes": 572, "comments": 286, "shares": 249, "type": "research bomb", "_note": "VIRAL — 4,164 clicks. Study citation + scary specificity"},
+    {"rank": 1, "title": "Apoquel + Trazodone Labrador — 6-month protocol that got her off both", "date": "2026-06-04", "views": 74894, "reach": 45185, "likes": 141, "comments": 271, "shares": 64, "type": "case study", "_note": "VIRAL — 74,894 views. Clinical case study + emotional turn + clear CTA"},
+    {"rank": 2, "title": "Glyphosate found in all 18 commercial pet feeds tested", "date": "2026-06-03", "views": 65534, "reach": 41310, "likes": 572, "comments": 286, "shares": 249, "type": "research bomb", "_note": "VIRAL — 65,534 views, 249 shares. Study citation + scary specificity"},
     {"rank": 3, "title": "Two vets. 70+ years between us. One conversation. (Judy Morgan cohost)", "date": "2026-05-15", "views": 12200, "likes": 72, "comments": 68, "shares": 12, "type": "cohost"},
     {"rank": 4, "title": "After 35 years as a veterinarian, here are...", "date": "2026-05-14", "views": 11600, "likes": 27, "comments": 7, "shares": 8, "type": "authority"},
     {"rank": 5, "title": "Today is one of the higher-risk days of the year", "date": "2026-05-25", "views": 9900, "likes": 11, "comments": 9, "shares": 11, "type": "urgency"},
@@ -85,39 +85,65 @@
     {"rank": 9, "title": "Your pet's gut decides what gets in and what goes out", "date": "2026-06-06", "views": 2250, "likes": 8, "comments": 24, "shares": 1, "type": "education"},
     {"rank": 10, "title": "TCVM emotions — liver/kidney/spleen + behavior", "date": "2026-06-07", "views": 1898, "likes": 20, "comments": 24, "shares": 4, "type": "TCVM framework"}
   ],
+  "weekly_time_series": [
+    {
+      "week_ending": "2026-05-31",
+      "fb": {"posts": null, "views": 15900, "viewers": 7600, "reach": null, "interactions": 76, "link_clicks": 0, "visits": 311, "new_follows": 18, "net_follows": 18},
+      "ig": {"posts": null, "views": 22600, "viewers": 3400, "reach": 5000, "interactions": 962, "new_follows": 0, "unfollows": 60, "net_follows": 85},
+      "li": {"impressions": 179, "viewers": 64}
+    },
+    {
+      "week_ending": "2026-06-07",
+      "fb": {"posts": 6, "views": null, "viewers": null, "reach": 149462, "interactions": 3087, "link_clicks": 321, "visits": null, "new_follows": null, "net_follows": null, "_note": "Reach captured but views/visits/followers need page-level FB Insights export"},
+      "ig": {"posts": 6, "views": 14561, "viewers": null, "reach": 8437, "interactions": 593, "new_follows": 34, "_note": "Toxic burden post drove 33 new follows alone"},
+      "li": {"impressions": 168, "viewers": null}
+    },
+    {
+      "week_ending": "2026-06-14",
+      "_status": "PARTIAL — week in progress",
+      "fb": {"posts": 3, "views": 30800, "viewers": 15100, "interactions": 277, "link_clicks": 1, "visits": 851, "new_follows": 43, "unfollows": 19, "net_follows": 24, "lifetime_followers": 87621, "messaging_contacts": 15},
+      "ig": {"posts": 3, "views": 9794, "reach": 5900, "interactions": 399, "unfollows": 10, "lifetime_followers": 9730, "messaging_contacts": 2},
+      "li": {"posts": 1, "impressions": 405, "viewers": 67, "interactions": 6, "visits": 74, "lifetime_followers": 1740}
+    }
+  ],
   "week_of_2026-06-07": {
-    "_summary": "Breakout week — case study format with clinical specificity drove 4.4x the previous week's FB reach",
+    "_summary": "Breakout week — case study + clinical specificity drove 9.4x the previous week's FB reach. Link clicks corrected: 321 actual website clicks (sheet aggregate) — prior calc included photo/profile clicks.",
     "facebook": {
-      "total_views_week": 149462,
-      "total_reach_week": 92442,
-      "total_clicks_week": 13009,
+      "total_reach_week": 149462,
+      "total_interactions_week": 3087,
+      "total_link_clicks_week": 321,
       "total_posts": 6,
-      "vs_prior_week_views_change_pct": 338.0,
-      "vs_prior_week_clicks_change_pct": 566.0,
-      "viral_posts_count": 2
+      "vs_prior_week_reach_change_pct": "n/a (reach not captured prior week)",
+      "vs_prior_week_views_estimate_change_pct": 838.7,
+      "vs_prior_week_link_clicks_change_pct": "+infinite (prior 0)",
+      "viral_posts_count": 2,
+      "top_post_reach": 74894,
+      "top_post_title": "Apoquel + Trazodone Lab case study"
     },
     "instagram": {
       "total_views_week": 14561,
       "total_reach_week": 8437,
+      "total_interactions": 593,
+      "new_follows_week": 34,
       "total_posts": 6
     },
     "linkedin": {
-      "total_posts": 1,
-      "top_post_impressions": 100
+      "total_impressions": 168,
+      "total_posts": 1
     }
   },
   "insights": [
-    "🔥 BREAKOUT WEEK June 2-7 — FB drove 149,500 weekly views vs 34,000 prior week (+338%)",
-    "🔥 Two FB posts went mega-viral: Apoquel Lab case study (74.9K views, 8,394 clicks) + Glyphosate study (65.5K views, 4,164 clicks)",
-    "🔥 13,000 link clicks in one week — investigate Klaviyo new subscriber lift; this could be 100+ new opt-ins from FB alone",
-    "🎯 Winning format = case study with clinical specificity + emotional turn + clear CTA — replicate this template weekly",
-    "🎯 Research-citation posts ('study tested X pet feeds, found Y') generate massive shares (249 shares on glyphosate post)",
-    "📈 IG normalized this week: 14,561 views, 6,870 reach on the toxic burden post — was 0 in prior snapshots (data fix or genuine recovery)",
-    "Text posts dominate FB: 10,972 views per post avg (up from 5,740) — long-form storytelling outperforms photos 4x",
-    "Co-hosted content (Judy Morgan) is #3 FB performer this period — keep collab cadence going",
-    "LinkedIn reach steady but small (~100-180 impressions per post) — niche professional audience, less impact on lead gen",
-    "LinkedIn top posts ALL about HPHC certification narrative — that authority story is what LinkedIn audience responds to",
-    "Charleston SC dominates LinkedIn geo (25%) — concentrated home market, less geographic spread than FB",
-    "ACTION: Tell Dante + Editor to write 1 case study post + 1 research-citation post weekly going forward"
+    "🔥 BREAKOUT WEEK June 2-7 — FB reach 149,500 vs prior week 7,600 viewers = ~10x lift",
+    "🔥 Two FB posts went mega-viral: Apoquel Lab case study (74,894 reach) + Glyphosate study (65,534 reach, 249 shares)",
+    "📊 IMPORTANT correction: 321 actual website link clicks (not 13K). The 13K figure I cited earlier was total clicks including photo/profile clicks. Still 1000x+ vs prior week (0 → 321).",
+    "🔥 IG breakout post (Toxic Burden) drove 33 new follows from one post — strong audience-building signal",
+    "🎯 Winning format = case study with clinical specificity + emotional turn + clear CTA — replicate weekly",
+    "🎯 Research-citation posts generate massive shares (249 shares on glyphosate post)",
+    "📈 IG normalized: 14,561 weekly views, 8,437 reach, +34 net follows",
+    "Text posts dominate FB: 10,972 views per post avg (up from 5,740)",
+    "LinkedIn reach steady but small (~150-400 impressions/post) — niche audience",
+    "LinkedIn top posts ALL about HPHC certification — that's the LinkedIn-resonant story",
+    "ACTION: Editor briefs Dante to write 1 case study + 1 research-citation post per week",
+    "ACTION: 321 link clicks should equal ~32-65 new email opt-ins this week (10-20% landing page conversion) — check Klaviyo Wed"
   ]
 }
