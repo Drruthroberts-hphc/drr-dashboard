@@ -26,7 +26,7 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5821,
+      "open_rate": 0.5823,
       "click_rate": 0.0061,
       "ctor": 0.0104,
       "list_size": 6556,
@@ -100,19 +100,19 @@
     },
     "google_ads": {
       "week_ending_date": "2026-06-21",
-      "ad_spend": 0,
-      "conversions": 0,
-      "conversion_value": 0,
-      "roas": 0,
-      "cpa": 0,
-      "clicks": 0,
-      "impressions": 0,
-      "ctr": 0,
-      "active_products": 0,
-      "disapproved_products": 0,
-      "disapproval_rate": 0,
-      "google_ads_roas": 0,
-      "google_ads_weekly_spend": 0
+      "ad_spend": 963.51,
+      "conversions": 28.5,
+      "conversion_value": 2993.11,
+      "roas": 3.11,
+      "cpa": 33.81,
+      "clicks": 5399,
+      "impressions": 77420,
+      "ctr": 0.0697,
+      "active_products": 70,
+      "disapproved_products": 9,
+      "disapproval_rate": 0.1139,
+      "google_ads_roas": 3.11,
+      "google_ads_weekly_spend": 963.51
     },
     "coaching_pipeline": {
       "week_ending_date": "2026-06-21",
@@ -157,8 +157,8 @@
       "debt_remaining": 250000,
       "monthly_debt_service": 20000,
       "months_to_debt_free": 999,
-      "ad_spend_weekly": 0.0,
-      "ad_roas": 0.0,
+      "ad_spend_weekly": 963.51,
+      "ad_roas": 3.11,
       "burn_rate_exceeds_revenue": 1.0641,
       "burn_rate": 9812.01,
       "net_profit_loss": -591.44
@@ -190,15 +190,15 @@
     "debt_remaining": 250000,
     "monthly_debt_service": 20000,
     "months_to_debt_free": 999,
-    "ad_spend_weekly": 0.0,
-    "ad_roas": 0.0,
+    "ad_spend_weekly": 963.51,
+    "ad_roas": 3.11,
     "burn_rate_exceeds_revenue": 1.0641,
     "burn_rate": 9812.01,
     "net_profit_loss": -591.44
   },
   "alerts": [
     {
-      "timestamp": "2026-06-22T12:21:52.981977",
+      "timestamp": "2026-06-22T12:36:51.916874",
       "metric_name": "Dispute/Chargeback Rate",
       "current_value": 0.2,
       "threshold": 0.005,
@@ -208,7 +208,7 @@
       "platform": "Stripe"
     },
     {
-      "timestamp": "2026-06-22T12:21:52.982026",
+      "timestamp": "2026-06-22T12:36:51.916921",
       "metric_name": "Student Churn Rate",
       "current_value": 0.343,
       "threshold": 0.15,
@@ -218,17 +218,17 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-06-22T12:21:52.982062",
-      "metric_name": "Google Ads ROAS",
-      "current_value": 0.0,
-      "threshold": 2.5,
-      "direction": "below",
+      "timestamp": "2026-06-22T12:36:51.916955",
+      "metric_name": "Google Ads Weekly Spend",
+      "current_value": 963.51,
+      "threshold": 750,
+      "direction": "above",
       "status": "TRIGGERED",
       "notified": "pending",
       "platform": "Google Ads"
     },
     {
-      "timestamp": "2026-06-22T12:21:52.982095",
+      "timestamp": "2026-06-22T12:36:51.916988",
       "metric_name": "Payroll % of Revenue",
       "current_value": 0.3468,
       "threshold": 0.3,
@@ -238,7 +238,7 @@
       "platform": "Financial"
     },
     {
-      "timestamp": "2026-06-22T12:21:52.982125",
+      "timestamp": "2026-06-22T12:36:51.917022",
       "metric_name": "Burn > Revenue (Weekly)",
       "current_value": 1.0641,
       "threshold": 1.0,
