@@ -561,6 +561,9 @@
             metricCard('Unsubscribed', fmtInt(klaviyo.unsubscribed_count || 0)) +
             metricCard('Net New Subs', fmtInt(klaviyo.net_new_subscribers || 0)) +
             metricCard('Active Subscribers', fmtInt(klaviyo.active_subscribers || 0)) +
+            metricCard('Engaged (60d)', fmtInt(klaviyo.engaged_subscribers || 0),
+                wowBadge(klaviyo.engaged_subscribers, prev_klaviyo.engaged_subscribers),
+                'Profiles in Engaged A List 60days segment — the audience that actually opens') +
             metricCard('New Contacts (GHL)', fmtInt((ghl && ghl.new_contacts_week) || 0)) +
             metricCard('Total Contacts (GHL)', fmtInt((ghl && ghl.total_contacts) || 0)) +
             metricCard('Delivery Rate', fmtPct(klaviyo.delivery_rate)) +

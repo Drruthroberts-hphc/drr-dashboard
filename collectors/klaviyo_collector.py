@@ -209,6 +209,62 @@ def _get_list_stats():
     return total_profiles
 
 
+def _get_engaged_subscribers():
+    """
+    Get count of profiles in the main 'Engaged' segment.
+    Tries common naming patterns; falls back to 0 if not found.
+    Per Ruth's setup: 'Engaged A List 60days' is the primary engaged segment.
+    """
+    candidates = [
+        'Engaged A List 60days',
+        'Engaged A List 60 days',
+        'Engaged 60 days',
+        'Engaged (60 Days)',
+        'Engaged in last 60 days',
+        'Engaged - 60 days',
+    ]
+
+    data = _klaviyo_get('segments', {'page[size]': 100})
+    if not data:
+        return 0
+
+    segments_by_name = {}
+    for seg in data.get('data', []):
+        attrs = seg.get('attributes', {})
+        segments_by_name[attrs.get('name', '').strip().lower()] = seg['id']
+
+    # Try exact-name matches first
+    seg_id = None
+    matched_name = None
+    for candidate in candidates:
+        if candidate.lower() in segments_by_name:
+            seg_id = segments_by_name[candidate.lower()]
+            matched_name = candidate
+            break
+
+    # Fuzzy fallback: anything starting with "engaged" + containing "60"
+    if not seg_id:
+        for name_lower, sid in segments_by_name.items():
+            if name_lower.startswith('engaged') and '60' in name_lower:
+                seg_id = sid
+                matched_name = name_lower
+                break
+
+    if not seg_id:
+        logger.warning("Engaged segment not found in Klaviyo — set 'engaged_subscribers' = 0")
+        return 0
+
+    # Pull profile_count for that segment
+    seg_detail = _klaviyo_get(f'segments/{seg_id}', {
+        'additional-fields[segment]': 'profile_count',
+    })
+    if seg_detail:
+        count = seg_detail.get('data', {}).get('attributes', {}).get('profile_count', 0)
+        logger.info(f"Klaviyo engaged segment '{matched_name}': {count} profiles")
+        return int(count or 0)
+    return 0
+
+
 def _get_subscriber_metrics(start_iso, end_iso):
     """
     Pull weekly subscriber dynamics from Klaviyo standard metrics.
@@ -379,6 +435,7 @@ def collect_weekly_data(week_ending_date=None):
 
     # ── Subscriber dynamics ──────────────────────────────────────────────
     sub_metrics = _get_subscriber_metrics(start_iso, end_iso)
+    engaged_subscribers = _get_engaged_subscribers()
 
     # ── Abandon cart recovery ────────────────────────────────────────────
     # This would require flow-specific metrics; placeholder for now
@@ -406,6 +463,7 @@ def collect_weekly_data(week_ending_date=None):
         'unsubscribed_count': sub_metrics['unsubscribed_count'],
         'net_new_subscribers': sub_metrics['net_new_subscribers'],
         'active_subscribers': sub_metrics['active_subscribers'],
+        'engaged_subscribers': engaged_subscribers,
     }
 
     logger.info(f"Klaviyo collection complete: ${email_revenue:.2f} email revenue, "
