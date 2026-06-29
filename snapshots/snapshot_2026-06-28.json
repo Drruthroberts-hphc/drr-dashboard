@@ -26,7 +26,7 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5791,
+      "open_rate": 0.5796,
       "click_rate": 0.0056,
       "ctor": 0.0097,
       "list_size": 6556,
@@ -34,7 +34,12 @@
       "spam_complaint_rate": 6.3e-05,
       "delivery_rate": 0.9968,
       "abandon_cart_recovery_rate": 0.0,
-      "abandon_cart_recovery_revenue": 0.0
+      "abandon_cart_recovery_revenue": 0.0,
+      "new_subscribers_count": 19,
+      "unsubscribed_count": 1,
+      "net_new_subscribers": 18,
+      "active_subscribers": 0,
+      "engaged_subscribers": 0
     },
     "stripe": {
       "week_ending_date": "2026-06-28",
@@ -60,7 +65,9 @@
       "active_students": 62,
       "enrollment_growth_rate": 0.0,
       "student_churn_rate": 0.338,
-      "revenue_per_student": 0.0
+      "revenue_per_student": 0.0,
+      "total_contacts": 30963,
+      "new_contacts_week": 30963
     },
     "social": {
       "week_ending_date": "2026-06-28",
@@ -198,7 +205,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-06-29T12:52:05.030614",
+      "timestamp": "2026-06-29T13:07:17.741033",
       "metric_name": "Student Churn Rate",
       "current_value": 0.338,
       "threshold": 0.15,
@@ -208,7 +215,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-06-29T12:52:05.030668",
+      "timestamp": "2026-06-29T13:07:17.741103",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
