@@ -26,8 +26,8 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5796,
-      "click_rate": 0.0056,
+      "open_rate": 0.5819,
+      "click_rate": 0.0057,
       "ctor": 0.0097,
       "list_size": 6556,
       "list_growth_rate": 0.0,
@@ -205,7 +205,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-06-29T13:07:17.741033",
+      "timestamp": "2026-06-29T14:45:33.951677",
       "metric_name": "Student Churn Rate",
       "current_value": 0.338,
       "threshold": 0.15,
@@ -215,7 +215,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-06-29T13:07:17.741103",
+      "timestamp": "2026-06-29T14:45:33.951726",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
