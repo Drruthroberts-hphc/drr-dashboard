@@ -209,6 +209,63 @@ def _get_list_stats():
     return total_profiles
 
 
+def _get_subscriber_metrics(start_iso, end_iso):
+    """
+    Pull weekly subscriber dynamics from Klaviyo standard metrics.
+
+    Returns dict with:
+      - new_subscribers_count: total Subscribed-to-Email events in the week
+      - unsubscribed_count: total Unsubscribed events in the week
+      - net_new_subscribers: new - unsubscribed
+      - active_subscribers: total profiles currently opted in to email marketing
+    """
+    out = {
+        'new_subscribers_count': 0,
+        'unsubscribed_count': 0,
+        'net_new_subscribers': 0,
+        'active_subscribers': 0,
+    }
+
+    # Count new subscribers via the "Subscribed to List" metric
+    subscribed_id = _get_metric_id_by_name("Subscribed to List")
+    if subscribed_id:
+        new_count = _query_metric_aggregate(
+            subscribed_id, start_iso, end_iso, measurement='count'
+        )
+        out['new_subscribers_count'] = int(new_count or 0)
+        logger.info(f"Klaviyo new subscribers this week: {out['new_subscribers_count']}")
+
+    # Count unsubscribes
+    unsub_id = _get_metric_id_by_name("Unsubscribed from List")
+    if unsub_id:
+        unsub_count = _query_metric_aggregate(
+            unsub_id, start_iso, end_iso, measurement='count'
+        )
+        out['unsubscribed_count'] = int(unsub_count or 0)
+
+    out['net_new_subscribers'] = out['new_subscribers_count'] - out['unsubscribed_count']
+
+    # Active subscribers = profiles with email subscription status = SUBSCRIBED
+    # Profiles endpoint with filter
+    try:
+        active_data = _klaviyo_get('profiles', {
+            'filter': "equals(subscriptions.email.marketing.consent,'SUBSCRIBED')",
+            'page[size]': 1,
+        })
+        # API returns paginated data — total count is in meta if requested via additional-fields
+        # Fallback: try the dedicated count endpoint pattern
+        if active_data:
+            # The 'count' header or meta.total varies by Klaviyo API version
+            # Most reliable: use the lists endpoint and sum active subscribed counts
+            meta = active_data.get('meta', {})
+            if 'total' in meta:
+                out['active_subscribers'] = int(meta['total'])
+    except Exception as e:
+        logger.warning(f"Could not get active subscriber count: {e}")
+
+    return out
+
+
 def _get_flow_revenue(flow_name_contains, metric_id, start_iso, end_iso):
     """Get revenue attributed to flows matching a name pattern."""
     if not metric_id:
@@ -320,6 +377,9 @@ def collect_weekly_data(week_ending_date=None):
     # List growth rate requires previous week's data (calculated in cross-platform)
     list_growth_rate = 0.0
 
+    # ── Subscriber dynamics ──────────────────────────────────────────────
+    sub_metrics = _get_subscriber_metrics(start_iso, end_iso)
+
     # ── Abandon cart recovery ────────────────────────────────────────────
     # This would require flow-specific metrics; placeholder for now
     abandon_cart_recovery_rate = 0.0
@@ -342,6 +402,10 @@ def collect_weekly_data(week_ending_date=None):
         'delivery_rate': round(delivery_rate, 4),
         'abandon_cart_recovery_rate': round(abandon_cart_recovery_rate, 4),
         'abandon_cart_recovery_revenue': round(abandon_cart_recovery_revenue, 2),
+        'new_subscribers_count': sub_metrics['new_subscribers_count'],
+        'unsubscribed_count': sub_metrics['unsubscribed_count'],
+        'net_new_subscribers': sub_metrics['net_new_subscribers'],
+        'active_subscribers': sub_metrics['active_subscribers'],
     }
 
     logger.info(f"Klaviyo collection complete: ${email_revenue:.2f} email revenue, "

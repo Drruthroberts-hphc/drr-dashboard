@@ -556,6 +556,13 @@
             metricCard('Click-to-Open', fmtPct(klaviyo.ctor)) +
             metricCard('List Size', fmtInt(klaviyo.list_size),
                 wowBadge(klaviyo.list_size, prev_klaviyo.list_size)) +
+            metricCard('New Subs (Klaviyo)', fmtInt(klaviyo.new_subscribers_count || 0),
+                wowBadge(klaviyo.new_subscribers_count, prev_klaviyo.new_subscribers_count)) +
+            metricCard('Unsubscribed', fmtInt(klaviyo.unsubscribed_count || 0)) +
+            metricCard('Net New Subs', fmtInt(klaviyo.net_new_subscribers || 0)) +
+            metricCard('Active Subscribers', fmtInt(klaviyo.active_subscribers || 0)) +
+            metricCard('New Contacts (GHL)', fmtInt((ghl && ghl.new_contacts_week) || 0)) +
+            metricCard('Total Contacts (GHL)', fmtInt((ghl && ghl.total_contacts) || 0)) +
             metricCard('Delivery Rate', fmtPct(klaviyo.delivery_rate)) +
             metricCard('Spam Rate', fmtPct(klaviyo.spam_complaint_rate, 3), '',
                 'Target: < 0.1%') +

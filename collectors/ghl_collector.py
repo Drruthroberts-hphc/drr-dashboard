@@ -25,7 +25,7 @@ import logging
 import os
 import urllib.request
 import urllib.parse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from collections import defaultdict
 
 from config import GHL_API_KEY, GHL_LOCATION_ID, GHL_BASE_URL, RANA_EMAIL
@@ -207,6 +207,51 @@ def _ghl_v1_get(endpoint, params=None):
         body = e.read().decode('utf-8')[:300]
         logger.error(f"GHL v1 API error {e.code} on {endpoint}: {body}")
         return None
+
+
+def _get_contact_counts(week_start_date, week_end_date):
+    """
+    Count GHL contacts: total + new this week + DND-flagged.
+    Uses v1 /contacts endpoint with date filter.
+
+    Returns dict: total_contacts, new_contacts_week, dnd_count
+    """
+    out = {
+        'total_contacts': 0,
+        'new_contacts_week': 0,
+        'dnd_count': 0,
+    }
+
+    # v1 contacts: paginated, supports date range filter
+    # Strategy: hit /contacts with no filter to get totalCount from meta
+    try:
+        page1 = _ghl_v1_get('contacts', {'limit': 1})
+        if page1:
+            meta = page1.get('meta', {})
+            out['total_contacts'] = int(meta.get('total', 0))
+    except Exception as e:
+        logger.warning(f"GHL total contacts count failed: {e}")
+
+    # New contacts this week — filter by dateAdded
+    try:
+        start_ms = int(datetime.combine(week_start_date, datetime.min.time())
+                       .replace(tzinfo=timezone.utc).timestamp() * 1000)
+        end_ms = int((datetime.combine(week_end_date, datetime.min.time())
+                      .replace(tzinfo=timezone.utc).timestamp() + 86400) * 1000)
+        new_page = _ghl_v1_get('contacts', {
+            'limit': 1,
+            'startAfter': start_ms,
+            'endBefore': end_ms,
+        })
+        if new_page:
+            meta = new_page.get('meta', {})
+            out['new_contacts_week'] = int(meta.get('total', 0))
+    except Exception as e:
+        logger.warning(f"GHL new contacts count failed: {e}")
+
+    logger.info(f"GHL contacts: {out['total_contacts']} total, "
+                f"{out['new_contacts_week']} new this week")
+    return out
 
 
 def _ghl_get(endpoint, params=None):
@@ -452,6 +497,16 @@ def _collect_via_v1_api(week_ending_date):
         'student_churn_rate': round(churn_rate, 3),
         'revenue_per_student': 0.0,  # Calculated in cross_platform
     }
+
+    # ── Contact counts (email subscribers in GHL) ────────────────────────
+    try:
+        contact_counts = _get_contact_counts(start_date, week_ending_date)
+        result['total_contacts'] = contact_counts['total_contacts']
+        result['new_contacts_week'] = contact_counts['new_contacts_week']
+    except Exception as e:
+        logger.warning(f"GHL contact counts failed: {e}")
+        result['total_contacts'] = 0
+        result['new_contacts_week'] = 0
 
     # ── Update cache with fresh data ─────────────────────────────────────
     cache_data = {
