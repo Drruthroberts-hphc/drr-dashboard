@@ -267,60 +267,50 @@ def _get_total_subscribed_profiles():
     return 0
 
 
+def _get_engagement_segments():
+    """
+    Get counts for Ruth's full engagement-decay segment family.
+
+    KNOWN segment IDs (verified 2026-06-30, created May 4 2026):
+      XCW39M = 'Engaged v2 (0-60 d)'        ← PRIMARY ENGAGED (~15.7K)
+      X3tuCM = 'Engaged v2 (61-90 d) (clone)'
+      SL9UJw = 'Engaged v2 (91-120 d)'
+      Vk2RuB = 'Engaged v2 (121-180 d) (clone)'
+      Rbh7Jq = 'Engaged A List (60days)'    ← old segment (kept for back-compat)
+
+    Returns dict with all engagement-bucket counts + computed totals.
+    """
+    SEGMENTS = {
+        'engaged_0_60d': ('XCW39M', 'Engaged v2 (0-60 d)'),
+        'engaged_61_90d': ('X3tuCM', 'Engaged v2 (61-90 d) (clone)'),
+        'engaged_91_120d': ('SL9UJw', 'Engaged v2 (91-120 d)'),
+        'engaged_121_180d': ('Vk2RuB', 'Engaged v2 (121-180 d) (clone)'),
+    }
+
+    out = {}
+    for key, (seg_id, name) in SEGMENTS.items():
+        detail = _klaviyo_get(f'segments/{seg_id}', {
+            'additional-fields[segment]': 'profile_count',
+        })
+        if detail:
+            attrs = detail.get('data', {}).get('attributes', {})
+            count = attrs.get('profile_count', 0) or 0
+            out[key] = int(count)
+            logger.info(f"Klaviyo {name}: {count:,} profiles")
+        else:
+            out[key] = 0
+        time.sleep(0.2)
+
+    # Total active (anyone engaged in last 180 days)
+    out['engaged_total_180d'] = sum(out.values())
+    # Primary headline number = 0-60 day engagement
+    out['engaged_primary'] = out.get('engaged_0_60d', 0)
+    return out
+
+
 def _get_engaged_subscribers():
-    """
-    Get count of profiles in the main 'Engaged' segment.
-    Tries common naming patterns; falls back to 0 if not found.
-    Per Ruth's setup: 'Engaged A List 60days' is the primary engaged segment.
-    """
-    candidates = [
-        'Engaged A List 60days',
-        'Engaged A List 60 days',
-        'Engaged 60 days',
-        'Engaged (60 Days)',
-        'Engaged in last 60 days',
-        'Engaged - 60 days',
-    ]
-
-    data = _klaviyo_get('segments', {'page[size]': 100})
-    if not data:
-        return 0
-
-    segments_by_name = {}
-    for seg in data.get('data', []):
-        attrs = seg.get('attributes', {})
-        segments_by_name[attrs.get('name', '').strip().lower()] = seg['id']
-
-    # Try exact-name matches first
-    seg_id = None
-    matched_name = None
-    for candidate in candidates:
-        if candidate.lower() in segments_by_name:
-            seg_id = segments_by_name[candidate.lower()]
-            matched_name = candidate
-            break
-
-    # Fuzzy fallback: anything starting with "engaged" + containing "60"
-    if not seg_id:
-        for name_lower, sid in segments_by_name.items():
-            if name_lower.startswith('engaged') and '60' in name_lower:
-                seg_id = sid
-                matched_name = name_lower
-                break
-
-    if not seg_id:
-        logger.warning("Engaged segment not found in Klaviyo — set 'engaged_subscribers' = 0")
-        return 0
-
-    # Pull profile_count for that segment
-    seg_detail = _klaviyo_get(f'segments/{seg_id}', {
-        'additional-fields[segment]': 'profile_count',
-    })
-    if seg_detail:
-        count = seg_detail.get('data', {}).get('attributes', {}).get('profile_count', 0)
-        logger.info(f"Klaviyo engaged segment '{matched_name}': {count} profiles")
-        return int(count or 0)
-    return 0
+    """Back-compat wrapper — returns primary (0-60d) engaged count."""
+    return _get_engagement_segments().get('engaged_primary', 0)
 
 
 def _get_subscriber_metrics(start_iso, end_iso):
@@ -478,7 +468,8 @@ def collect_weekly_data(week_ending_date=None):
 
     # ── Subscriber dynamics ──────────────────────────────────────────────
     sub_metrics = _get_subscriber_metrics(start_iso, end_iso)
-    engaged_subscribers = _get_engaged_subscribers()
+    engagement_buckets = _get_engagement_segments()
+    engaged_subscribers = engagement_buckets.get('engaged_primary', 0)
 
     # ── Abandon cart recovery ────────────────────────────────────────────
     # This would require flow-specific metrics; placeholder for now
@@ -507,6 +498,11 @@ def collect_weekly_data(week_ending_date=None):
         'net_new_subscribers': sub_metrics['net_new_subscribers'],
         'active_subscribers': sub_metrics['active_subscribers'],
         'engaged_subscribers': engaged_subscribers,
+        'engaged_0_60d': engagement_buckets.get('engaged_0_60d', 0),
+        'engaged_61_90d': engagement_buckets.get('engaged_61_90d', 0),
+        'engaged_91_120d': engagement_buckets.get('engaged_91_120d', 0),
+        'engaged_121_180d': engagement_buckets.get('engaged_121_180d', 0),
+        'engaged_total_180d': engagement_buckets.get('engaged_total_180d', 0),
     }
 
     logger.info(f"Klaviyo collection complete: ${email_revenue:.2f} email revenue, "

@@ -587,9 +587,18 @@
             metricCard('Unsubscribed', fmtInt(klaviyo.unsubscribed_count || 0)) +
             metricCard('Net New Subs', fmtInt(klaviyo.net_new_subscribers || 0)) +
             metricCard('Active Subscribers', fmtInt(klaviyo.active_subscribers || 0)) +
-            metricCard('Engaged (60d)', fmtInt(klaviyo.engaged_subscribers || 0),
-                wowBadge(klaviyo.engaged_subscribers, prev_klaviyo.engaged_subscribers),
-                'Profiles in Engaged A List 60days segment — the audience that actually opens') +
+            metricCard('Engaged (0-60d)', fmtInt(klaviyo.engaged_0_60d || klaviyo.engaged_subscribers || 0),
+                wowBadge(klaviyo.engaged_0_60d || klaviyo.engaged_subscribers,
+                         prev_klaviyo.engaged_0_60d || prev_klaviyo.engaged_subscribers),
+                'Engaged v2 (0-60 d) — the audience that actually opens') +
+            metricCard('Engaged (61-90d)', fmtInt(klaviyo.engaged_61_90d || 0), '',
+                'Mid-engagement window') +
+            metricCard('Engaged (91-120d)', fmtInt(klaviyo.engaged_91_120d || 0), '',
+                'Aging — re-engage soon') +
+            metricCard('Engaged (121-180d)', fmtInt(klaviyo.engaged_121_180d || 0), '',
+                'Near-cold — last-chance window') +
+            metricCard('Total Reachable (180d)', fmtInt(klaviyo.engaged_total_180d || 0), '',
+                'All engagement buckets combined') +
             metricCard('New Contacts (GHL)', fmtInt((ghl && ghl.new_contacts_week) || 0)) +
             metricCard('Total Contacts (GHL)', fmtInt((ghl && ghl.total_contacts) || 0)) +
             metricCard('Delivery Rate', fmtPct(klaviyo.delivery_rate)) +
