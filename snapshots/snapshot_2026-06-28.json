@@ -8,14 +8,17 @@
       "ecommerce_revenue": 6817.14,
       "coaching_revenue": 6810.0,
       "course_revenue": 176.97,
+      "preorder_revenue": 2342.62,
+      "preorder_units": 43,
+      "shippable_revenue": 10631.85,
       "order_count": 78,
       "aov": 166.34,
       "conversion_rate": 0.0,
       "new_customers": 38,
       "returning_customers": 1,
       "cart_abandonment_rate": 0.0,
-      "checkout_abandonment_rate": 84.62,
-      "return_rate": 0.0,
+      "checkout_abandonment_rate": 83.33,
+      "return_rate": 1.28,
       "discount_rate_pct": 10.08,
       "top_products_json": "[{\"name\": \"Holistic Pet Health Coach\\u2122 Certification Program\", \"revenue\": 6650.0, \"quantity\": 2}, {\"name\": \"PRE-ORDER Hista Paws with Quercetin for Dogs and Cats\", \"revenue\": 929.82, \"quantity\": 19}, {\"name\": \"PRE-ORDER Holistic Total Body Support \\u2014 Daily Multivitamin & Pasture-Raised Glandular Blend for Dogs & Cats\", \"revenue\": 926.8, \"quantity\": 15}, {\"name\": \"Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats\", \"revenue\": 544.04, \"quantity\": 14}, {\"name\": \"PRE-ORDER Daily Wellness Formula \\u2014 Glandular-Free Multivitamin for Dogs & Cats with Beef, Pork, or Organ Sensitivities\", \"revenue\": 486.0, \"quantity\": 9}, {\"name\": \"PetsPEMF Pad - PEMF Mat for Dogs and Cats\", \"revenue\": 439.0, \"quantity\": 1}, {\"name\": \"Glacier Peak Pet Intolerance Test (Pet Wellness Life Stress Scan Kit)\", \"revenue\": 389.85, \"quantity\": 3}, {\"name\": \"Holistic Total Body Support \\u2014 Daily Multivitamin & Pasture-Raised Glandular Blend for Dogs & Cats\", \"revenue\": 320.0, \"quantity\": 5}, {\"name\": \"Calcium Citrate Powder for Dogs and Cats\", \"revenue\": 203.39, \"quantity\": 11}, {\"name\": \"Liposomal Glutathione for Dogs - Liver Detox System\", \"revenue\": 168.0, \"quantity\": 2}]"
     },
@@ -26,13 +29,13 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5819,
-      "click_rate": 0.0057,
-      "ctor": 0.0097,
+      "open_rate": 0.5989,
+      "click_rate": 0.006,
+      "ctor": 0.01,
       "list_size": 6556,
       "list_growth_rate": 0.0,
       "spam_complaint_rate": 6.3e-05,
-      "delivery_rate": 0.9968,
+      "delivery_rate": 0.9964,
       "abandon_cart_recovery_rate": 0.0,
       "abandon_cart_recovery_revenue": 0.0,
       "new_subscribers_count": 19,
@@ -62,12 +65,12 @@
       "close_rate_rana": 0.0,
       "pipeline_value": 0.0,
       "revenue_per_call": 0.0,
-      "active_students": 62,
+      "active_students": 61,
       "enrollment_growth_rate": 0.0,
       "student_churn_rate": 0.338,
       "revenue_per_student": 0.0,
-      "total_contacts": 30963,
-      "new_contacts_week": 30963
+      "total_contacts": 30965,
+      "new_contacts_week": 30965
     },
     "social": {
       "week_ending_date": "2026-06-28",
@@ -99,11 +102,71 @@
       "ig_week_posts_count": 0,
       "ig_story_views": 0,
       "ig_dms": 0,
-      "yt_total_views": 610822,
+      "yt_total_views": 610929,
       "yt_recent_videos_json": "[{\"title\": \"Healing Tails Episode 27: Transforming Pet Health with Tradi\", \"published\": \"2026-03-11\", \"views\": 197, \"likes\": 5, \"comments\": 1, \"duration_min\": 35.2}, {\"title\": \"\\ud83d\\udc31 Transform Your Cat's Wellness: The Revolutionary Power of \", \"published\": \"2026-02-04\", \"views\": 126, \"likes\": 14, \"comments\": 1, \"duration_min\": 44.3}, {\"title\": \"Hidden Health Clues: How Iridology Can Save Your Pet's Life\", \"published\": \"2026-01-28\", \"views\": 123, \"likes\": 7, \"comments\": 0, \"duration_min\": 40.4}, {\"title\": \"Listen to what your pet is telling you. Early awareness  eas\", \"published\": \"2026-01-20\", \"views\": 200, \"likes\": 8, \"comments\": 1, \"duration_min\": 1.4}, {\"title\": \"Join me LIVE TOMORROW (January 14th) at 12pm ET for our mont\", \"published\": \"2026-01-13\", \"views\": 516, \"likes\": 11, \"comments\": 4, \"duration_min\": 0.6}, {\"title\": \"What if cooking your dogs food actually makes it MORE nutrit\", \"published\": \"2026-01-09\", \"views\": 945, \"likes\": 24, \"comments\": 1, \"duration_min\": 0.7}, {\"title\": \"The raw food industry is worth 3.5 billion and its built on \", \"published\": \"2026-01-08\", \"views\": 1264, \"likes\": 19, \"comments\": 2, \"duration_min\": 0.7}, {\"title\": \"Learn the Business Strategies Inside the Certification #shor\", \"published\": \"2025-12-25\", \"views\": 1765, \"likes\": 10, \"comments\": 1, \"duration_min\": 0.7}, {\"title\": \"YOUR VET SAYS 3,000. YOU DONT HAVE IT. THE GUILT IS EATING Y\", \"published\": \"2025-12-18\", \"views\": 1071, \"likes\": 55, \"comments\": 12, \"duration_min\": 0.9}, {\"title\": \"I DRANK EVERY NIGHT TO COPE WITH BEING A VET  #shorts\", \"published\": \"2025-12-17\", \"views\": 999, \"likes\": 51, \"comments\": 7, \"duration_min\": 1.1}]",
       "fb_top_posts_json": "[{\"date\": \"2026-06-23\", \"message\": \"Applications close tomorrow night at 11:59pm ET for Thursday's Live Coaching Cal\", \"trigger\": \"\", \"views\": 792, \"reach\": 564, \"reactions\": 2, \"comments\": 7, \"shares\": 1, \"total_engagement\": 10, \"total_clicks\": 1, \"link\": \"https://www.facebook.com/TheOriginalHolisticPetHealthCoach/posts/pfbid0RbkRqQTMDYLiJCgM14K3o8hDnwbGWb2rzNfjYDyejT3toGDUiwapiWrqZxmgbyMel\"}, {\"date\": \"2026-06-23\", \"message\": \"There\\u2019s something beautiful unfolding\\u2026\\n \\n\\n I\\u2019m honored to be part of theAnimal &\", \"trigger\": \"\", \"views\": 395, \"reach\": 294, \"reactions\": 6, \"comments\": 1, \"shares\": 1, \"total_engagement\": 8, \"total_clicks\": 0, \"link\": \"https://www.facebook.com/TheOriginalHolisticPetHealthCoach/posts/pfbid0o21oEkZjRLZPmtmPgBejqTwPpiqgcc9zDAHGLD3B1e5snyfL2sdhLNjFCYeWfzaUl\"}, {\"date\": \"2026-06-24\", \"message\": \"Tonight at 11:59pm ET, applications close for Thursday's Live Coaching Call. Aft\", \"trigger\": \"\", \"views\": 782, \"reach\": 547, \"reactions\": 3, \"comments\": 5, \"shares\": 1, \"total_engagement\": 9, \"total_clicks\": 0, \"link\": \"https://www.facebook.com/TheOriginalHolisticPetHealthCoach/posts/pfbid02dkUsbzrrZ9WoSh5S88PfqUTAfzMetnscfsyt4zRFxVkmKBGP8dFEKX5JiWnkwKmxl\"}, {\"date\": \"2026-06-26\", \"message\": \"Someone like Jonathon was in the room yesterday. After 35 years in practice, her\", \"trigger\": \"\", \"views\": 1422, \"reach\": 987, \"reactions\": 2, \"comments\": 4, \"shares\": 1, \"total_engagement\": 7, \"total_clicks\": 0, \"link\": \"https://www.facebook.com/TheOriginalHolisticPetHealthCoach/posts/pfbid0zt3CLo2yzLyLQbnDbDyXSW2fCeCpWTHHrCZ6bZEW2atBVJiTdZJmfamPvFAK1ScQl\"}, {\"date\": \"2026-06-27\", \"message\": \"July applications open Monday. The waitlist closes tomorrow night. After 35 year\", \"trigger\": \"\", \"views\": 1861, \"reach\": 1232, \"reactions\": 4, \"comments\": 6, \"shares\": 1, \"total_engagement\": 11, \"total_clicks\": 0, \"link\": \"https://www.facebook.com/TheOriginalHolisticPetHealthCoach/posts/pfbid05PVGoy8W6emZtXgmib3DRCDqTBpeL5bwLqU6FjvnZdkjBu4bGMCZr85bd1gr8h1Zl\"}]",
       "ig_top_posts_json": "[]",
       "li_top_posts_json": "[]"
+    },
+    "social_sheets": {
+      "week_ending_date": "2026-06-28",
+      "source": "manual_sheet",
+      "platforms": {
+        "facebook": {
+          "posts": 8,
+          "views": 77500,
+          "unique_viewers": 37313,
+          "reach": 0,
+          "interactions": 498,
+          "link_clicks": 249,
+          "visits": 1289,
+          "new_follows": 82,
+          "unfollows": 19,
+          "net_follows": 63,
+          "followers_lifetime": 87678,
+          "messaging_contacts": 44,
+          "notes": ""
+        },
+        "instagram": {
+          "posts": 6,
+          "views": 7800,
+          "unique_viewers": 0,
+          "reach": 4500,
+          "interactions": 325,
+          "link_clicks": 0,
+          "visits": 0,
+          "new_follows": 129,
+          "unfollows": 35,
+          "net_follows": 0,
+          "followers_lifetime": 9768,
+          "messaging_contacts": 4,
+          "notes": ""
+        },
+        "linkedin": {
+          "posts": 2,
+          "views": 259,
+          "unique_viewers": 0,
+          "reach": 259,
+          "interactions": 3,
+          "link_clicks": 0,
+          "visits": 75,
+          "new_follows": 0,
+          "unfollows": 0,
+          "net_follows": 0,
+          "followers_lifetime": 1732,
+          "messaging_contacts": 0,
+          "notes": ""
+        }
+      },
+      "sheet_pulled_at": "2026-06-30T15:50:06Z",
+      "weekly_totals": {
+        "views": 85559,
+        "reach": 4759,
+        "interactions": 826,
+        "link_clicks": 249,
+        "new_follows": 211,
+        "posts": 16
+      }
     },
     "google_ads": {
       "week_ending_date": "2026-06-28",
@@ -116,7 +179,7 @@
       "impressions": 0,
       "ctr": 0,
       "active_products": 0,
-      "disapproved_products": 76,
+      "disapproved_products": 77,
       "disapproval_rate": 1.0,
       "google_ads_roas": 0,
       "google_ads_weekly_spend": 0.0
@@ -135,8 +198,202 @@
       "enrollments_total": 6,
       "enrollments_4w": 1,
       "webinar_registrants": 26,
-      "recent_applicants_json": "[{\"date\": \"2026-06-21\", \"name\": \"jenna judd\", \"email\": \"hello@caninenutritionandwellness.com\", \"tags\": [\"exit-optin\", \"website\", \"eng-engaged in last 000-007 days\", \"domain-other\", \"coach-applicant\", \"application form submitted\", \"booked discovery call\", \"discovery call booked\", \"ready to invest\", \"eng-clicked in last 00-07 days\", \"responding to channels\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-19\", \"name\": \"maria mas\", \"email\": \"mariamas95@gmail.com\", \"tags\": [\"live-call-jun25-applicant\", \"live workshop\", \"domain-gmail\", \"booked-call\", \"application form submitted\", \"booked discovery call\", \"ready to invest\", \"responding to channels\", \"coach-applicant\", \"eng-clicked in last 00-07 days\", \"eng-engaged in last 000-007 days\", \"maybe nurture\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-14\", \"name\": \"kelli harmala\", \"email\": \"kellinelson87@gmail.com\", \"tags\": [\"coach-applicant\", \"application form submitted\", \"ready to invest\", \"eng-engaged in last 000-007 days\", \"eng-never clicked\", \"domain-gmail\", \"discovery call no show\", \"sent to shopify opt-in form\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-13\", \"name\": \"kathleen smith\", \"email\": \"katieann1124@gmail.com\", \"tags\": [\"coach-applicant\", \"application form submitted\", \"booked discovery call\", \"ready to invest\", \"eng-never clicked\", \"domain-gmail\", \"eng-engaged in last 007-030 days\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-05\", \"name\": \"jennifer dennin\", \"email\": \"pawsitiveleashbehavior@gmail.com\", \"tags\": [\"application form submitted\", \"booked discovery call\", \"ready to invest\", \"eng-never clicked\", \"domain-gmail\", \"maybe nurture\", \"responding to channels\", \"live-call-jun25-applicant\", \"live workshop\", \"eng-engaged in last 000-007 days\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}]",
+      "recent_applicants_json": "[{\"date\": \"2026-06-21\", \"name\": \"jenna judd\", \"email\": \"hello@caninenutritionandwellness.com\", \"tags\": [\"exit-optin\", \"website\", \"eng-engaged in last 000-007 days\", \"domain-other\", \"coach-applicant\", \"application form submitted\", \"booked discovery call\", \"discovery call booked\", \"ready to invest\", \"eng-clicked in last 00-07 days\", \"responding to channels\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-19\", \"name\": \"maria mas\", \"email\": \"mariamas95@gmail.com\", \"tags\": [\"live-call-jun25-applicant\", \"live workshop\", \"domain-gmail\", \"booked-call\", \"application form submitted\", \"booked discovery call\", \"ready to invest\", \"responding to channels\", \"coach-applicant\", \"eng-clicked in last 00-07 days\", \"eng-engaged in last 000-007 days\", \"maybe nurture\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-14\", \"name\": \"kelli harmala\", \"email\": \"kellinelson87@gmail.com\", \"tags\": [\"coach-applicant\", \"application form submitted\", \"ready to invest\", \"eng-engaged in last 000-007 days\", \"eng-never clicked\", \"domain-gmail\", \"discovery call no show\", \"sent to shopify opt-in form\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-13\", \"name\": \"kathleen smith\", \"email\": \"katieann1124@gmail.com\", \"tags\": [\"coach-applicant\", \"application form submitted\", \"booked discovery call\", \"ready to invest\", \"eng-never clicked\", \"domain-gmail\", \"eng-engaged in last 007-030 days\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}, {\"date\": \"2026-06-05\", \"name\": \"jennifer dennin\", \"email\": \"pawsitiveleashbehavior@gmail.com\", \"tags\": [\"application form submitted\", \"booked discovery call\", \"ready to invest\", \"domain-gmail\", \"maybe nurture\", \"responding to channels\", \"live-call-jun25-applicant\", \"live workshop\", \"eng-engaged in last 000-007 days\", \"eng-clicked in last 00-07 days\"], \"is_qualified\": false, \"is_disqualified\": false, \"is_enrolled\": false}]",
       "recent_enrollments_json": "[{\"date\": \"2026-06-22\", \"name\": \"mizuki closeme\", \"email\": \"mcloseme@gmail.com\"}]"
+    },
+    "inventory": {
+      "summary": {
+        "collection_date": "2026-06-30 15:50 UTC",
+        "lookback_days": 90,
+        "lead_time_days": 14,
+        "total_tracked_variants": 58,
+        "active_variants": 48,
+        "urgent_reorder_count": 4,
+        "reorder_soon_count": 0,
+        "total_estimated_order_cost": 38142.24
+      },
+      "top_items": [
+        {
+          "product_title": "PRE-ORDER Daily Wellness Formula \u2014 Glandular-Free Multivitamin for Dogs & Cats with Beef, Pork, or Organ Sensitivities",
+          "sku": "PDWF",
+          "inventory_quantity": 0,
+          "units_sold_90d": 87,
+          "urgency": "OUT OF STOCK",
+          "days_of_supply": 0,
+          "vendor": "Dr. Ruth Roberts"
+        },
+        {
+          "product_title": "PRE-ORDER Hista Paws with Quercetin for Dogs and Cats",
+          "sku": "QN90",
+          "inventory_quantity": 0,
+          "units_sold_90d": 204,
+          "urgency": "OUT OF STOCK",
+          "days_of_supply": 0,
+          "vendor": "Dr. Ruth Roberts"
+        },
+        {
+          "product_title": "PRE-ORDER Holistic Total Body Support \u2014 Daily Multivitamin & Pasture-Raised Glandular Blend for Dogs & Cats",
+          "sku": "HTBSDC",
+          "inventory_quantity": 0,
+          "units_sold_90d": 385,
+          "urgency": "OUT OF STOCK",
+          "days_of_supply": 0,
+          "vendor": "Dr. Ruth Roberts"
+        },
+        {
+          "product_title": "Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats",
+          "sku": "OAM8OZ",
+          "inventory_quantity": 12,
+          "units_sold_90d": 159,
+          "urgency": "URGENT - Order Now",
+          "days_of_supply": 0,
+          "vendor": "Dr. Ruth Roberts"
+        },
+        {
+          "product_title": "Glacier Peak Pet Intolerance Test (Pet Wellness Life Stress Scan Kit)",
+          "sku": "GPPWS",
+          "inventory_quantity": 11,
+          "units_sold_90d": 25,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Glacier Peak Holistics"
+        },
+        {
+          "product_title": "MegaSporeBiotic\u2122  -  Probiotic Supplement for Dogs and Cats",
+          "sku": "MSP60",
+          "inventory_quantity": 20,
+          "units_sold_90d": 32,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Microbiome Labs"
+        },
+        {
+          "product_title": "Iodine - Thyroid Support (120 caps)",
+          "sku": "IODI5",
+          "inventory_quantity": 14,
+          "units_sold_90d": 20,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Pure Encapsulations"
+        },
+        {
+          "product_title": "Reishi Mushroom Powder for Dogs & Cats (45 g) - Longevity",
+          "sku": "RM-RX45",
+          "inventory_quantity": 6,
+          "units_sold_90d": 8,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Real Mushrooms"
+        },
+        {
+          "product_title": "Herbsmith: Slippery Elm - Digestive Aid for Dogs Supplements",
+          "sku": "SLELM75",
+          "inventory_quantity": 4,
+          "units_sold_90d": 5,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Herbsmith"
+        },
+        {
+          "product_title": "Fidospore by MicroBiome Labs",
+          "sku": "FDSR",
+          "inventory_quantity": 28,
+          "units_sold_90d": 31,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Microbiome Labs"
+        },
+        {
+          "product_title": "RestorFlora Spore + Yeast Probiotic",
+          "sku": "RFSYP",
+          "inventory_quantity": 19,
+          "units_sold_90d": 20,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Microbiome Labs"
+        },
+        {
+          "product_title": "Organic Cordyceps Mushroom Powder for Pets (60 g) - Peak Performance",
+          "sku": "RM-CM60",
+          "inventory_quantity": 6,
+          "units_sold_90d": 6,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Real Mushrooms"
+        },
+        {
+          "product_title": "Calcium Citrate Powder for Dogs and Cats",
+          "sku": "CCP",
+          "inventory_quantity": 77,
+          "units_sold_90d": 73,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "NOW"
+        },
+        {
+          "product_title": "Adored Beast: Love Bugs 40g - Prebiotics & Probiotics",
+          "sku": "ABLBugs",
+          "inventory_quantity": 15,
+          "units_sold_90d": 13,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Adored Beast"
+        },
+        {
+          "product_title": "Liposomal Glutathione 4 oz",
+          "sku": "LipGlut",
+          "inventory_quantity": 12,
+          "units_sold_90d": 8,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Empirical Labs"
+        },
+        {
+          "product_title": "Mushroom Relax Pet Chews - Calming Treats for Dogs and Cats",
+          "sku": "RP-RE240CHEW",
+          "inventory_quantity": 18,
+          "units_sold_90d": 12,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Real Mushrooms"
+        },
+        {
+          "product_title": "Arthri-Pawz \u2013 with Glucosamine for Cats and Dogs",
+          "sku": "ARTHRPWZ",
+          "inventory_quantity": 96,
+          "units_sold_90d": 60,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Dr. Ruth Roberts"
+        },
+        {
+          "product_title": "HWF\u00ae Clean Heart Supplement for Dogs",
+          "sku": "HWFCH4OZ",
+          "inventory_quantity": 24,
+          "units_sold_90d": 15,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Amber Naturalz"
+        },
+        {
+          "product_title": "Pure Organic Kelp Powder for Dogs and Cats",
+          "sku": "NOWKELP",
+          "inventory_quantity": 51,
+          "units_sold_90d": 31,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "NOW"
+        },
+        {
+          "product_title": "Milk Thistle 150 mg 200 caps | Dr. Ruth Roberts",
+          "sku": "JMT",
+          "inventory_quantity": 15,
+          "units_sold_90d": 9,
+          "urgency": "OK",
+          "days_of_supply": 0,
+          "vendor": "Jarrow Formulas"
+        }
+      ]
     },
     "cross_platform": {
       "week_ending_date": "2026-06-28",
@@ -164,6 +421,10 @@
       "debt_remaining": 250000,
       "monthly_debt_service": 20000,
       "months_to_debt_free": 999,
+      "cash_on_hand": 51084,
+      "cash_on_hand_as_of": "2026-05-31",
+      "cash_runway_months": 995.0,
+      "cash_runway_label": "ok",
       "ad_spend_weekly": 0.0,
       "ad_roas": 0.0,
       "burn_rate_exceeds_revenue": 0.6805,
@@ -197,6 +458,10 @@
     "debt_remaining": 250000,
     "monthly_debt_service": 20000,
     "months_to_debt_free": 999,
+    "cash_on_hand": 51084,
+    "cash_on_hand_as_of": "2026-05-31",
+    "cash_runway_months": 995.0,
+    "cash_runway_label": "ok",
     "ad_spend_weekly": 0.0,
     "ad_roas": 0.0,
     "burn_rate_exceeds_revenue": 0.6805,
@@ -205,7 +470,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-06-29T14:45:33.951677",
+      "timestamp": "2026-06-30T15:50:38.143092",
       "metric_name": "Student Churn Rate",
       "current_value": 0.338,
       "threshold": 0.15,
@@ -215,7 +480,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-06-29T14:45:33.951726",
+      "timestamp": "2026-06-30T15:50:38.143147",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
