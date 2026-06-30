@@ -29,10 +29,10 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.5989,
+      "open_rate": 0.5991,
       "click_rate": 0.006,
       "ctor": 0.01,
-      "list_size": 6556,
+      "list_size": 3774,
       "list_growth_rate": 0.0,
       "spam_complaint_rate": 6.3e-05,
       "delivery_rate": 0.9964,
@@ -70,7 +70,7 @@
       "student_churn_rate": 0.338,
       "revenue_per_student": 0.0,
       "total_contacts": 30965,
-      "new_contacts_week": 30965
+      "new_contacts_week": 0
     },
     "social": {
       "week_ending_date": "2026-06-28",
@@ -158,7 +158,7 @@
           "notes": ""
         }
       },
-      "sheet_pulled_at": "2026-06-30T15:50:06Z",
+      "sheet_pulled_at": "2026-06-30T16:36:04Z",
       "weekly_totals": {
         "views": 85559,
         "reach": 4759,
@@ -203,7 +203,7 @@
     },
     "inventory": {
       "summary": {
-        "collection_date": "2026-06-30 15:50 UTC",
+        "collection_date": "2026-06-30 16:36 UTC",
         "lookback_days": 90,
         "lead_time_days": 14,
         "total_tracked_variants": 58,
@@ -470,7 +470,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-06-30T15:50:38.143092",
+      "timestamp": "2026-06-30T16:36:14.142309",
       "metric_name": "Student Churn Rate",
       "current_value": 0.338,
       "threshold": 0.15,
@@ -480,7 +480,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-06-30T15:50:38.143147",
+      "timestamp": "2026-06-30T16:36:14.142365",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
