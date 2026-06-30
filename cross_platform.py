@@ -108,6 +108,24 @@ def calculate_cross_platform(all_data, previous_week_data=None):
     else:
         months_to_debt_free = 999  # Can't pay down debt if cash flow negative
 
+    # ── Cash Runway ──────────────────────────────────────────────────────
+    # How many months can we operate at current burn given current cash?
+    # If cash flow is positive, runway is effectively infinite (revenue covers burn)
+    cash_on_hand = FINANCIAL.get('cash_on_hand', 0)
+    cash_as_of = FINANCIAL.get('cash_on_hand_as_of', '')
+    if monthly_cash_flow >= 0:
+        cash_runway_months = 999  # Sustainable — revenue covers burn
+        cash_runway_label = 'sustainable'
+    else:
+        # Negative cash flow: how long until cash runs out
+        cash_runway_months = cash_on_hand / abs(monthly_cash_flow) if cash_on_hand > 0 else 0
+        if cash_runway_months < 2:
+            cash_runway_label = 'critical'
+        elif cash_runway_months < 4:
+            cash_runway_label = 'warning'
+        else:
+            cash_runway_label = 'ok'
+
     # Revenue vs target
     week_ending_str = shopify.get('week_ending_date', '')
     revenue_target_monthly = FINANCIAL['revenue_target_monthly']
@@ -171,6 +189,12 @@ def calculate_cross_platform(all_data, previous_week_data=None):
         'debt_remaining': debt_remaining,
         'monthly_debt_service': monthly_debt_service,
         'months_to_debt_free': round(months_to_debt_free, 1),
+
+        # Cash runway
+        'cash_on_hand': cash_on_hand,
+        'cash_on_hand_as_of': cash_as_of,
+        'cash_runway_months': round(cash_runway_months, 1) if cash_runway_months < 999 else 999,
+        'cash_runway_label': cash_runway_label,
 
         # Ad performance (cross-platform view)
         'ad_spend_weekly': round(ad_spend, 2),

@@ -194,6 +194,11 @@ FINANCIAL = {
         '2026-06': 75000,
     },
 
+    # ── Cash on Hand (update monthly from balance sheet) ──────────────────
+    'cash_on_hand': 51084,            # All accounts combined, as of 2026-05-31 (per QB BS)
+    'cash_on_hand_as_of': '2026-05-31',
+    'inventory_value': 9345,          # On-hand inventory (incl. in-transit/customs)
+
     # ── Calculated ────────────────────────────────────────────────────────
     'total_monthly_burn': 42486,
 }

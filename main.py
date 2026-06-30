@@ -23,8 +23,10 @@ from collectors.klaviyo_collector import collect_weekly_data as collect_klaviyo
 from collectors.stripe_collector import collect_weekly_data as collect_stripe
 from collectors.ghl_collector import collect_weekly_data as collect_ghl
 from collectors.social_collector import collect_weekly_data as collect_social
+from collectors.social_sheets_collector import collect_weekly_data as collect_social_sheets
 from collectors.google_ads_collector import collect_weekly_data as collect_google_ads
 from collectors.coaching_pipeline_collector import collect_coaching_pipeline
+from collectors.inventory_collector import collect_inventory_data
 
 from cross_platform import calculate_cross_platform
 from sheets_writer import write_all_weekly_data, write_alert, get_previous_week_data
@@ -111,6 +113,7 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
         ('stripe', collect_stripe, 'Stripe'),
         ('ghl', collect_ghl, 'GoHighLevel'),
         ('social', collect_social, 'Social Media'),
+        ('social_sheets', collect_social_sheets, 'Social Sheets (manual)'),
         ('google_ads', collect_google_ads, 'Google Ads'),
         ('coaching_pipeline', collect_coaching_pipeline, 'Coaching Pipeline'),
     ]
@@ -124,6 +127,31 @@ def run_pipeline(week_ending_date=None, dry_run=False, overwrite=False, skip_ema
         except Exception as e:
             logger.error(f"{display_name} collection FAILED: {e}")
             all_data[key] = {}
+
+    # ── Inventory snapshot (point-in-time, not week-bound) ─────────────────
+    logger.info("--- Collecting Inventory ---")
+    try:
+        inv = collect_inventory_data()
+        # Keep snapshot lean — store summary + top-20 urgent items only
+        top_urgent = [r for r in inv.get('items', []) if r.get('status') == 'active'][:20]
+        all_data['inventory'] = {
+            'summary': inv.get('summary', {}),
+            'top_items': [
+                {
+                    'product_title': r.get('product_title', ''),
+                    'sku': r.get('sku', ''),
+                    'inventory_quantity': r.get('inventory_quantity', 0),
+                    'units_sold_90d': r.get('units_sold_90d', 0),
+                    'urgency': r.get('urgency', ''),
+                    'days_of_supply': r.get('days_of_supply', 0),
+                    'vendor': r.get('vendor', ''),
+                } for r in top_urgent
+            ],
+        }
+        logger.info(f"Inventory: OK ({inv['summary'].get('urgent_reorder_count', 0)} urgent)")
+    except Exception as e:
+        logger.error(f"Inventory collection FAILED: {e}")
+        all_data['inventory'] = {}
 
     # ── Phase 2: Get previous week data for WoW calculations ──────────────
     previous_cross = None

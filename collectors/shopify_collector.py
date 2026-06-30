@@ -144,6 +144,8 @@ def collect_weekly_data(week_ending_date=None):
     silo_revenue = defaultdict(float)
     product_revenue = defaultdict(float)
     product_quantity = defaultdict(int)
+    preorder_revenue = 0.0
+    preorder_units = 0
     order_count = len(orders)
 
     for order in orders:
@@ -163,8 +165,19 @@ def collect_weekly_data(week_ending_date=None):
             silo = silo_map.get(product_id, 'E-Commerce')
             silo_revenue[silo] += line_total
 
-            # Track product revenue and quantity for top 10
+            # Pre-order detection: Shopify line items with "PRE-ORDER" in title
+            # OR a fulfillment_status of 'on_hold' (Shopify Pre-Order app convention)
             product_name = item.get('title', 'Unknown')
+            is_preorder = (
+                'PRE-ORDER' in product_name.upper() or
+                'PREORDER' in product_name.upper() or
+                item.get('fulfillment_status') == 'on_hold'
+            )
+            if is_preorder:
+                preorder_revenue += line_total
+                preorder_units += qty
+
+            # Track product revenue and quantity for top 10
             product_revenue[product_name] += line_total
             product_quantity[product_name] += qty
 
@@ -225,6 +238,9 @@ def collect_weekly_data(week_ending_date=None):
         'ecommerce_revenue': round(silo_revenue.get('E-Commerce', 0), 2),
         'coaching_revenue': round(silo_revenue.get('Coaching', 0), 2),
         'course_revenue': round(silo_revenue.get('Courses', 0), 2),
+        'preorder_revenue': round(preorder_revenue, 2),
+        'preorder_units': preorder_units,
+        'shippable_revenue': round(gross_revenue - preorder_revenue, 2),
         'order_count': order_count,
         'aov': round(aov, 2),
         'conversion_rate': round(conversion_rate, 4),

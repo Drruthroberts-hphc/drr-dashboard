@@ -469,6 +469,18 @@
             metricCard('Debt Remaining', fmtMoney(debtRemaining), '',
                 '~' + fmtFloat(monthsDTF) + ' months to debt-free') +
             metricCard('Monthly Burn', fmtMoney(monthlyBurn)) +
+            metricCard('Cash on Hand', fmtMoney(cp.cash_on_hand || 0), '',
+                'As of ' + (cp.cash_on_hand_as_of || 'n/a')) +
+            metricCard('Cash Runway',
+                (cp.cash_runway_months >= 999 ? '✓ Sustainable' : fmtFloat(cp.cash_runway_months) + ' months'),
+                '',
+                cp.cash_runway_label === 'sustainable' ? 'Revenue covers burn' :
+                cp.cash_runway_label === 'critical' ? '🚨 URGENT — under 2 months' :
+                cp.cash_runway_label === 'warning' ? '⚠️ Under 4 months' :
+                'OK — over 4 months',
+                cp.cash_runway_label === 'sustainable' ? '#2e7d32' :
+                cp.cash_runway_label === 'critical' ? '#c62828' :
+                cp.cash_runway_label === 'warning' ? '#e65100' : '#2e7d32') +
             metricCard('Ad Spend (Weekly)', fmtMoney(cp.ad_spend_weekly), '',
                 'ROAS: ' + fmtFloat(cp.ad_roas) + 'x') +
             metricCard('Email Revenue', fmtMoney(klaviyo.email_attributed_revenue)) +
@@ -609,9 +621,59 @@
             metricCard('Conversion Rate', fmtPct(shopify.conversion_rate)) +
             metricCard('Return Rate', fmtPct(shopify.return_rate), '',
                 'Target: < 5%') +
+            metricCard('Pre-Order Revenue', fmtMoney(shopify.preorder_revenue || 0), '',
+                'Captured but awaiting inventory',
+                (shopify.preorder_revenue || 0) > 0 ? '#e65100' : undefined) +
+            metricCard('Shippable Revenue', fmtMoney(shopify.shippable_revenue || shopify.gross_revenue), '',
+                'Excludes pre-orders') +
             '</div>' +
             topProductsHtml +
             '</div></div>';
+
+        // ── Tier 6b: Inventory Health ───────────────────────────────────
+        const inv = ad.inventory || {};
+        const invSummary = inv.summary || {};
+        const invTopItems = inv.top_items || [];
+        if (Object.keys(invSummary).length > 0 || invTopItems.length > 0) {
+            let invRows = '';
+            invTopItems.slice(0, 12).forEach(function(it) {
+                const urgencyColor =
+                    it.urgency === 'OUT OF STOCK' ? '#c62828' :
+                    it.urgency === 'URGENT - Order Now' ? '#e65100' :
+                    it.urgency === 'Reorder Soon' ? '#f9a825' :
+                    '#666';
+                invRows += '<tr><td>' + (it.product_title || '').substring(0, 50) + '</td>' +
+                    '<td class="text-right">' + fmtInt(it.inventory_quantity) + '</td>' +
+                    '<td class="text-right">' + fmtInt(it.units_sold_90d) + '</td>' +
+                    '<td class="text-right">' + (it.days_of_supply >= 999 ? '∞' : fmtFloat(it.days_of_supply)) + '</td>' +
+                    '<td style="color:' + urgencyColor + '; font-weight: 600;">' + (it.urgency || '') + '</td></tr>';
+            });
+            html += '<div class="tier" id="tier6b">' +
+                '<div class="tier-header" onclick="toggleTier(\'tier6b-body\')">' +
+                '<h2>&#9656; Tier 6b: Inventory Health</h2>' +
+                '<span class="tier-toggle">&#9660;</span></div>' +
+                '<div class="tier-body" id="tier6b-body">' +
+                '<div class="card-grid">' +
+                metricCard('Active Variants', fmtInt(invSummary.active_variants || 0)) +
+                metricCard('Out of Stock / Urgent', fmtInt(invSummary.urgent_reorder_count || 0), '',
+                    'Order immediately',
+                    (invSummary.urgent_reorder_count || 0) === 0 ? '#2e7d32' : '#c62828') +
+                metricCard('Reorder Soon', fmtInt(invSummary.reorder_soon_count || 0), '',
+                    'Within lead time',
+                    (invSummary.reorder_soon_count || 0) === 0 ? '#2e7d32' : '#e65100') +
+                metricCard('Est. Order Cost', fmtMoney(invSummary.total_estimated_order_cost || 0), '',
+                    'To replenish all flagged items') +
+                '</div>' +
+                '<h3>Top 12 by Urgency</h3>' +
+                '<table class="data-table"><thead><tr><th>Product</th>' +
+                '<th class="text-right">On Hand</th>' +
+                '<th class="text-right">Sold 90d</th>' +
+                '<th class="text-right">Days Supply</th>' +
+                '<th>Status</th></tr></thead><tbody>' + invRows + '</tbody></table>' +
+                '<p style="font-size: 0.85em; color: #666; margin-top: 8px;">' +
+                'Snapshot taken: ' + (invSummary.collection_date || 'n/a') + '</p>' +
+                '</div></div>';
+        }
 
         // ── Tier 7: Payments & Health (Stripe) ──────────────────────────
         html += '<div class="tier" id="tier7">' +
