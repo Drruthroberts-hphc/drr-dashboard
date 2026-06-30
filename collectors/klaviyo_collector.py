@@ -189,24 +189,82 @@ def _get_campaign_stats(start_iso, end_iso):
 
 
 def _get_list_stats():
-    """Get total list size across all lists."""
+    """
+    Get the size of the MAIN newsletter list (not sum of all lists — that
+    triple-counts people on multiple segments).
+    Strategy: find the largest list (typically the master newsletter list)
+    and use its count as the headline number.
+    """
     data = _klaviyo_get('lists')
     if not data:
         return 0
 
-    total_profiles = 0
+    list_sizes = []  # [(name, count), ...]
     for lst in data.get('data', []):
         list_id = lst['id']
-        # Get profile count for each list
+        list_name = lst.get('attributes', {}).get('name', '')
         count_data = _klaviyo_get(f'lists/{list_id}', {
             'additional-fields[list]': 'profile_count',
         })
         if count_data:
             attrs = count_data.get('data', {}).get('attributes', {})
-            total_profiles += attrs.get('profile_count', 0)
-        time.sleep(0.5)  # Avoid rate limits between list requests
+            count = attrs.get('profile_count', 0) or 0
+            list_sizes.append((list_name, count))
+        time.sleep(0.3)
 
-    return total_profiles
+    if not list_sizes:
+        return 0
+
+    # Sort descending. The largest list is the master newsletter / subscriber list.
+    list_sizes.sort(key=lambda x: -x[1])
+    largest_name, largest_count = list_sizes[0]
+    logger.info(f"Klaviyo list_size: using largest list '{largest_name}' = {largest_count} "
+                f"(of {len(list_sizes)} lists, sum-of-all = {sum(c for _, c in list_sizes)})")
+    return largest_count
+
+
+def _get_total_subscribed_profiles():
+    """Get the total count of currently-subscribed profiles via the profiles endpoint."""
+    try:
+        data = _klaviyo_get('profiles', {
+            'filter': "equals(subscriptions.email.marketing.consent,'SUBSCRIBED')",
+            'page[size]': 1,
+            'fields[profile]': 'id',
+            'additional-fields[profile]': 'subscriptions',
+        })
+        if data:
+            # Klaviyo paginates — meta.total is not always provided, but
+            # the 'links.next' header can be used to bisect for count.
+            # Quickest reliable approach: iterate pages with larger page_size.
+            count = 0
+            cursor = None
+            for _ in range(50):  # safety cap: max 50 pages = 5000 profiles surveyed
+                params = {
+                    'filter': "equals(subscriptions.email.marketing.consent,'SUBSCRIBED')",
+                    'page[size]': 100,
+                    'fields[profile]': 'id',
+                }
+                if cursor:
+                    params['page[cursor]'] = cursor
+                page = _klaviyo_get('profiles', params)
+                if not page:
+                    break
+                count += len(page.get('data', []))
+                cursor = page.get('links', {}).get('next', '')
+                if cursor:
+                    # Extract cursor token from URL if it's a full URL
+                    if 'page[cursor]=' in cursor:
+                        cursor = cursor.split('page[cursor]=')[-1].split('&')[0]
+                    else:
+                        cursor = None
+                if not cursor:
+                    break
+                time.sleep(0.3)
+            logger.info(f"Klaviyo total subscribed profiles (paginated): {count}")
+            return count
+    except Exception as e:
+        logger.warning(f"Could not count subscribed profiles: {e}")
+    return 0
 
 
 def _get_engaged_subscribers():
@@ -301,23 +359,8 @@ def _get_subscriber_metrics(start_iso, end_iso):
 
     out['net_new_subscribers'] = out['new_subscribers_count'] - out['unsubscribed_count']
 
-    # Active subscribers = profiles with email subscription status = SUBSCRIBED
-    # Profiles endpoint with filter
-    try:
-        active_data = _klaviyo_get('profiles', {
-            'filter': "equals(subscriptions.email.marketing.consent,'SUBSCRIBED')",
-            'page[size]': 1,
-        })
-        # API returns paginated data — total count is in meta if requested via additional-fields
-        # Fallback: try the dedicated count endpoint pattern
-        if active_data:
-            # The 'count' header or meta.total varies by Klaviyo API version
-            # Most reliable: use the lists endpoint and sum active subscribed counts
-            meta = active_data.get('meta', {})
-            if 'total' in meta:
-                out['active_subscribers'] = int(meta['total'])
-    except Exception as e:
-        logger.warning(f"Could not get active subscriber count: {e}")
+    # Active subscribers — use paginated count
+    out['active_subscribers'] = _get_total_subscribed_profiles()
 
     return out
 

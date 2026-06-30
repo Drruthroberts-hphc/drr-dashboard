@@ -353,6 +353,20 @@
         const stripe_data = ad.stripe || {};
         const ghl = ad.ghl || {};
         const social = ad.social || {};
+        const socialSheets = ad.social_sheets || {};
+        const sheetPlatforms = socialSheets.platforms || {};
+        // Overlay social_sheets follower data on social (sheet takes precedence when present)
+        if (sheetPlatforms.facebook && sheetPlatforms.facebook.followers_lifetime) {
+            social.fb_followers = sheetPlatforms.facebook.followers_lifetime;
+            social.fb_follower_growth = sheetPlatforms.facebook.new_follows || 0;
+        }
+        if (sheetPlatforms.instagram && sheetPlatforms.instagram.followers_lifetime) {
+            social.ig_followers = sheetPlatforms.instagram.followers_lifetime;
+            social.ig_follower_growth = sheetPlatforms.instagram.new_follows || 0;
+        }
+        if (sheetPlatforms.linkedin && sheetPlatforms.linkedin.followers_lifetime) {
+            social.li_followers = sheetPlatforms.linkedin.followers_lifetime;
+        }
         const google_ads = ad.google_ads || {};
         const alerts = latest.alerts || [];
 

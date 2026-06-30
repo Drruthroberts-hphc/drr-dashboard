@@ -211,41 +211,74 @@ def _ghl_v1_get(endpoint, params=None):
 
 def _get_contact_counts(week_start_date, week_end_date):
     """
-    Count GHL contacts: total + new this week + DND-flagged.
-    Uses v1 /contacts endpoint with date filter.
+    Count GHL contacts: total + new this week.
+    Uses v1 /contacts endpoint with paged iteration to count by date_added.
 
-    Returns dict: total_contacts, new_contacts_week, dnd_count
+    GHL v1 /contacts does not honor startAfter/endBefore on the base endpoint —
+    those work only on the /search subpath. For the base endpoint we read
+    meta.total for the grand total, then paginate through recent contacts and
+    count those with date_added falling inside the target week.
     """
     out = {
         'total_contacts': 0,
         'new_contacts_week': 0,
-        'dnd_count': 0,
     }
 
-    # v1 contacts: paginated, supports date range filter
-    # Strategy: hit /contacts with no filter to get totalCount from meta
+    # Total contacts — first page meta.total is reliable
     try:
-        page1 = _ghl_v1_get('contacts', {'limit': 1})
-        if page1:
-            meta = page1.get('meta', {})
+        page = _ghl_v1_get('contacts', {'limit': 1})
+        if page:
+            meta = page.get('meta', {})
             out['total_contacts'] = int(meta.get('total', 0))
     except Exception as e:
         logger.warning(f"GHL total contacts count failed: {e}")
 
-    # New contacts this week — filter by dateAdded
+    # New contacts this week — paginate sorted-by-date-desc and count until
+    # we walk past the week_start cutoff.
     try:
-        start_ms = int(datetime.combine(week_start_date, datetime.min.time())
-                       .replace(tzinfo=timezone.utc).timestamp() * 1000)
-        end_ms = int((datetime.combine(week_end_date, datetime.min.time())
-                      .replace(tzinfo=timezone.utc).timestamp() + 86400) * 1000)
-        new_page = _ghl_v1_get('contacts', {
-            'limit': 1,
-            'startAfter': start_ms,
-            'endBefore': end_ms,
-        })
-        if new_page:
-            meta = new_page.get('meta', {})
-            out['new_contacts_week'] = int(meta.get('total', 0))
+        from datetime import datetime as _dt
+        week_start_dt = _dt.combine(week_start_date, _dt.min.time()).replace(tzinfo=timezone.utc)
+        week_end_dt = _dt.combine(week_end_date, _dt.max.time()).replace(tzinfo=timezone.utc)
+        new_count = 0
+        page_token = None
+        for _ in range(20):  # safety cap: up to 4,000 newest contacts
+            params = {'limit': 200, 'sortBy': 'dateAdded', 'sortOrder': 'desc'}
+            if page_token:
+                params['startAfter'] = page_token  # for pagination, this IS valid
+            page = _ghl_v1_get('contacts', params)
+            if not page:
+                break
+            contacts = page.get('contacts', []) or page.get('data', [])
+            if not contacts:
+                break
+            stop_paging = False
+            for c in contacts:
+                # GHL returns dateAdded as ISO string or epoch ms
+                da = c.get('dateAdded') or c.get('date_added') or c.get('createdAt')
+                if da is None:
+                    continue
+                if isinstance(da, str):
+                    try:
+                        contact_dt = _dt.fromisoformat(da.replace('Z', '+00:00'))
+                    except (ValueError, TypeError):
+                        continue
+                elif isinstance(da, (int, float)):
+                    contact_dt = _dt.fromtimestamp(da / 1000 if da > 10**12 else da, tz=timezone.utc)
+                else:
+                    continue
+                if contact_dt < week_start_dt:
+                    stop_paging = True
+                    break
+                if week_start_dt <= contact_dt <= week_end_dt:
+                    new_count += 1
+            if stop_paging:
+                break
+            # Use the last contact's id/dateAdded as pagination cursor
+            last = contacts[-1]
+            page_token = last.get('id') or last.get('contactId')
+            if not page_token:
+                break
+        out['new_contacts_week'] = new_count
     except Exception as e:
         logger.warning(f"GHL new contacts count failed: {e}")
 
