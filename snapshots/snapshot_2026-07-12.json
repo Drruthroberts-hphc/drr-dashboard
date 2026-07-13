@@ -29,25 +29,25 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.6172,
+      "open_rate": 0.6186,
       "click_rate": 0.0046,
       "ctor": 0.0074,
-      "list_size": 17322,
+      "list_size": 17321,
       "list_growth_rate": 0.0,
       "spam_complaint_rate": 3.3e-05,
-      "delivery_rate": 0.9956,
+      "delivery_rate": 0.9954,
       "abandon_cart_recovery_rate": 0.0,
       "abandon_cart_recovery_revenue": 0.0,
       "new_subscribers_count": 22,
       "unsubscribed_count": 0,
       "net_new_subscribers": 22,
       "active_subscribers": 0,
-      "engaged_subscribers": 15191,
-      "engaged_0_60d": 15191,
+      "engaged_subscribers": 15190,
+      "engaged_0_60d": 15190,
       "engaged_61_90d": 883,
       "engaged_91_120d": 434,
       "engaged_121_180d": 814,
-      "engaged_total_180d": 17322
+      "engaged_total_180d": 17321
     },
     "stripe": {
       "week_ending_date": "2026-07-12",
@@ -169,7 +169,7 @@
           "_sheet_source": "lagging"
         }
       },
-      "sheet_pulled_at": "2026-07-13T09:58:04Z",
+      "sheet_pulled_at": "2026-07-13T13:15:26Z",
       "weekly_totals": {
         "views": 42471,
         "reach": 804,
@@ -214,7 +214,7 @@
     },
     "inventory": {
       "summary": {
-        "collection_date": "2026-07-13 09:58 UTC",
+        "collection_date": "2026-07-13 13:15 UTC",
         "lookback_days": 90,
         "lead_time_days": 14,
         "total_tracked_variants": 58,
@@ -245,14 +245,14 @@
         {
           "product_title": "PRE-ORDER Holistic Total Body Support \u2014 Daily Multivitamin & Pasture-Raised Glandular Blend for Dogs & Cats",
           "sku": "HTBSDC",
-          "inventory_quantity": 0,
+          "inventory_quantity": 1,
           "units_sold_90d": 345,
-          "urgency": "OUT OF STOCK",
+          "urgency": "URGENT - Order Now",
           "days_of_supply": 0,
           "vendor": "Dr. Ruth Roberts"
         },
         {
-          "product_title": "Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats",
+          "product_title": "PRE-ORDER Omega Pawz - Liquid Omega 3 Oil for Dogs and Cats",
           "sku": "OAM8OZ",
           "inventory_quantity": 1,
           "units_sold_90d": 115,
@@ -481,7 +481,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-07-13T09:58:14.514504",
+      "timestamp": "2026-07-13T13:15:41.142308",
       "metric_name": "Student Churn Rate",
       "current_value": 0.331,
       "threshold": 0.15,
@@ -491,7 +491,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-07-13T09:58:14.514571",
+      "timestamp": "2026-07-13T13:15:41.142355",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
@@ -501,7 +501,7 @@
       "platform": "Google Ads"
     },
     {
-      "timestamp": "2026-07-13T09:58:14.514617",
+      "timestamp": "2026-07-13T13:15:41.142379",
       "metric_name": "Payroll % of Revenue",
       "current_value": 0.4596,
       "threshold": 0.3,
@@ -511,7 +511,7 @@
       "platform": "Financial"
     },
     {
-      "timestamp": "2026-07-13T09:58:14.514655",
+      "timestamp": "2026-07-13T13:15:41.142398",
       "metric_name": "Burn > Revenue (Weekly)",
       "current_value": 1.4021,
       "threshold": 1.0,
