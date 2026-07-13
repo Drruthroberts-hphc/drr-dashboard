@@ -460,16 +460,23 @@ def collect_weekly_data(week_ending_date=None):
     delivery_rate = (delivered / recipients) if recipients > 0 else 0.0
     spam_complaint_rate = (spam / delivered) if delivered > 0 else 0.0
 
-    # ── List health ──────────────────────────────────────────────────────
-    list_size = _get_list_stats()
-
-    # List growth rate requires previous week's data (calculated in cross-platform)
-    list_growth_rate = 0.0
-
-    # ── Subscriber dynamics ──────────────────────────────────────────────
+    # ── Subscriber dynamics + engagement buckets ─────────────────────────
     sub_metrics = _get_subscriber_metrics(start_iso, end_iso)
     engagement_buckets = _get_engagement_segments()
     engaged_subscribers = engagement_buckets.get('engaged_primary', 0)
+
+    # ── List size = TOTAL REACHABLE SUBSCRIBERS ──────────────────────────
+    # "List size" via the lists endpoint is misleading (Klaviyo lists are
+    # signup-source-specific, not subscriber-totals). The meaningful
+    # "list size" is the sum of all engagement buckets (0-180 day) —
+    # that's your actual reachable audience for weekly sends.
+    list_size = engagement_buckets.get('engaged_total_180d', 0)
+    if list_size == 0:
+        # Fallback to lists sum if segments failed
+        list_size = _get_list_stats()
+
+    # List growth rate requires previous week's data (calculated in cross-platform)
+    list_growth_rate = 0.0
 
     # ── Abandon cart recovery ────────────────────────────────────────────
     # This would require flow-specific metrics; placeholder for now

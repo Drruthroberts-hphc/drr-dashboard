@@ -140,15 +140,39 @@ def collect_weekly_data(week_ending_date=None):
         logger.error(f"Could not read Weekly Social Stats sheet: {e}")
         return out
 
-    # Group rows by platform, then pick the one whose date matches target week
+    # Group rows by platform, then pick the target-week row.
+    # Falls back to most-recent row if no exact match (sheet may lag by a week).
     for platform in PLATFORMS:
-        platform_rows = [r for r in rows if str(r.get('Platform', '')).strip() == platform]
-        match = None
-        for r in platform_rows:
+        platform_rows = []
+        for r in rows:
+            if str(r.get('Platform', '')).strip() != platform:
+                continue
             row_date = _parse_date(r.get('Week Ending (Sun)') or r.get('Week Ending'))
-            if _week_match(row_date, week_ending_date):
-                match = r
+            if row_date is None:
+                continue
+            platform_rows.append((row_date, r))
+        # Sort newest first
+        platform_rows.sort(key=lambda x: x[0], reverse=True)
+
+        match = None
+        match_date = None
+        source_label = None
+        # First: exact-week match
+        for rd, r in platform_rows:
+            if _week_match(rd, week_ending_date):
+                match, match_date, source_label = r, rd, 'exact'
                 break
+        # Fallback: most recent row within 30 days of target
+        if not match and platform_rows:
+            newest_date, newest_row = platform_rows[0]
+            if (week_ending_date - newest_date).days <= 30:
+                match = newest_row
+                match_date = newest_date
+                source_label = 'lagging'
+                logger.warning(
+                    f"{platform}: no data for week {week_ending_date}, "
+                    f"using most recent row {newest_date} instead"
+                )
 
         if match:
             out['platforms'][platform.lower()] = {
@@ -165,6 +189,8 @@ def collect_weekly_data(week_ending_date=None):
                 'followers_lifetime': _parse_int(match.get('Followers (Lifetime)')),
                 'messaging_contacts': _parse_int(match.get('Messaging Contacts')),
                 'notes': str(match.get('Notes', '')).strip()[:300],
+                '_sheet_row_date': str(match_date) if match_date else None,
+                '_sheet_source': source_label,  # 'exact' or 'lagging'
             }
         else:
             out['platforms'][platform.lower()] = {
