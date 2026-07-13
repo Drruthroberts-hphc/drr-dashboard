@@ -29,10 +29,10 @@
       "welcome_flow_revenue": 0.0,
       "abandon_cart_flow_revenue": 0.0,
       "post_purchase_flow_revenue": 0.0,
-      "open_rate": 0.6171,
+      "open_rate": 0.6172,
       "click_rate": 0.0046,
       "ctor": 0.0074,
-      "list_size": 3774,
+      "list_size": 17322,
       "list_growth_rate": 0.0,
       "spam_complaint_rate": 3.3e-05,
       "delivery_rate": 0.9956,
@@ -118,44 +118,65 @@
       "source": "manual_sheet",
       "platforms": {
         "facebook": {
-          "posts": 0,
-          "views": 0,
+          "posts": 7,
+          "views": 39200,
+          "unique_viewers": 15100,
           "reach": 0,
-          "interactions": 0,
-          "link_clicks": 0,
-          "new_follows": 0,
-          "followers_lifetime": 0,
-          "_no_data_for_week": true
+          "interactions": 544,
+          "link_clicks": 1,
+          "visits": 689,
+          "new_follows": 24,
+          "unfollows": 19,
+          "net_follows": 5,
+          "followers_lifetime": 87662,
+          "messaging_contacts": 0,
+          "notes": "",
+          "_sheet_row_date": "2026-07-05",
+          "_sheet_source": "lagging"
         },
         "instagram": {
-          "posts": 0,
-          "views": 0,
-          "reach": 0,
-          "interactions": 0,
+          "posts": 7,
+          "views": 3200,
+          "unique_viewers": 0,
+          "reach": 741,
+          "interactions": 90,
           "link_clicks": 0,
-          "new_follows": 0,
-          "followers_lifetime": 0,
-          "_no_data_for_week": true
+          "visits": 48,
+          "new_follows": 11,
+          "unfollows": 12,
+          "net_follows": 11,
+          "followers_lifetime": 9778,
+          "messaging_contacts": 3,
+          "notes": "",
+          "_sheet_row_date": "2026-07-05",
+          "_sheet_source": "lagging"
         },
         "linkedin": {
-          "posts": 0,
-          "views": 0,
-          "reach": 0,
-          "interactions": 0,
+          "posts": 2,
+          "views": 71,
+          "unique_viewers": 0,
+          "reach": 63,
+          "interactions": 5,
           "link_clicks": 0,
-          "new_follows": 0,
-          "followers_lifetime": 0,
-          "_no_data_for_week": true
+          "visits": 71,
+          "new_follows": 3,
+          "unfollows": 0,
+          "net_follows": 0,
+          "followers_lifetime": 1740,
+          "messaging_contacts": 0,
+          "notes": "",
+          "_sheet_row_date": "2026-07-05",
+          "_sheet_source": "lagging"
         }
       },
-      "sheet_pulled_at": "2026-07-13T09:46:47Z",
+      "sheet_pulled_at": "2026-07-13T09:58:04Z",
       "weekly_totals": {
-        "views": 0,
-        "reach": 0,
-        "interactions": 0,
-        "link_clicks": 0,
-        "new_follows": 0,
-        "posts": 0
+        "views": 42471,
+        "reach": 804,
+        "interactions": 639,
+        "link_clicks": 1,
+        "new_follows": 38,
+        "posts": 16
       }
     },
     "google_ads": {
@@ -193,7 +214,7 @@
     },
     "inventory": {
       "summary": {
-        "collection_date": "2026-07-13 09:46 UTC",
+        "collection_date": "2026-07-13 09:58 UTC",
         "lookback_days": 90,
         "lead_time_days": 14,
         "total_tracked_variants": 58,
@@ -460,7 +481,7 @@
   },
   "alerts": [
     {
-      "timestamp": "2026-07-13T09:46:59.690808",
+      "timestamp": "2026-07-13T09:58:14.514504",
       "metric_name": "Student Churn Rate",
       "current_value": 0.331,
       "threshold": 0.15,
@@ -470,7 +491,7 @@
       "platform": "TBD"
     },
     {
-      "timestamp": "2026-07-13T09:46:59.690869",
+      "timestamp": "2026-07-13T09:58:14.514571",
       "metric_name": "Google Ads ROAS",
       "current_value": 0.0,
       "threshold": 2.5,
@@ -480,7 +501,7 @@
       "platform": "Google Ads"
     },
     {
-      "timestamp": "2026-07-13T09:46:59.690903",
+      "timestamp": "2026-07-13T09:58:14.514617",
       "metric_name": "Payroll % of Revenue",
       "current_value": 0.4596,
       "threshold": 0.3,
@@ -490,7 +511,7 @@
       "platform": "Financial"
     },
     {
-      "timestamp": "2026-07-13T09:46:59.690931",
+      "timestamp": "2026-07-13T09:58:14.514655",
       "metric_name": "Burn > Revenue (Weekly)",
       "current_value": 1.4021,
       "threshold": 1.0,
