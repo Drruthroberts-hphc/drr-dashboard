@@ -32,8 +32,9 @@
     "snapshot_2026-07-26.json",
     "snapshot_2026-08-02.json",
     "snapshot_2026-08-09.json",
-    "snapshot_2026-08-16.json"
+    "snapshot_2026-08-16.json",
+    "snapshot_2026-08-23.json"
   ],
-  "latest": "snapshot_2026-08-16.json",
-  "updated": "2026-08-17"
+  "latest": "snapshot_2026-08-23.json",
+  "updated": "2026-08-24"
 }
