@@ -194,13 +194,22 @@ FINANCIAL = {
         '2026-06': 75000,
     },
 
-    # ── Cash on Hand (update monthly from balance sheet) ──────────────────
-    'cash_on_hand': 51084,            # All accounts combined, as of 2026-05-31 (per QB BS)
-    'cash_on_hand_as_of': '2026-05-31',
-    'inventory_value': 9345,          # On-hand inventory (incl. in-transit/customs)
+    # ── Cash on Hand (update monthly from HarQuin balance sheet) ──────────
+    'cash_on_hand': 26896,            # All accounts combined, as of 2026-09-25 (per QB BS)
+    'cash_on_hand_as_of': '2026-09-25',
+    'inventory_value': 10717,         # On-hand inventory (incl. in-transit/customs)
+
+    # ── Credit Card Debt (from Sept 25 balance sheet) ─────────────────────
+    'cc_amex_balance': 71572,         # Amex #85002 (grew $20K Jul→Sep while cash flow stressed)
+    'cc_boa_balance': 27283,          # BOA #3274
+    'cc_chase_balance': 203,          # Chase #8735
+    'cc_total_balance': 99058,
+    'ruth_personal_loan_balance': 34993,  # Was $78K in May, Ruth took back ~$43K through Aug
 
     # ── Calculated ────────────────────────────────────────────────────────
-    'total_monthly_burn': 42486,
+    # Real avg burn Jan-Aug 2026 = $397K / 8mo = $49.6K/mo (with branding spikes).
+    # Aug + Sept run rate without branding is ~$20-25K/mo.
+    'total_monthly_burn': 25000,
 }
 
 # Convenience calculations
