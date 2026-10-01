@@ -199,12 +199,13 @@ FINANCIAL = {
     'cash_on_hand_as_of': '2026-09-25',
     'inventory_value': 10717,         # On-hand inventory (incl. in-transit/customs)
 
-    # ── Credit Card Debt (from Sept 25 balance sheet) ─────────────────────
-    'cc_amex_balance': 71572,         # Amex #85002 (grew $20K Jul→Sep while cash flow stressed)
-    'cc_boa_balance': 27283,          # BOA #3274
-    'cc_chase_balance': 203,          # Chase #8735
-    'cc_total_balance': 99058,
+    # ── Credit Card Debt (per Ruth, 2026-10-01 — WORSE than Sept 25 BS) ──
+    'cc_amex_balance': 85000,         # Amex #85002 (was $71.6K on 9/25; +$13.4K in 6 days)
+    'cc_boa_balance': 36250,          # BOA #3274 (was $27.3K on 9/25; +$9K in 6 days)
+    'cc_chase_balance': 203,
+    'cc_total_balance': 121453,       # Growing fast — $22K in 6 days
     'ruth_personal_loan_balance': 34993,  # Was $78K in May, Ruth took back ~$43K through Aug
+    'carol_branding_remaining': 0,    # PAID IN FULL as of 2026-10-01
 
     # ── Calculated ────────────────────────────────────────────────────────
     # Real avg burn Jan-Aug 2026 = $397K / 8mo = $49.6K/mo (with branding spikes).
