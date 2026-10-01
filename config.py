@@ -207,10 +207,19 @@ FINANCIAL = {
     'ruth_personal_loan_balance': 34993,  # Was $78K in May, Ruth took back ~$43K through Aug
     'carol_branding_remaining': 0,    # PAID IN FULL as of 2026-10-01
 
+    # ── Sales Tax Compliance (new as of Oct 2026) ─────────────────────────
+    # Hired a sales tax team to clean up what Janine did/didn't file.
+    # International compliance (Canada, UK, EU VAT) now in motion.
+    'sales_tax_onboarding_onetime': 5000,  # one-time Oct 2026
+    'sales_tax_california_owed': 2400,     # may negotiate to $0
+    'sales_tax_monthly_filing': 500,       # ongoing from Oct 2026
+    # Known unknown: back-tax exposure in CA/UK/EU jurisdictions — TBD
+
     # ── Calculated ────────────────────────────────────────────────────────
     # Real avg burn Jan-Aug 2026 = $397K / 8mo = $49.6K/mo (with branding spikes).
     # Aug + Sept run rate without branding is ~$20-25K/mo.
-    'total_monthly_burn': 25000,
+    # Adding $500/mo sales tax filing from Oct 2026.
+    'total_monthly_burn': 25500,
 }
 
 # Convenience calculations
